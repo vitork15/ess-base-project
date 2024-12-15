@@ -61,7 +61,7 @@ Scenario: atualizando um lançamento
     And o lançamento é atualizado do banco de dados
     And o campo "subgenero" está preenchido com "Rap Japonês"
 
-Scenario: removendo uma música de um lançamento
+Scenario: removendo uma música de um lançamento no servidor
     Given o usuario de id "1000" está autenticado como "artist"
     And existe um lançamento com id "1234" para esse usuario
     And o lançamento possui o campo "nome_musicas" com "'Opening', 'Song1', 'Song2', 'Ending'"
