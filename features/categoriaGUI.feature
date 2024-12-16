@@ -14,6 +14,7 @@ Scenario: Adicionar categoria à uma playlist na edição de uma playlist
     When eu seleciono a opção de editar na playlist "Ó sofrência"
     And eu seleciono para adicionar a categoria "Músicas de verão" na seção de categorias
     And eu seleciono para adicionar a categoria "Brega" na seção de categorias
+    And eu seleciono a opção de confirmar
     Then eu posso ver uma mensagem de confirmação dizendo que as categorias "Músicas de verão" e "Brega" foram adicionadas
     And eu deveria estar na página de "Biblioteca"
 
@@ -24,5 +25,6 @@ Scenario: Excluir categoria de uma playlist na edição de uma playlist
     And a playlist tem a categoria "Música de verão"
     When eu seleciono a opção de editar na playlist "Ó sofrência"
     And eu seleciono para remover a categoria "Músicas de verão" da seção de categorias
+    And eu seleciono a opção de confirmar
     Then eu posso ver uma mensagem de confirmação dizendo que as categorias "Músicas de verão" foi retirada
     And eu deveria estar na página de "Biblioteca"
