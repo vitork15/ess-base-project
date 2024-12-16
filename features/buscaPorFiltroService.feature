@@ -4,7 +4,8 @@ Feature: Busca com Filtro
     So that eu possa especificar qual o conjunto no qual estou fazendo a busca
 
 Background:
-    Given O usuário autenticado com login: "rpol", senha: "1234" e ID: "4"
+    Given O usuário autenticado "Rodrigo Pontes"
+    And com login: "rpol", senha: "1234" e ID: "4"
 
 Scenario: Pesquisar com um Filtro
     Given eu estou na página de "/search"

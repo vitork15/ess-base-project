@@ -5,13 +5,22 @@ Feature: Busca com Filtro
 
 Background:
     Given O usuário autenticado "Rodrigo Pontes"
+    And com login: "rpol", senha: "1234" e ID: "4"
 
 Scenario: Selecionar um Filtro
     Given eu estou na página de "Busca"
     When eu seleciono a opção de "filtros"
-    And eu seleciono o filtro "playlist" nas opções de filtro 
+    And eu seleciono a opção de adcionar filtro "playlist" nas opções de filtro 
     Then eu deveria estar na página de "Busca"
     And o filtro "playlist" deveria aparecer no campo de filtro
+
+Scenario: Retirar um Filtro
+    Given eu estou na página de "Busca"
+    And o filtro "playlist" aparece no campo de filtro
+    When eu seleciono a opção de "filtros"
+    And eu seleciono a opção de retirar o filtro "playlist" nas opções de filtro 
+    Then eu deveria estar na página de "Busca"
+    And o filtro "playlist" não deveria aparecer no campo de filtro
 
 Scenario: Selecionar mais de um Filtro
     Given eu estou na página de "Busca"

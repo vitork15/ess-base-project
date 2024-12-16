@@ -5,6 +5,7 @@ Feature: Categorias em Playlist(s)
 
 Background:
     Given O usuário autenticado "Rodrigo Pontes"
+    And com login: "rpol", senha: "1234" e ID: "4"
 
 
 Scenario: Adicionar categoria à uma playlist na edição de uma playlist

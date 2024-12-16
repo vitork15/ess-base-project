@@ -4,7 +4,8 @@ Feature: Categorias em Playlist(s)
     So that eu possa identificar uma playlist para fins de busca e identificação
 
 Background:
-    Given O usuário autenticado com login: "rpol", senha: "1234" e id: "4"
+    Given O usuário autenticado "Rodrigo Pontes"
+    And com login: "rpol", senha: "1234" e ID: "4"
 
 Scenario: Adicionar categoria à uma playlist na edição de uma playlist
     Given que o usuário tem uma playlist de ID "42" cadastrada no sistema
