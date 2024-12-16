@@ -11,7 +11,7 @@ Then o usuário  está na página “Histórico de músicas”
 And é exibido no histórico a música “X” do cantor “Carlos” no topo
 
 Scenario: exibir histórico de playlists
-Given o usuário “Thiago” está na “Página Inicial”
+Given o usuário “Thiago” está na “Perfil”
 And o usuário  deu play numa playlist chamada “Rock 2000”
 When o usuário  seleciona a opção “Histórico de Playlists”
 Then o usuário  está na página “Histórico de Playlists”
