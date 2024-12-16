@@ -5,7 +5,7 @@ When quando o usuário faz uma requisição GET para o endpoint ‘/maisescutado
 Then o sistema retorna um status “200 OK”
 And a resposta contém uma lista vazia
 
-Scenario mais escutados com apenas uma musica
+Scenario: mais escutados com apenas uma musica
 Given o usuário “Thiago” de senha “senha123” está autenticado e tem o ID “2”
 And o histórico de músicas do usuário contém a música “X” do artista “Carlos” reproduzida 10 vezes
 When o usuário faz uma requisição GET para o endpoint ‘/maisescutados/2’
