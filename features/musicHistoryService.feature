@@ -2,11 +2,13 @@ Scenario: exibir histórico de músicas
 Given o usuário “Thiago” de senha “senha123” está autenticado e tem o ID “2”
 When o usuário faz uma requisição “GET” no endpoint “/historicomusica/2”
 Then o servidor retorna um status “200” OK”
+And a resposta contém uma lista com o histórico do usuário
 
-Scenario: exibir histórico de músicas
+Scenario: exibir histórico de playlists
 Given o usuário “Thiago” de senha “senha123” está autenticado e tem o ID “2”
 When o usuário faz uma requisição “GET” no endpoint “/historicoplaylist/2”
 Then o servidor retorna um status “200 OK”
+And a resposta contém uma lista com o histórico do usuário
 
 Scenario: apagar histórico de músicas
 Given o usuário “Thiago” de senha “senha123” está autenticado e tem o ID “2”
