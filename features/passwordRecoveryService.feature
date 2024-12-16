@@ -5,7 +5,7 @@ Feature: Recuperação de Senha no Sistema
 
 #Service Scenario
 Scenario: Recuperação de Senha no Sistema com Sucesso
-    Given o usuário deseja recuperar sua senha do usuário de email "rpol@cin.ufpe.br"
+    Given existe um usuário de email "rpol@cin.ufpe.br"
     When uma requisição "POST" é feito no endpoint "/users/42"
     And o body da requisição possui email: "rpol@cin.ufpe.br"
     Then o sistema retorna o código "200"
