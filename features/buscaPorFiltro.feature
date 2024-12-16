@@ -29,7 +29,7 @@ Scenario: Selecionar mais de um Filtro
     And eu seleciono o filtro "artistas" nas opções de filtro
     Then uma notificação de erro deveria aparecer
     And eu deveria estar na página de "Busca"
-    And nenhum filtro deveria aparecer" no campo de filtro
+    And nenhum filtro deveria aparecer no campo de filtro
 
 Scenario: Pesquisar sem um Filtro
     Given eu estou na página de "Busca"
