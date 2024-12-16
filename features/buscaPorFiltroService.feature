@@ -8,11 +8,10 @@ Background:
     And com login: "rpol", senha: "1234" e ID: "4"
 
 Scenario: Pesquisar com um Filtro
-    Given eu estou na página de "/search"
+    Given eu estou na página de "/search/?filter=playlist"
     And a opção de filtros estiver preenchida com "playlist"
-    When eu realizo uma requisição "POST" ao sistema "/search"
-    And eu preencho o campo "busca" está preenchido com "Rock"
+    When eu realizo uma requisição "POST" ao sistema com endpoint "/search/?filter=playlist"
+    And eu preencho o campo "busca" com "Rock"
     Then o sistema deve me retornar o código "201"
-    And eu deveria estar na página de "/search/?filter=playlist&search=Rock"
-    And eu deveria ver todas as playlists com a palavra "Rock" no nome seguidas de todas as playlists com a categoria "Rock"
+    And eu o sistema deveria me retornar todas as playlists com a palavra "Rock" no nome seguidas de todas as playlists com a categoria "Rock"
 
