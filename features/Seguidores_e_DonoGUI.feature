@@ -1,24 +1,24 @@
-Feature: Ver e salvamentos donos das playlists
+Feature: Ver e salvar donos das playlists
     As a Usuário autenticado no aplicativo
-    I want To ver seguidores e donos de playlists
-    So that eu posso analisar as informações de uma playlists
-
-Scenario: Visualisar o dono de uma playlist
-    Given o usuário "break" esta na página da "playlist" de nome "sucessos de 2010"
-    When usuário seleciona a opção "Criador"
-    Then usuário permanece na página da "playlist" "sucessos de 2010"
-    And aparece o "nome de usuário" dono da "playlist" selecionada
+    I want to ver seguidores e donos de playlists
+    So that eu possa analisar as informações de uma playlist
 
 Scenario: Visualizar o dono de uma playlist
-    Given o usuário "Vitor" esta na página da "playlist" de nome "Piseiro bolado"
-    And usuário dono da "playlist" selecionada foi deletado
-    When usuário seleciona a opção "Criador"
-    Then usuário permanece na página da "playlist" "Piseiro bolado"
-    And a mensagem "usuário não existe" é enviada
+    Given o usuário "Break" está na página da playlist de nome "Sucessos de 2010"
+    When o usuário seleciona a opção "Criador"
+    Then o usuário permanece na página da playlist "Sucessos de 2010"
+    And aparece o "nome de usuário" do dono da playlist selecionada
+
+Scenario: Visualizar o dono de uma playlist com usuário deletado
+    Given o usuário "Vitor" está na página da playlist de nome "Piseiro Bolado"
+    And o usuário dono da playlist selecionada foi deletado
+    When o usuário seleciona a opção "Criador"
+    Then o usuário permanece na página da playlist "Piseiro Bolado"
+    And a mensagem "Usuário não existe" é exibida
 
 Scenario: Visualizar a quantidade de pessoas que salvaram uma playlist
-    Given o usuário "Alex" esta na página da "playlist" de nome "Best of Taylor Swift songs"
+    Given o usuário "Alex" está na página da playlist de nome "Best of Taylor Swift Songs"
     And os usuários "Vitinho" e "Lucas" salvaram a playlist
     When Alex seleciona a opção "Salvamentos"
-    Then usuário permanece na página da "playlist" de no "Best of Taylor Swift songs"
+    Then o usuário permanece na página da playlist "Best of Taylor Swift Songs"
     And aparece a "quantidade de seguidores = 2"
