@@ -12,6 +12,6 @@ Scenario: Pesquisar com um Filtro
     When eu realizo uma requisição "POST" ao sistema "/search"
     And eu preencho o campo "busca" está preenchido com "Rock"
     Then o sistema deve me retornar o código "201"
-    And eu deveria estar na página de "/search/?filter=playlist&search={Rock}"
+    And eu deveria estar na página de "/search/?filter=playlist&search=Rock"
     And eu deveria ver todas as playlists com a palavra "Rock" no nome seguidas de todas as playlists com a categoria "Rock"
 
