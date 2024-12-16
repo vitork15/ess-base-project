@@ -1,4 +1,4 @@
-Scenario: mais escutados em sem musicas armazenadas
+Scenario: mais escutados sem musicas armazenadas
 Given o usuário “Thiago” de senha “senha123” está autenticado e tem o ID “2”
 And nenhuma música está armazenada no histórico de Thiago
 When quando o usuário faz uma requisição GET para o endpoint ‘/maisescutados/2’
