@@ -48,7 +48,7 @@ Scenario: Alteração de senha do artista com sucesso
     And minha senha atual é "senha123"
     When eu preencho o campo "senha atual" com "senha123"
     And eu preencho o campo "nova senha" com "senha123"
-    And eu preencho o 2º campo "nova senha" com "senha123"
+    And eu preencho o campo "confirmar senha" com "senha123"
     And eu seleciono "alterar"
     Then aparece a mensagem "senha alterada com sucesso"
     And eu volto pra página "atualização de cadastro de artista"
