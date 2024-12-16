@@ -1,4 +1,4 @@
-Feature: Ver e salvar donos das playlists
+Feature: Ver dono de playlists e quantidade de usuários que a salvaram
     As a Usuário autenticado no aplicativo
     I want to ver seguidores e donos de playlists
     So that eu possa analisar as informações de uma playlist
