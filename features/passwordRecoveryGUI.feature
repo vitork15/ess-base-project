@@ -1,7 +1,7 @@
 Feature: Recuperação de Senha
     As a usuário cadastrado
     I want to recuperar a senha da minha conta
-    So that eu possa me logar no sistema
+    So that eu possa me autenticar novamente no sistema
 
 #GUI Scenario
 Scenario: Recuperação de Senha com Sucesso
