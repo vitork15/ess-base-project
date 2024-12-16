@@ -36,13 +36,8 @@ Scenario: Falha de Cadastro de Usuário no Sistema por Dados Repetidos
     And o sistema retorna a mensagem de erro "Já existe cadastro com esse login"
 
 #Service Scenario
-Scenario: Falha de Cadastro de Usuário no Sistema por Senha Insuficiente
-    Given o usuário deseja cadastrar-se
-    When uma requisição "POST" é feita no endpoint "/users"
-    And o body da requisição possui name: "Davi Guerreiro"
-    And o body da requisição possui birthday: "16/12/2024"
-    And o body da requisição possui login: "fizz"
-    And o body da requisição possui email: "dggb@cin.ufpe.br"
-    And o body da requisição possui senha: "senha"
-    Then o sistema retorna o código "400"
-    And o sistema retorna a mensagem de erro "Sua senha deve conter pelo menos 6 caracteres"
+Scenario: Atualização de Senha de Usuário no Sistema com Sucesso
+    Given o usuário de ID "19" deseja mudar sua senha para "senhasenha"
+    When uma requisição "PATCH" é feita no endpoint "/users/19"
+    Then o sistema retorna o código "200"
+    And a senha do usuário de ID "19" é modificada no banco de dados para "senhasenha"
