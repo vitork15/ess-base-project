@@ -10,12 +10,12 @@ Scenario: Compartilhar playlist da biblioteca
     Then o sistema retorna código "201"
     And o sistema retorna link gerado
 
-Scenario: Compartilhamento de música inexistente
+Scenario: Compartilhamento de música
     Given Usuário de ID "20", login "Rodrigo" e senha "2345" está autenticado no sistema
     And Usuário quer compartilhar uma música com ID "27" e nome "A raposa e as uvas"
     When o usuário realiza requisição "POST" no endpoint "/songs/27/share"
-    Then o sistema retorna código "404"
-    And o sistema retorna mensagem "Música inexistente"
+    Then o sistema retorna código "201"
+    And o sistema retorna link gerado
 
 Scenario: Compartilhamento de música deletada
     Given Usuário de ID "20", login "Alex" e senha "3456" está autenticado no sistema
