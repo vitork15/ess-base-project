@@ -31,6 +31,15 @@ Scenario: Selecionar mais de um Filtro
     And eu deveria estar na página de "Busca"
     And nenhum filtro deveria aparecer" no campo de filtro
 
+Scenario: Pesquisar sem um Filtro
+    Given eu estou na página de "Busca"
+    And o campo de filtro aparece vazio
+    When eu preencho o campo de busca com "Vida Noturna"
+    And eu seleciono a opção "Buscar"
+    Then eu deveria estar na página de "Busca"
+    And eu deveria ver todos os gêneros com a palavra "Vida Noturna" no nome seguidos dos subgêneros, 
+    artistas, músicas, playlist, e por fim playlists com a categoria "Vida Noturna"
+
 Scenario: Pesquisar com um Filtro
     Given eu estou na página de "Busca"
     And o filtro "playlist" aparece no campo de filtro
@@ -38,5 +47,7 @@ Scenario: Pesquisar com um Filtro
     And eu seleciono a opção "Buscar"
     Then eu deveria estar na página de "Busca"
     And eu deveria ver todas as playlists com a palavra "Rock" no nome seguidas de todas as playlists com a categoria "Rock"
+
+
 
 
