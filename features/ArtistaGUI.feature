@@ -39,8 +39,9 @@ Scenario: Atualização no cadastro de artista com sucesso
     Given eu estou na página "atualização de cadastro de artista"
     And não existe Artista com o "nome artístico" "Daniel Oliveira"
     When eu preencho o campo "nome artístico" com "Daniel Oliveira"
+    And eu preencho o campo "sobre o artista" com "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
     And eu seleciono "Confirmar"
-    Then aparece a mensagem "Cadastro atualizado com sucesso"
+    Then aparece a mensagem "Informações alteradas com sucesso"
 
 Scenario: Alteração de senha do artista com sucesso
     Given eu estou na página "Alteração de senha"
