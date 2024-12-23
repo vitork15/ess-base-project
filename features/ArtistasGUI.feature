@@ -53,10 +53,6 @@ Scenario: Falha no cadastro de artista por dados já em uso
     And eu seleciono "Cadastrar"
     Then aparece a mensagem "Já existe cadastro com esse nome artístico"
 
-
-
-
-
 Scenario: Falha no cadastro de artista por dados já em uso
     Given eu estou na página "Atualização de cadastro de Artista"
     And existe Artista com o "login" "LPark10"
@@ -69,3 +65,13 @@ Scenario: Falha no cadastro de artista por campo obrigatório vazio
     When eu preencho o campo "login" com ""
     And eu seleciono "Confirmar"
     Then aparece a mensagem "Preencha todos os campos obrigatórios"
+
+Scenario: Falha no cadastro de artista por dados já em uso
+    Given eu estou na página "Cadastro de Artista"
+    And existe Artista com o campo "e-mail" preenchido com "linkinparts@ufpe.br"
+    When eu preencho o campo "nome artístico" com "Linkin Park"
+    And eu preencho o campo "login" com "LPark06"
+    And eu preencho o campo "e-mail" com "linkinparts@ufpe.br"
+    And eu preencho o campo "senha" com "password1"
+    And eu seleciono "Cadastrar"
+    Then aparece a mensagem "Já existe cadastro com esse e-mail"
