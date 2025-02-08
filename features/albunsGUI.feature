@@ -64,6 +64,7 @@ Scenario: Inserindo um double single sem nome
 Scenario: Removendo um lançamento
     Given eu estou na página "Cadastro e Manutenção de Músicas e Álbuns"
     And autenticado como "Artista" com login "joy-division5"
+    And existe o lançamento "Unknown Pleasures" para o usuario "joy-division5"
     When eu informo que quero remover o lançamento "Unknown Pleasures"
     And eu confirmo a remoção do lançamento
     Then eu estou na página "Perfil do Artista"
@@ -80,6 +81,12 @@ Scenario: Removendo um lançamento que não existe
 Scenario: Atualizando o subgênero de um lançamento
     Given eu estou na página "Cadastro e Manutenção de Músicas e Álbuns"
     And autenticado como "Artista" com login "rapper-de-anime123"
+    And existe um lançamento para o artista "rapper-de-anime123" com os campos
+    |Título            |Dan-da-Dan                              |
+    |Gênero            |Rap                                     |
+    |Categoria         |EP                                      |
+    |Ano de lançamento |2024                                    |
+    |Músicas           |Opening, Song1, Song2, Ending           |
     When eu informo que quero atualizar o lançamento "Dan-da-Dan"
     And eu informo o subgênero "Rap Japonês" para o lançamento
     Then eu estou na página "Perfil do Artista"
@@ -94,6 +101,12 @@ Scenario: Atualizando o subgênero de um lançamento
 Scenario: Removendo uma música de um lançamento
     Given eu estou na página "Cadastro e Manutenção de Músicas e Álbuns"
     And autenticado como "Artista" com login "rapper-de-anime123"
+    And existe um lançamento para o artista "rapper-de-anime123" com os campos
+    |Título            |Dan-da-Dan                              |
+    |Gênero            |Rap                                     |
+    |Categoria         |EP                                      |
+    |Ano de lançamento |2024                                    |
+    |Músicas           |Opening, Song1, Song2, Ending           |
     When eu informo que quero atualizar o lançamento "Dan-da-Dan"
     And eu tento excluir a música com título "Opening"
     Then eu estou na página "Perfil do Artista"
@@ -108,6 +121,12 @@ Scenario: Removendo uma música de um lançamento
 Scenario: Atualizando o título de uma música de um lançamento
     Given eu estou na página "Cadastro e Manutenção de Músicas e Álbuns"
     And autenticado como "Artista" com login "nirvana14"
+    And existe um lançamento para o artista "nirvana" com os campos
+    |Título            |Nevermind                                                  |
+    |Gênero            |Rock, Grunge                                               |
+    |Categoria         |EP                                                         |
+    |Ano de lançamento |2024                                                       |
+    |Músicas           |Polly, Come As You Are, Heart-Shaped Box                   |
     When eu informo que quero atualizar o lançamento "Nevermind"
     And eu informo que quero modificar o título da música com nome "Polly"
     And eu informo o novo título "Polly (Versão Acústica)"
