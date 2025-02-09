@@ -7,11 +7,14 @@ class Playlist{
     @PrimaryGeneratedColumn()
     playlistID:number
 
-    @ManyToOne(() => User, (user) => user.playlists)
+    @ManyToOne(() => User, (user) => user.playlists, {nullable:false})
     user:User
 
     @Column()
     description: string
+
+    @Column({nullable:false})
+    saveCount: number
 
     
 }

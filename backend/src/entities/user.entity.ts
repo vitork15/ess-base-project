@@ -5,8 +5,11 @@ import Playlist from "./playlist.entity";
 class User{
     @PrimaryGeneratedColumn()
     userID: number
+
+    @Column({nullable:false})
+    name: string
     
-    @OneToMany(() => Playlist, (playlist) => playlist.user, {nullable:false})
+    @OneToMany(() => Playlist, (playlist) => playlist.user)
     playlists: Playlist[]
 
 }

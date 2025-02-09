@@ -7,6 +7,8 @@ import { HttpError } from './utils/errors/http.error';
 import { FailureResult } from './utils/result';
 import Database from './database';
 import dbConn from './database/postgresConnection';
+import playlistRoutes from './routes/playlist.routes';
+import userRoutes from './routes/user.routes';
 
 const app: express.Express = express();
 app.use(express.json());
@@ -27,7 +29,8 @@ dbConn.initialize()
     })
 
 
-setupRoutes(app);
+app.use(playlistRoutes)
+app.use(userRoutes)
 
 app.use(
   (
