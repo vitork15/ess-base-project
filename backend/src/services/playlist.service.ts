@@ -49,7 +49,7 @@ class PlaylistService{
     }
 
     async updatePlaylist(id:number, description:string, saveCount:number) : Promise<Playlist> {
-        let playlist = await this.playlistRepository.findOne({where:{playlistID:id}})
+        let playlist = await this.playlistRepository.findOne({where:{playlistID:id}, relations:["user"]})
         if(!playlist){
             throw new Error("playlist not found")
         }
@@ -60,12 +60,13 @@ class PlaylistService{
     }
 
     async deletePlaylist(id:number) : Promise<Playlist> {
-        let playlist = await this.playlistRepository.findOne({where:{playlistID:id}})
+        let playlist = await this.playlistRepository.findOne({where:{playlistID:id}, relations:["user"]})
         if(!playlist){
             throw new Error("playlist not found!")
         }
-        await this.playlistRepository.delete(id)
+        await this.playlistRepository.delete(playlist.playlistID)
         return playlist
+        
     }
 
 }

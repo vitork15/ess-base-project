@@ -1,5 +1,10 @@
+import { plainToInstance } from "class-transformer";
 import PlaylistService from "../services/playlist.service";
 import { Request, Response } from "express";
+import CriarPlaylistDTO from "../dto/criarPlaylist.dto";
+import { validate } from "class-validator";
+import EditarPlaylistDTO from "../dto/editarPlaylist.dto";
+
 
 class PlaylistController {
     playlistService: PlaylistService
@@ -7,7 +12,6 @@ class PlaylistController {
     constructor(){
         this.playlistService = new PlaylistService()
     }
-
 
     async getAll(req: Request, res: Response){
         if(req.query.userId){
@@ -41,8 +45,14 @@ class PlaylistController {
     }
 
     async createPlaylist(req: Request, res: Response){
-        let userId =  req.body.userId
-        let description = req.body.description
+
+        const createDTO = plainToInstance(CriarPlaylistDTO,req.body)
+        const errors = await validate(createDTO, {forbidNonWhitelisted:true, whitelist:true})
+        if(errors.length > 0){
+            return res.status(400).json("wrong body format")
+        }
+        let description = createDTO.description
+        let userId = createDTO.userId
 
         let playlistInserted = null
         try{
@@ -64,7 +74,24 @@ class PlaylistController {
             const message = error instanceof Error ? error.message : "ERRO"
             return res.status(400).json(message)
         }
-        return playlist
+        return res.status(200).json(playlist)
+    }
+
+    async updatePlaylist(req: Request,res: Response){
+        let id = parseInt(req.params.id)
+        const updateDTO = plainToInstance(EditarPlaylistDTO, req.body)
+        const errors = await validate(updateDTO, {forbidNonWhitelisted:true, whitelist:true})
+        if(errors.length > 0){
+            return res.status(400).json("wrong body format")
+        }
+        let playlist = null
+        try{
+            playlist = await this.playlistService.updatePlaylist(id,updateDTO.description,updateDTO.saveCount)
+        }catch(error){
+            const message = error instanceof Error ? error.message : "ERRO"
+            return res.status(400).json(message)
+        }
+        return res.status(200).json(playlist)
     }
 
     
