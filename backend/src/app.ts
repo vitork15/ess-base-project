@@ -6,6 +6,9 @@ import setupRoutes from './routes/index';
 import { HttpError } from './utils/errors/http.error';
 import { FailureResult } from './utils/result';
 import Database from './database';
+import dbConn from './database/postgresConnection';
+import playlistRoutes from './routes/playlist.routes';
+import userRoutes from './routes/user.routes';
 
 const app: express.Express = express();
 app.use(express.json());
@@ -16,7 +19,18 @@ app.use(
   })
 );
 
-setupRoutes(app);
+
+dbConn.initialize()
+    .then(() => {
+        console.log("Data Source has been initialized!")
+    })
+    .catch((err) => {
+        console.error("Error during Data Source initialization", err)
+    })
+
+
+app.use(playlistRoutes)
+app.use(userRoutes)
 
 app.use(
   (
