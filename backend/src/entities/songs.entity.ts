@@ -18,8 +18,6 @@ class Song {
     @ManyToOne(() => Album, (album) => album.songs)
     album: Album;
 
-    @Column()
-    albumID: number;  // Considerando a chave estrangeira para o álbum
 }
 
 export default Song;

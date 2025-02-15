@@ -41,8 +41,7 @@ class AlbumService {
             for (let i = 0; i < songs.length; i++) {
                 let musica = new Song();
                 musica.name = songs[i];
-                musica.album = album;
-                musica.albumID = album.albumID; 
+                musica.album = album; 
                 musica.path = songs_path[i];
                 musica.artist_id = album.artist_id;
                 await transactionalEntityManager.save(Song, musica);
