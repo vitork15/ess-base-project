@@ -9,6 +9,10 @@ import Database from './database';
 import dbConn from './database/postgresConnection';
 import playlistRoutes from './routes/playlist.routes';
 import userRoutes from './routes/user.routes';
+import artistRoutes from './routes/artist.routes';
+import albumRoutes from './routes/albuns.routes'
+import songRoutes from './routes/songs.routes';
+
 
 const app: express.Express = express();
 app.use(express.json());
@@ -31,6 +35,9 @@ dbConn.initialize()
 
 app.use(playlistRoutes)
 app.use(userRoutes)
+app.use("/api",artistRoutes)
+app.use(albumRoutes)
+app.use(songRoutes)
 
 app.use(
   (
