@@ -7,9 +7,9 @@ const dbConn = new DataSource({
     type: "postgres",
     host: "localhost",
     port: 5432,
-    username: "thyago",
+    username: "postgres",
     password: "12345678",
-    database: "minha_plataforma",
+    database: "postgres",
     entities: [User,Playlist,Artist],
     synchronize: true,
     logging: true
