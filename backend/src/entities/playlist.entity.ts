@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, PrimaryColumn} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, PrimaryColumn, JoinTable} from "typeorm";
 import User from "./user.entity";
+import Category from "./category.entity";
 
 @Entity()
 class Playlist{
@@ -16,6 +17,9 @@ class Playlist{
     @Column({nullable:false})
     saveCount: number
 
+    @ManyToMany(() => Category)
+    @JoinTable()
+    categories: Category[]
     
 }
 

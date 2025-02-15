@@ -1,11 +1,13 @@
-import { DataSource, Repository } from "typeorm";
+import { DataSource, Repository, In } from "typeorm";
 import Playlist from "../entities/playlist.entity";
 import dbConn from "../database/postgresConnection";
 import User from "../entities/user.entity";
+import Category from "../entities/category.entity";
 
 class PlaylistService{
     playlistRepository: Repository<Playlist>
     userRepository: Repository<User>
+    categoryRepository: Repository<Category>
 
     constructor(){
         this.playlistRepository = dbConn.getRepository(Playlist)
@@ -48,14 +50,15 @@ class PlaylistService{
         return user.playlists
     }
 
-    async updatePlaylist(id:number, description:string, saveCount:number) : Promise<Playlist> {
+    async updatePlaylist(id:number, description:string, categories:number[], saveCount:number) : Promise<Playlist> {
         let playlist = await this.playlistRepository.findOne({where:{playlistID:id}, relations:["user"]})
+        let categoryList = await this.categoryRepository.findBy({categoryID : In(categories)})
         if(!playlist){
             throw new Error("playlist not found")
         }
         playlist.description = description
         playlist.saveCount = saveCount
-
+        playlist.categories = categoryList
         return await this.playlistRepository.save(playlist)
     }
 

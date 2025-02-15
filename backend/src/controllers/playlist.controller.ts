@@ -86,7 +86,7 @@ class PlaylistController {
         }
         let playlist = null
         try{
-            playlist = await this.playlistService.updatePlaylist(id,updateDTO.description,updateDTO.saveCount)
+            playlist = await this.playlistService.updatePlaylist(id,updateDTO.description,updateDTO.categories,updateDTO.saveCount)
         }catch(error){
             const message = error instanceof Error ? error.message : "ERRO"
             return res.status(400).json(message)
