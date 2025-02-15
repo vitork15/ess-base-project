@@ -94,7 +94,6 @@ class PlaylistController {
         return res.status(200).json(playlist)
     }
 
-    
 }
 
 export default PlaylistController
