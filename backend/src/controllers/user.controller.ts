@@ -69,14 +69,27 @@ class UserController{
         if(errors.length > 0){
             return res.status(400).json("wrong body format")
         }
-        let playlist = null
+        let user = null
         try{
-            playlist = await this.userService.updateUser(id,updateDTO.name,updateDTO.login,updateDTO.password,updateDTO.birthday)
+            user = await this.userService.updateUser(id,updateDTO.name,updateDTO.login,updateDTO.password,updateDTO.birthday)
         }catch(error){
             const message = error instanceof Error ? error.message : "ERRO"
             return res.status(400).json(message)
         }
-        return res.status(200).json(playlist)
+        return res.status(200).json(user)
+    }
+
+    async recoverUser(req: Request,res: Response){
+        let email = req.params.email
+
+        let recovery = null
+        try{
+            recovery = await this.userService.recoverUser(email)
+        }catch(error){
+            const message = error instanceof Error ? error.message : "ERRO"
+            return res.status(400).json(message)
+        }
+        return res.status(200).json(recovery)
     }
 }
 
