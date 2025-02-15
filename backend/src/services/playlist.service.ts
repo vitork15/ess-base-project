@@ -12,6 +12,7 @@ class PlaylistService{
     constructor(){
         this.playlistRepository = dbConn.getRepository(Playlist)
         this.userRepository = dbConn.getRepository(User)
+        this.categoryRepository = dbConn.getRepository(Category)
     }
 
     async getAllPlaylists() : Promise<Playlist[]>{
