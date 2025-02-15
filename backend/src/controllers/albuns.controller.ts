@@ -28,10 +28,10 @@ class AlbumController {
     }
 
     async createAlbum(req: Request, res: Response) {
-        const { name, genero, subgenero, artist, songs, artist_id } = req.body;
+        const { name, genero, subgenero, artist, songs,songs_paths, artist_id} = req.body;
 
-        if (!name || !artist || !songs || !genero || !artist_id) {
-            return res.status(400).json("Missing required fields or invalid format!");
+        if (!name || !artist || !songs || !genero || !artist_id || !songs_paths) {
+            return res.status(400).json("Missing required fields!");
         }
 
         let albumInserted = null;
@@ -48,7 +48,7 @@ class AlbumController {
         }
 
         try {
-            albumInserted = await this.albumService.insertAlbum(name, genero, subgenero, artist, songs, artist_id, tipo);
+            albumInserted = await this.albumService.insertAlbum(name, genero, subgenero, artist, songs, artist_id, tipo, songs_paths);
         } catch (error) {
             const message = error instanceof Error ? error.message : "ERRO";
             return res.status(400).json(message);
@@ -73,12 +73,12 @@ class AlbumController {
     }
 
     async updateAlbum(req: Request, res: Response) {
-        const {name, genero, subgenero, songs } = req.body;
+        const {name, genero, subgenero, songs, songs_path } = req.body;
         const id = parseInt(req.params.id);
         let album = null;
 
         try {
-            album = await this.albumService.updateAlbum(id, name, genero, subgenero, songs);
+            album = await this.albumService.updateAlbum(id, name, genero, subgenero, songs, songs_path);
         } catch (error) {
             const message = error instanceof Error ? error.message : "ERRO";
             return res.status(400).json(message);

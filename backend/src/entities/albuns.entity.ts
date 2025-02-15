@@ -1,35 +1,34 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import Song from "./songs.entity";
 
 @Entity()
 class Album {
-  
     @PrimaryGeneratedColumn()
     albumID: number;
 
     @Column({ nullable: false })
     name: string;
 
-    @Column({nullable: false})
+    @Column({ nullable: false })
     qtd_songs: number;
 
-    @Column({nullable: false})
+    @Column({ nullable: false })
     genero: string;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     subgenero: string;
 
     @Column({ nullable: false })
     artist: string;
 
-    @Column({nullable: false})
+    @Column({ nullable: false })
     artist_id: number;
 
-    @Column({nullable: false})
+    @Column({ nullable: false })
     tipo: string;
 
-    @Column({ type: "text", array: true, nullable: false })
-    songs: string[];
-
+    @OneToMany(() => Song, (song) => song.album)
+    songs: Song[];
 }
 
 export default Album;
