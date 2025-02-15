@@ -9,10 +9,10 @@ class Artist {
     @Column({nullable: false, unique: true})
     name: string;
     
-    @Column({nullable: false, unique: true})
+    @Column({select: false, nullable: false, unique: true})
     email: string;
     
-    @Column({nullable: false})
+    @Column({select: false, nullable: false})
     password: string;
     
     @Column()
