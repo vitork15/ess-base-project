@@ -1,6 +1,8 @@
 import { Repository } from "typeorm";
 import User from "../entities/user.entity";
 import dbConn from "../database/postgresConnection";
+import { createTransport, SentMessageInfo } from "nodemailer";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
 
 
 class UserService{
@@ -52,6 +54,33 @@ class UserService{
         user.birthday = birthday
 
         return await this.userRepository.save(user)
+    }
+
+    async recoverUser(email: string) : Promise<SMTPTransport.SentMessageInfo> {
+        let user = await this.userRepository.findOne({where:{email:email}})
+        if(!user){
+            throw new Error("user not found")
+        }
+
+        let mailOptions = {
+            from: "",
+            to: email,
+            subject: "Recuperação de conta",
+            text: "Sua senha é: " + user.password
+        }
+
+        const transporter = createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            },
+        })
+        
+        let emailsent = null
+        emailsent = await transporter.sendMail(mailOptions)
+
+        return emailsent
     }
 }
 
