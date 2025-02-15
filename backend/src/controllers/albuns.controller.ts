@@ -1,11 +1,14 @@
 import { Request, Response } from "express";
 import AlbumService from "../services/album.service";
+import SongService from "../services/songs.service";
 
 class AlbumController {
     albumService: AlbumService;
+    songService: SongService;
 
     constructor() {
         this.albumService = new AlbumService();
+        this.songService = new SongService();
     }
 
     async getAll(req: Request, res: Response) {
@@ -54,7 +57,6 @@ class AlbumController {
             return res.status(400).json(message);
         }
 
-        // Retornando o álbum criado como resposta
         return res.status(201).json(albumInserted);
     }
 
@@ -63,6 +65,7 @@ class AlbumController {
         let album = null;
 
         try {
+            await this.songService.deleteSongsByAlbumId(id)
             album = await this.albumService.deleteAlbum(id);
         } catch (error) {
             const message = error instanceof Error ? error.message : "ERRO";

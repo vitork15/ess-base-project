@@ -12,6 +12,10 @@ class SongService {
     async getAllSongs(): Promise<Song[]> {
         return await this.songRepository.find({ relations: ["album"] });
     }
+
+    async deleteSongsByAlbumId(albumId: number) {
+        await this.songRepository.delete({ album: { albumID: albumId } }); 
+    }
 }
 
 export default SongService;
