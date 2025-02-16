@@ -12,7 +12,7 @@ Feature: Visualizar e interagir com músicas na seção Em Alta
     
     Scenario: Exibir mensagem quando não há músicas em alta
         Given O usuário "Clara" acessa a seção "Em Alta"
-        And Não existem músicas selecuionadas como "Em Alta" no banco de dados
+        And Não existem músicas selecionadas como "Em Alta" no banco de dados
         When O sistema carrega a seção "Em Alta"
         Then O sistema exibe a mensagem "Nenhuma música em alta no momento"
         And Não exibe nenhum item na seção

@@ -6,7 +6,7 @@ Feature: Página Inicial
     Scenario: Acessar a página inicial deslogado
         Given que o usuário está na "página inicial"
         And o usuário não está autenticado
-        Then o usuário deve ver uma mensagem o redirecionado para a página de login
+        Then o usuário deve ver uma mensagem o redirecionando para a página de login
 
     Scenario: Navegar para a página de um artista
         Given que o usuário está na "página inicial"
@@ -30,9 +30,9 @@ Feature: Página Inicial
     
     Scenario: Acessar músicas em alta
         Given O usuário "Maria" está autenticado no aplicativo
-        And Existem músicas categorizadas como "Em alta" no sistema
-        When O usuário seleciona a opção "Em alta" na página inicial
-        Then O sistema exibe uma lista com a músicas mais populares catalogadas
+        And Existem músicas categorizadas como Em alta no sistema
+        When O usuário seleciona a opção Em alta na página inicial
+        Then O sistema exibe uma lista com as músicas mais populares catalogadas
 
     Scenario: Reproduzir uma música diretamente da Página Inicial
         Given O usuário "Ana" está na "Página Inicial"
