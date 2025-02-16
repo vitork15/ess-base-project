@@ -15,19 +15,20 @@ class UserController{
     async createUser(req: Request, res: Response){
 
         const createDTO = plainToInstance(CriarUserDTO,req.body)
-        const errors = await validate(createDTO, {forbidNonWhitelisted:true, whitelist:true})
-        if(errors.length > 0){
-            return res.status(400).json("wrong body format")
-        }
+        //const errors = await validate(createDTO, {forbidNonWhitelisted:true, whitelist:true})
+       // if(errors.length > 0){
+       //     return res.status(400).json("wrong body format")
+       // }
         let name = createDTO.name
         let login = createDTO.login
         let email = createDTO.email
         let password = createDTO.password
-        let birthday = createDTO.birthday
+       // let birthday = createDTO.birthday
+        
 
         let userInserted = null
         try{
-            userInserted = await this.userService.insertUser(name, login, email, password, birthday)
+            userInserted = await this.userService.insertUser(name, login, email, password, new Date())
         }catch(error){
             const message = error instanceof Error ? error.message : "ERRO"
             return res.status(400).json(message)
