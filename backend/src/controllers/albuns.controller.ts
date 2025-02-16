@@ -31,11 +31,13 @@ class AlbumController {
     }
 
     async createAlbum(req: Request, res: Response) {
-        const { name, genero, subgenero, songs, songs_paths, artist_login} = req.body;
+        const { name, genero, subgenero, songs, songs_paths, artist_login, feat} = req.body;
 
         if (!name || !songs || !genero || !artist_login || !songs_paths) {
             return res.status(400).json("Missing required fields!");
         }
+
+        const fullName = feat ? `${name} (feat. ${feat})` : name;
 
         let albumInserted = null;
         let tipo = "";
@@ -51,7 +53,7 @@ class AlbumController {
         }
 
         try {
-            albumInserted = await this.albumService.insertAlbum(name, genero, subgenero, songs, tipo, songs_paths, artist_login);
+            albumInserted = await this.albumService.insertAlbum(fullName, genero, subgenero, songs, tipo, songs_paths, artist_login);
         } catch (error) {
             const message = error instanceof Error ? error.message : "ERRO";
             return res.status(400).json(message);
@@ -61,12 +63,14 @@ class AlbumController {
     }
 
     async deleteAlbum(req: Request, res: Response) {
+        const {artist_login} = req.body;
         const id = parseInt(req.params.id);
+
         let album = null;
 
         try {
-            await this.songService.deleteSongsByAlbumId(id)
-            album = await this.albumService.deleteAlbum(id);
+            await this.songService.deleteSongsByAlbumId(id, artist_login)
+            album = await this.albumService.deleteAlbum(id, artist_login);
         } catch (error) {
             const message = error instanceof Error ? error.message : "ERRO";
             return res.status(400).json(message);
@@ -91,9 +95,10 @@ class AlbumController {
     }
 
     async deleteSongFromAlbum(req: Request, res: Response) {
-        const { albumId, songId } = req.params; 
+        const {albumId, songId} = req.params; 
+        const {artist_login} = req.body;
         try {
-            await this.albumService.deleteSongFromAlbum(parseInt(albumId), parseInt(songId));
+            await this.albumService.deleteSongFromAlbum(parseInt(albumId), parseInt(songId), artist_login);
             return res.status(200).json({ message: "Song deleted successfully." });
         } catch (error) {
             const message = error instanceof Error ? error.message : "Error deleting song.";
