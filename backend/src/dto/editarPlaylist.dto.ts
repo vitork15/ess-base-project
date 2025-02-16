@@ -6,9 +6,9 @@ class EditarPlaylistDTO{
     @IsDefined()
     description: string
 
+    @IsDefined()
+    @IsArray()
     @IsInt({each:true})
-    @IsDefined({each:true})
-    @Min(0,{each:true})
     categories : number[]
 
     @IsInt()
