@@ -1,4 +1,4 @@
-import { IsDefined, IsInt, IsNotEmpty, IsString, Min } from "class-validator"
+import { IsArray, IsDefined, IsIn, IsInt, IsNotEmpty, IsString, Min } from "class-validator"
 
 class EditarPlaylistDTO{
 
@@ -10,6 +10,11 @@ class EditarPlaylistDTO{
     @IsDefined()
     @Min(0)
     saveCount: number
+
+    @IsDefined()
+    @IsArray()
+    @IsInt({each:true})
+    songIds: number[]
 }
 
 export default EditarPlaylistDTO
