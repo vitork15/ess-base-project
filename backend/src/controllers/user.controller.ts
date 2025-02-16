@@ -15,20 +15,19 @@ class UserController{
     async createUser(req: Request, res: Response){
 
         const createDTO = plainToInstance(CriarUserDTO,req.body)
-        //const errors = await validate(createDTO, {forbidNonWhitelisted:true, whitelist:true})
-       // if(errors.length > 0){
-       //     return res.status(400).json("wrong body format")
-       // }
+        const errors = await validate(createDTO, {forbidNonWhitelisted:true, whitelist:true})
+        if(errors.length > 0){
+            return res.status(400).json("wrong body format")
+        }
         let name = createDTO.name
         let login = createDTO.login
         let email = createDTO.email
         let password = createDTO.password
-       // let birthday = createDTO.birthday
-        
+        let birthday = createDTO.birthday
 
         let userInserted = null
         try{
-            userInserted = await this.userService.insertUser(name, login, email, password, new Date())
+            userInserted = await this.userService.insertUser(name, login, email, password, birthday)
         }catch(error){
             const message = error instanceof Error ? error.message : "ERRO"
             return res.status(400).json(message)
@@ -81,7 +80,7 @@ class UserController{
     }
 
     async recoverUser(req: Request,res: Response){
-        let email = req.params.email
+        let email = req.body.email
 
         let recovery = null
         try{
@@ -96,7 +95,7 @@ class UserController{
     async changePassword(req: Request,res: Response){
         let password = req.body.password;
         let confirm = req.body.confirm;
-        let token = req.body.token;
+        let token = req.params.token;
         
         let change = null
         try{

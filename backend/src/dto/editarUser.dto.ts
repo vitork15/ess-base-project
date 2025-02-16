@@ -1,4 +1,4 @@
-import { IsDefined, IsInt, isInt, IsOptional, IsString } from "class-validator"
+import { IsDefined, IsInt, isInt, IsOptional, IsString, IsDate, ValidateIf } from "class-validator"
 
 class EditarUserDTO{
 
@@ -15,6 +15,7 @@ class EditarUserDTO{
     password: string;
 
     @IsString()
+    @IsOptional()
     birthday: Date;
 
 }

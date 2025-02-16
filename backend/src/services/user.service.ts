@@ -80,7 +80,7 @@ class UserService{
 
         let mailOptions = {
             from: process.env.EMAIL_USER,
-            to: email,
+            to: user.email,
             subject: "Recuperação de conta",
             html: "<p>Clique <a href=" + "http://" + hostname() + ":" + process.env.PORT + "/users/recovery/" + token + ">aqui</a> para realizar a mudança de senha</p>"
         }

@@ -19,8 +19,8 @@ class User{
     @Column({nullable:false})
     password: string
 
-    @Column({nullable:true})
-    birthday: Date
+    @Column({nullable:true, type: "date"})
+    birthday: Date | null
 
     @Column({type: "varchar", nullable:true})
     recoverytoken: string | null

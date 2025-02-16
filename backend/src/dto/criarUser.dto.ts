@@ -1,6 +1,10 @@
-import { IsDefined, IsInt, isInt, IsNotEmpty, IsOptional, IsString } from "class-validator"
+import { IsDefined, IsInt, isInt, IsNotEmpty, IsOptional, IsString, IsDate } from "class-validator"
 
 class CriarUserDTO{
+
+    @IsInt()
+    @IsOptional()
+    userID: number
 
     @IsString()
     @IsDefined()
@@ -19,6 +23,7 @@ class CriarUserDTO{
     password: string;
 
     @IsString()
+    @IsOptional()
     birthday: Date;
 }
 
