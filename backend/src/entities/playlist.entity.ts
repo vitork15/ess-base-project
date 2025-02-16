@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, PrimaryColumn, JoinTable} from "typeorm";
 import User from "./user.entity";
 import Category from "./category.entity";
+import Song from "./songs.entity";
 
 @Entity()
 class Playlist{
@@ -20,6 +21,10 @@ class Playlist{
     @ManyToMany(() => Category)
     @JoinTable()
     categories: Category[]
+
+    @ManyToMany(() => Song)
+    @JoinTable()
+    songs: Song[]
     
 }
 

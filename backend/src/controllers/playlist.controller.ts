@@ -86,7 +86,7 @@ class PlaylistController {
         }
         let playlist = null
         try{
-            playlist = await this.playlistService.updatePlaylist(id,updateDTO.description,updateDTO.categories,updateDTO.saveCount)
+            playlist = await this.playlistService.updatePlaylist(id,updateDTO.description,updateDTO.categories,updateDTO.saveCount, updateDTO.songIds)
         }catch(error){
             const message = error instanceof Error ? error.message : "ERRO"
             return res.status(400).json(message)
@@ -94,7 +94,6 @@ class PlaylistController {
         return res.status(200).json(playlist)
     }
 
-    
 }
 
 export default PlaylistController

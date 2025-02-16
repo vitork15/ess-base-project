@@ -2,6 +2,7 @@ import { DataSource, Repository, EntityManager } from "typeorm";
 import Album from "../entities/albuns.entity";
 import dbConn from "../database/postgresConnection";
 import Song from "../entities/songs.entity";
+import { plainToClass } from "class-transformer";
 
 class AlbumService {
     albumRepository: Repository<Album>;
@@ -41,8 +42,7 @@ class AlbumService {
             for (let i = 0; i < songs.length; i++) {
                 let musica = new Song();
                 musica.name = songs[i];
-                musica.album = album;
-                musica.albumID = album.albumID; 
+                musica.album = album; 
                 musica.path = songs_path[i];
                 musica.artist_id = album.artist_id;
                 await transactionalEntityManager.save(Song, musica);
@@ -53,7 +53,7 @@ class AlbumService {
 
     }
 
-    async updateAlbum(id: number, name: string, genero: string, subgenero: string, songs: string[], songs_path: string[]): Promise<Album> {
+    async updateAlbum(id: number, name: string, genero: string, subgenero: string, songs: string[], songs_path: string[], artist_id:number ): Promise<Album> {
         const album = await this.albumRepository.findOne({ where: { albumID: id }, relations: ["songs"] });
     
         if (!album) {
@@ -61,28 +61,40 @@ class AlbumService {
         }
     
         album.name = name;
-        album.genero = genero;
+        album.genero = genero;  
         album.subgenero = subgenero;
-        album.qtd_songs = songs.length;
+
+        for (let i = 0; i < songs.length; i++) {
+            const song = album.songs[i];
     
-        const updatedSongs = songs.map((song, index) => {
-            let musica = album.songs[index];  
+            song.name = songs[i];
+            song.path = songs_path[i];
+            song.artist_id = artist_id;
+            await this.songRepository.save(song);
+        }
+
+        return album;
+    }
+
+    async deleteSongFromAlbum(albumId: number, songId: number): Promise<Album> {
+        const album = await this.albumRepository.findOne({ where: { albumID: albumId }, relations: ["songs"] });
     
-            if (!musica) {
-                musica = new Song();  
-            }
+        if (!album) {
+            throw new Error("Album not found");
+        }
     
-            musica.name = song;
-            musica.path = songs_path[index];  
-            musica.album = album;  
+        const songIndex = album.songs.findIndex(song => song.songID === songId);
     
-            return musica;
-        });
+        if (songIndex === -1) {
+            throw new Error("Song not found in the album");
+        }
     
-        await this.songRepository.save(updatedSongs);
-    
+        const [deletedSong] = album.songs.splice(songIndex, 1);
+        await this.songRepository.remove(deletedSong);
+        album.qtd_songs = album.songs.length;
         return await this.albumRepository.save(album);
     }
+    
     
 
     async deleteAlbum(id: number): Promise<Album> {

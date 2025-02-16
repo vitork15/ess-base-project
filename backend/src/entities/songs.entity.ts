@@ -15,11 +15,12 @@ class Song {
     @Column({ nullable: false })
     artist_id: number;
 
+    @Column({ default: 0 })
+    views: number;
+
     @ManyToOne(() => Album, (album) => album.songs)
     album: Album;
 
-    @Column()
-    albumID: number;  // Considerando a chave estrangeira para o álbum
 }
 
 export default Song;

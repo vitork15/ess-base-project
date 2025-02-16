@@ -18,8 +18,14 @@ class User{
     @Column({nullable:false})
     password: string
 
-    @Column()
+    @Column({nullable:true})
     birthday: Date
+
+    @Column({type: "varchar", nullable:true})
+    recoverytoken: string | null
+
+    @Column({type: "bigint", nullable:true})
+    recoveryexpire: number | null
     
     @OneToMany(() => Playlist, (playlist) => playlist.user)
     playlists: Playlist[]

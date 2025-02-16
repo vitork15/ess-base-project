@@ -1,11 +1,14 @@
 import { Request, Response } from "express";
 import AlbumService from "../services/album.service";
+import SongService from "../services/songs.service";
 
 class AlbumController {
     albumService: AlbumService;
+    songService: SongService;
 
     constructor() {
         this.albumService = new AlbumService();
+        this.songService = new SongService();
     }
 
     async getAll(req: Request, res: Response) {
@@ -54,7 +57,6 @@ class AlbumController {
             return res.status(400).json(message);
         }
 
-        // Retornando o álbum criado como resposta
         return res.status(201).json(albumInserted);
     }
 
@@ -63,6 +65,7 @@ class AlbumController {
         let album = null;
 
         try {
+            await this.songService.deleteSongsByAlbumId(id)
             album = await this.albumService.deleteAlbum(id);
         } catch (error) {
             const message = error instanceof Error ? error.message : "ERRO";
@@ -73,18 +76,29 @@ class AlbumController {
     }
 
     async updateAlbum(req: Request, res: Response) {
-        const {name, genero, subgenero, songs, songs_path } = req.body;
+        const {name, genero, subgenero, songs, songs_path, artist_id} = req.body;
         const id = parseInt(req.params.id);
         let album = null;
 
         try {
-            album = await this.albumService.updateAlbum(id, name, genero, subgenero, songs, songs_path);
+            album = await this.albumService.updateAlbum(id, name, genero, subgenero, songs, songs_path, artist_id);
         } catch (error) {
             const message = error instanceof Error ? error.message : "ERRO";
             return res.status(400).json(message);
         }
 
         return res.status(200).json(album);
+    }
+
+    async deleteSongFromAlbum(req: Request, res: Response) {
+        const { albumId, songId } = req.params; 
+        try {
+            await this.albumService.deleteSongFromAlbum(parseInt(albumId), parseInt(songId));
+            return res.status(200).json({ message: "Song deleted successfully." });
+        } catch (error) {
+            const message = error instanceof Error ? error.message : "Error deleting song.";
+            return res.status(400).json({ message });
+        }
     }
 }
 

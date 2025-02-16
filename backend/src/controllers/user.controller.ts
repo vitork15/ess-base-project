@@ -91,6 +91,21 @@ class UserController{
         }
         return res.status(200).json(recovery)
     }
+
+    async changePassword(req: Request,res: Response){
+        let password = req.body.password;
+        let confirm = req.body.confirm;
+        let token = req.body.token;
+        
+        let change = null
+        try{
+            change = await this.userService.changePassword(token, password, confirm)
+        }catch(error){
+            const message = error instanceof Error ? error.message : "ERRO"
+            return res.status(400).json(message)
+        }
+        return res.status(200).json(change)
+    }
 }
 
 export default UserController

@@ -13,7 +13,7 @@ const dbConn = new DataSource({
     username: "postgres",
     password: "12345678",
     database: "postgres",
-    entities: [User,Playlist,Category,Album,Song],
+    entities: [User,Playlist,Category,Album,Song,Artist],
     synchronize: true,
     logging: true
 })
