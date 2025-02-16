@@ -12,6 +12,7 @@ import userRoutes from './routes/user.routes';
 import artistRoutes from './routes/artist.routes';
 import albumRoutes from './routes/albuns.routes'
 import songRoutes from './routes/songs.routes';
+import musicHistoryRoutes from './routes/musichistory.routes';
 import searchRoutes from './routes/search.routes';
 
 
@@ -36,6 +37,7 @@ dbConn.initialize()
 
 app.use(playlistRoutes)
 app.use(userRoutes)
+app.use(musicHistoryRoutes);
 app.use("/api",artistRoutes)
 app.use(albumRoutes)
 app.use(songRoutes)

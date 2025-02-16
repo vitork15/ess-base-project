@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import Playlist from "./playlist.entity";
+import MusicHistory from "./musichistory.entity";
 
 @Entity()
 class User{
@@ -29,6 +30,9 @@ class User{
     
     @OneToMany(() => Playlist, (playlist) => playlist.user)
     playlists: Playlist[]
+
+    @OneToMany(() => MusicHistory, (musicHistory) => musicHistory.usuario)
+    musicHistory: MusicHistory[]
 
 }
 
