@@ -1,4 +1,5 @@
-import {Entity, Column, PrimaryColumn} from "typeorm"
+import {Entity, Column, PrimaryColumn, OneToMany} from "typeorm"
+import Album from "./albuns.entity";
 
 @Entity()
 class Artist {
@@ -15,8 +16,11 @@ class Artist {
     @Column({select: false, nullable: false})
     password: string;
     
-    @Column()
+    @Column({nullable: true})
     bio?: string;
+
+    @OneToMany(() => Album, album => album.artist)
+    albuns: Album[];
 }
 
 export default Artist
