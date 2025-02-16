@@ -25,10 +25,6 @@ class Song {
     @OneToMany(() => MusicHistory, (musicHistory) => musicHistory.song, {onDelete:"CASCADE"})
     musicHistory: MusicHistory[];
 
-
-    @Column()
-    albumID: number;  // Considerando a chave estrangeira para o álbum
-
 }
 
 export default Song;
