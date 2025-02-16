@@ -11,6 +11,7 @@ albumRoutes.get("/albums/:id", (req, res) => albumController.getById(req, res));
 albumRoutes.post("/albums", (req, res) => albumController.createAlbum(req, res));
 albumRoutes.delete("/albums/:id", (req, res) => albumController.deleteAlbum(req, res));
 albumRoutes.put("/albums/:id", (req, res) => albumController.updateAlbum(req, res));
+albumRoutes.delete("/albums/:albumId/songs/:songId", (req, res) => albumController.deleteSongFromAlbum(req, res));
 
 
 
