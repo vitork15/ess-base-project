@@ -2,10 +2,6 @@ import { IsDefined, IsInt, isInt, IsNotEmpty, IsOptional, IsString, IsDate } fro
 
 class CriarUserDTO{
 
-    @IsInt()
-    @IsOptional()
-    userID: number
-
     @IsString()
     @IsDefined()
     name: string;
