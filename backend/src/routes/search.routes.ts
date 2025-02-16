@@ -4,6 +4,6 @@ import SearchController from "../controllers/search.controller";
 const searchRoutes = Router()
 const searchController = new SearchController()
 
-searchRoutes.get("/search/:ds",(req,res) => searchController.searchAll(req,res))
+searchRoutes.get("/search",(req,res) => searchController.searchAll(req,res))
 
 export default searchRoutes
