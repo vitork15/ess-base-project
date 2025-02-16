@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn} from "typeorm";
 import Album from "./albuns.entity";
 import MusicHistory from './musichistory.entity'
 
@@ -19,15 +19,12 @@ class Song {
     @Column({ default: 0 })
     views: number;
 
-    @ManyToOne(() => Album, (album) => album.songs)
+    @ManyToOne(() => Album, (album) => album.songs, {onDelete: "CASCADE"})
+    @JoinColumn({name: "albumId"})
     album: Album;
 
     @OneToMany(() => MusicHistory, (musicHistory) => musicHistory.song, {onDelete:"CASCADE"})
     musicHistory: MusicHistory[];
-
-
-    @Column()
-    albumID: number;  // Considerando a chave estrangeira para o álbum
 
 }
 
