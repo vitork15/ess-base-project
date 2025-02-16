@@ -11,12 +11,14 @@ class SearchController{
     }
 
     async searchAll(req:Request,res:Response){
-        const description = req.params.ds
+        const description = String(req.query.ds)
+        const filter = String(req.query.filter)
+        
         let responseArtist = null
         let responseSong = null
         try{
-            responseArtist = await this.searchService.searchArtist(description)
-            responseSong = await this.searchService.searchSong(description)
+            responseArtist = await this.searchService.searchArtist(description,filter)
+            responseSong = await this.searchService.searchSong(description,filter)
         }catch(error){
             const message = error instanceof Error ? error.message : "ERRO"
             return res.status(400).json(message)

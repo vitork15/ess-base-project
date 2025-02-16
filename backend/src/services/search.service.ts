@@ -18,10 +18,14 @@ class SearchService{
         this.playlistRepository = dbConn.getRepository(Playlist)
     }
 
-    async searchArtist(description:string): Promise<Artist[]>{
+    async searchArtist(description:string,filter:string): Promise<Artist[]>{
+        if(filter == 'song')
+            return []
         return await this.artistRepository.findBy({name:Like("%"+description+"%")})
     }
-    async searchSong(description:string): Promise<Song[]>{
+    async searchSong(description:string,filter:string): Promise<Song[]>{
+        if(filter == 'artist')
+            return []
         return await this.songRepository.findBy({name:Like("%"+description+"%")})
     }
     //async searchPlaylist(description:string): Promise<Playlist[]>{
