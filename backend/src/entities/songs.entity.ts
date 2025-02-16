@@ -15,6 +15,9 @@ class Song {
     @Column({ nullable: false })
     artist_id: number;
 
+    @Column({ default: 0 })
+    views: number;
+
     @ManyToOne(() => Album, (album) => album.songs)
     album: Album;
 
