@@ -7,7 +7,7 @@ import Song from "../entities/songs.entity";
 interface TopMusicAndArtists {
     posicao: number;
     nome: string;
-    artist_id: number | null;
+    artist_login: string | null;
 }
 
 
@@ -53,19 +53,6 @@ class MusicHistoryService {
         });
     }
 
-    async getMusicHistoryByMusicId(id: number): Promise<Song[]> {
-        return this.songRepository.find({
-            relations: {
-                musicHistory: true
-            },
-            where: {
-                musicHistory: {
-                    musicHistoryId: id
-                }
-            }
-
-        })
-    }
 
     async insertIntoMusicHistory (musicId: number, userId: number): Promise<MusicHistory | null> {
         let song = await this.songRepository.findOne({where: {
@@ -128,13 +115,15 @@ class MusicHistoryService {
     const topArtistasQuery = this.musicHistoryRepository
         .createQueryBuilder("h1")
         .select([
-            "m1.artist_id AS artist_id",
+            "ar.login AS artist_login",
             "COUNT(*) AS artista_vezes",
             "ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS posicao"
         ])
         .innerJoin("song", "m1", "h1.musicId = m1.songID")
+        .innerJoin("album", "a", "m1.albumId = a.albumID")
+        .innerJoin("artist", "ar", "a.artistLogin = ar.login")
         .where("h1.userId = :userID", {userID})
-        .groupBy("m1.artist_id");
+        .groupBy("ar.login");
         
         const topArtistas = await topArtistasQuery.getRawMany();
         console.log("Top Artistas: ", topArtistas)
@@ -146,12 +135,12 @@ class MusicHistoryService {
         return {
             posicao: musica.posicao,
             nome: musica.nome,
-            artist_id: artista ? artista.artist_id : null
+            artist_login: artista ? artista.artist_login : null
         };
     });
 
 
-        console.log(result);
+        console.log("Top results:",result);
         return result
     }
 

@@ -44,7 +44,6 @@ class AlbumService {
             album.qtd_songs = songs.length;
             album.genero = genero;
             album.subgenero = subgenero;
-            //album.artist_id = artist_id
             album.tipo = tipo
             album = await this.albumRepository.save(album);
 
@@ -53,7 +52,6 @@ class AlbumService {
                 musica.name = songs[i];
                 musica.album = album; 
                 musica.path = songs_path[i];
-                //musica.artist_id = album.artist_id;
                 await transactionalEntityManager.save(Song, musica);
             }
 
@@ -63,33 +61,63 @@ class AlbumService {
     }
 
     async updateAlbum(id: number, name: string, genero: string, subgenero: string, songs: string[], songs_path: string[], artist_login: string): Promise<Album> {
-        const album = await this.albumRepository.findOne({ where: { albumID: id }, relations: ["songs"] });
+        const album = await this.albumRepository.findOne({ 
+            where: { albumID: id }, 
+            relations: ["songs", "artist"] 
+        });
     
         if (!album) {
             throw new Error("Album not found");
         }
     
-        album.name = name;
-        album.genero = genero;  
-        album.subgenero = subgenero;
-
-        for (let i = 0; i < songs.length; i++) {
-            const song = album.songs[i];
-    
-            song.name = songs[i];
-            song.path = songs_path[i];
-            //song.artist_id = artist_id;
-            await this.songRepository.save(song);
+        if (album.artist.login !== artist_login) {
+            throw new Error("You do not have permission to update this album");
         }
-
-        return await this.albumRepository.save (album);
+    
+        if (name !== undefined) album.name = name;
+        if (genero !== undefined) album.genero = genero;
+        if (subgenero !== undefined) album.subgenero = subgenero;
+    
+        if (songs !== undefined || songs_path !== undefined) {
+            if (songs !== undefined && songs_path !== undefined && songs.length !== songs_path.length) {
+                throw new Error("Songs and songs_path arrays must have the same length");
+            }
+        
+            const maxLength = Math.max(songs?.length || 0, songs_path?.length || 0);
+        
+            for (let i = 0; i < maxLength; i++) {
+                if (songs !== undefined && (!songs[i] || songs[i].trim() === "")) {
+                    throw new Error(`Song name at index ${i} cannot be empty`);
+                }
+        
+                if (album.songs[i]) {
+                    if (songs !== undefined && songs[i] !== undefined) {
+                        album.songs[i].name = songs[i];
+                    }
+                    if (songs_path !== undefined && songs_path[i] !== undefined) {
+                        album.songs[i].path = songs_path[i];
+                    }
+                    await this.songRepository.save(album.songs[i]);
+                }
+            }
+        }
+        
+    
+        return await this.albumRepository.save(album);
     }
 
-    async deleteSongFromAlbum(albumId: number, songId: number): Promise<Album> {
-        const album = await this.albumRepository.findOne({ where: { albumID: albumId }, relations: ["songs"] });
+    async deleteSongFromAlbum(albumId: number, songId: number, artist_login: string): Promise<Album> {
+        const album = await this.albumRepository.findOne({ 
+            where: { albumID: albumId }, 
+            relations: ["songs", "artist"] 
+        });
     
         if (!album) {
             throw new Error("Album not found");
+        }
+    
+        if (album.artist.login !== artist_login) {
+            throw new Error("You do not have permission to delete songs from this album");
         }
     
         const songIndex = album.songs.findIndex(song => song.songID === songId);
@@ -101,20 +129,28 @@ class AlbumService {
         const [deletedSong] = album.songs.splice(songIndex, 1);
         await this.songRepository.remove(deletedSong);
         album.qtd_songs = album.songs.length;
+        
         return await this.albumRepository.save(album);
     }
-    
-    
 
-    async deleteAlbum(id: number): Promise<Album> {
-        const album = await this.albumRepository.findOne({ where: { albumID: id } });
+    async deleteAlbum(id: number, artist_login: string): Promise<Album> {
+        const album = await this.albumRepository.findOne({ 
+            where: { albumID: id }, 
+            relations: ["artist"] 
+        });
+    
         if (!album) {
             throw new Error("Album not found");
         }
-
+    
+        if (album.artist.login !== artist_login) {
+            throw new Error("You do not have permission to delete this album");
+        }
+    
         await this.albumRepository.delete(album.albumID);
         return album;
     }
+    
 }
 
 export default AlbumService;

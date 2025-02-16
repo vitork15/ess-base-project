@@ -13,6 +13,7 @@ import artistRoutes from './routes/artist.routes';
 import albumRoutes from './routes/albuns.routes'
 import songRoutes from './routes/songs.routes';
 import musicHistoryRoutes from './routes/musichistory.routes';
+import searchRoutes from './routes/search.routes';
 
 
 const app: express.Express = express();
@@ -40,6 +41,7 @@ app.use(musicHistoryRoutes);
 app.use("/api",artistRoutes)
 app.use(albumRoutes)
 app.use(songRoutes)
+app.use(searchRoutes)
 
 app.use(
   (
