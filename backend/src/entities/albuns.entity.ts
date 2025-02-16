@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm";
 import Song from "./songs.entity";
+import Artist from "./artist.entity";
 
 @Entity()
 class Album {
@@ -18,14 +19,17 @@ class Album {
     @Column({ nullable: true })
     subgenero: string;
 
-    @Column({ nullable: false })
-    artist: string;
+    // @Column({ nullable: false })
+    // artist: string;
 
-    @Column({ nullable: false })
-    artist_id: number;
+    // @Column({ nullable: false })
+    // artist_id: number;
 
     @Column({ nullable: false })
     tipo: string;
+
+    @ManyToOne(() => Artist, (artist) => artist.albuns)
+    artist: Artist
 
     @OneToMany(() => Song, (song) => song.album)
     songs: Song[];

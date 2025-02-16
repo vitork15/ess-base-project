@@ -12,8 +12,8 @@ class Song {
     @Column({ nullable: false })
     path: string;
 
-    @Column({ nullable: false })
-    artist_id: number;
+    // @Column({ nullable: false })
+    // artist_id: number;
 
     @Column({ default: 0 })
     views: number;
