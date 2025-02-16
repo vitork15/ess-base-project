@@ -4,6 +4,13 @@ import User from '../entities/user.entity'
 import dbConn from "../database/postgresConnection";
 import Song from "../entities/songs.entity";
 
+interface TopMusicAndArtists {
+    posicao: number;
+    nome: string;
+    artist_id: number | null;
+}
+
+
 
 class MusicHistoryService {
     userRepository: Repository<User>;
@@ -100,9 +107,57 @@ class MusicHistoryService {
         return false;
     }
 
-  
+    async topMusicAndArtists(userID: number): Promise<TopMusicAndArtists[]> {
+        
+        const topMusicasQuery = this.musicHistoryRepository
+        .createQueryBuilder("h")
+        .select([
+            "h.musicId AS musicId",
+            "s.name AS nome",
+            "COUNT(*) AS total_vezes",
+            "ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS posicao"
+        ])
+        .innerJoin("song", "s", "h.musicId = s.songID")
+        .where("h.userId = :userID", { userID })
+        .groupBy("h.musicId, s.name");
+
+        const topMusicas = await topMusicasQuery.getRawMany()
+        console.log("top musicas: ", topMusicas)
     
+    // Subquery para Top Artistas (contando músicas associadas)
+    const topArtistasQuery = this.musicHistoryRepository
+        .createQueryBuilder("h1")
+        .select([
+            "m1.artist_id AS artist_id",
+            "COUNT(*) AS artista_vezes",
+            "ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS posicao"
+        ])
+        .innerJoin("song", "m1", "h1.musicId = m1.songID")
+        .where("h1.userId = :userID", {userID})
+        .groupBy("m1.artist_id");
+        
+        const topArtistas = await topArtistasQuery.getRawMany();
+        console.log("Top Artistas: ", topArtistas)
     
+    // Consulta final combinando os rankings
+    const result: TopMusicAndArtists[] = topMusicas.map(musica => {
+        // Encontre o artista correspondente com base na posição
+        const artista = topArtistas.find(a => a.posicao === musica.posicao);
+        return {
+            posicao: musica.posicao,
+            nome: musica.nome,
+            artist_id: artista ? artista.artist_id : null
+        };
+    });
+
+
+        console.log(result);
+        return result
+    }
+
+    
+
+       
 }
 
 export default MusicHistoryService;

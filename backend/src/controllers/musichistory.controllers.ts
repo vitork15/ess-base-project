@@ -93,6 +93,18 @@ class MusicHistoryController {
             res.json(error);
         }
     }
+
+    async showTop10(req: Request, res: Response) {
+        try {
+            const result = await this.musicHistoryService.topMusicAndArtists(9);
+            console.log(result);
+            res.status(200).send(result);
+
+        } catch(error) {
+            console.log("Erro no top 10:", error);
+            res.json({"message": "error in top 10"});
+        }
+    }
 }
 
 export default MusicHistoryController;

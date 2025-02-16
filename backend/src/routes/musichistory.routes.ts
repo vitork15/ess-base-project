@@ -5,8 +5,9 @@ const musicRoutes = Router();
 const musicController = new MusicHistoryController();
 
 musicRoutes.get('/musichistory',(req, res) => musicController.getAllHistory(req,res));
-musicRoutes.post('/musichistory',(req, res) => musicController.insertIntoMusicHistory(req,res));
+musicRoutes.get('/musichistory/top10', (req,res) => musicController.showTop10(req,res));
 musicRoutes.get('/musichistory/:id',(req, res) => musicController.getHistoryByUserId(req, res));
+musicRoutes.post('/musichistory',(req, res) => musicController.insertIntoMusicHistory(req,res));
 musicRoutes.delete('/musichistory/:id', (req,res) => musicController.deleteMusicHistoryByUserId(req, res))
 
 export default musicRoutes;
