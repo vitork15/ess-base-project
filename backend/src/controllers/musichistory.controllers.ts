@@ -107,7 +107,7 @@ class MusicHistoryController {
                return res.status(400).json({"message": "invalid input(top10)"})
             }
 
-            const result = await this.musicHistoryService.topMusicAndArtists(12);
+            const result = await this.musicHistoryService.topMusicAndArtists(id);
             console.log(result);
             res.status(200).send(result);
 

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn } from "typeorm";
 import Song from "./songs.entity";
 import Artist from "./artist.entity";
 
@@ -29,6 +29,7 @@ class Album {
     tipo: string;
 
     @ManyToOne(() => Artist, (artist) => artist.albuns)
+    @JoinColumn({name: "artistLogin"})
     artist: Artist
 
     @OneToMany(() => Song, (song) => song.album)
