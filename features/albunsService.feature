@@ -5,7 +5,7 @@ Feature: Cadastro e Manutenção de Músicas e Álbuns
 
 Scenario: Inserindo single no sistema
     Given o usuario de login "joydivision" está autenticado como artista
-    When o campo "genero" está preenchido com "Rock"
+    When o campo do body "genero" está preenchido com "Rock"
     And o campo "subgenero" está preenchido com "Post-Punk"
     And o campo "name" está preenchido com "Something Must Break"
     And o campo "songs" está preenchido com "'Something Must Break'"
@@ -16,14 +16,34 @@ Scenario: Inserindo single no sistema
     And o lançamento é registrado no banco de dados
     And o campo "tipo" está preenchido com "Single"
 
-#Scenario: falha ao atualizar música com campo nome vazio
-#    Given o usuario de login "joydivision" está autenticado como artista
-#    And existe um lançamento com id "1" para esse usuario
-#    And o lançamento possui o campo "nome_musicas" com "'Enter Sandman', 'Master of Puppets'"
-#    When uma requisição "PATCH" é feita no endpoint "/albums/2"
-#    And o campo "nome_musicas" está preenchido com "'Enter Sandman',''"
-#    Then o sistema retorna o código "400"
-#    And nenhuma modificação é realizada no banco de dados
+Scenario: atualizando um lançamento 
+    Given o usuario de login "joydivision" está autenticado como artista
+    And existe um lançamento com id "1" para esse usuario
+    And o lançamento possui o campo "songs" com "'Something Must Break'"
+    When o campo do body "songs" esta preenchido com "'Dead Souls'"
+    And o campo "artist_login" está preenchido com "joydivision"
+    And uma requisição "PATCH" é feita no endpoint "/albums/1"
+    Then o sistema retorna o código "200"
+    And a musica atualizada agora se chama "'Dead Souls'"
+
+Scenario: falha ao atualizar música com campo nome vazio
+    Given o usuario de login "joydivision" está autenticado como artista
+    And existe um lançamento com id "1" para esse usuario
+    And o lançamento possui o campo "songs" com "'Something Must Break'"
+    When o campo do body "songs" está preenchido com "''"
+    And o campo "artist_login" está preenchido com "joydivision"
+    And uma requisição "PATCH" é feita no endpoint "/albums/1"
+    Then o sistema retorna o código "400"
+
+Scenario: removendo um lançamento do sistema
+    Given o usuario de login "joydivision" está autenticado como artista
+    And existe um lancamento com id "1" para esse usuario
+    When o campo do body "artist_login" está preenchido com "joydivision"
+    And uma requisição "DELETE" é feita no endpoint "/albums/1"
+    Then o sistema retorna o código "200"
+    And o lançamento é removido do banco de dados
+
+
 
 #Scenario: Inserindo single com feat no sistema
 #   Given o usuario de login "elis" está autenticado como artist
@@ -50,24 +70,6 @@ Scenario: Inserindo single no sistema
 #    Then o sistema retorna o código "201"
 #    And o lançamento é registrado no banco de dados
 #    And o campo "tipo" está preenchido com "EP"
-
-Scenario: removendo um lançamento do sistema
-    Given o usuario de login "joydivision" está autenticado como artista
-    And existe um lancamento com id "1" para esse usuario
-    When o campo "artist_login" está preenchido com "joydivision"
-    And uma requisição "DELETE" é feita no endpoint "/albums/1"
-    Then o sistema retorna o código "200"
-    And o lançamento é removido do banco de dados
-
-#Scenario: atualizando um lançamento 
-#    Given o usuario de login "rapper" está autenticado como artista
-#    And existe um lançamento com id "1" para esse usuario
-#    And o lançamento possui o campo "subgenero" com "Rap Coreano"
-#    When uma requisição "PATCH" é feita no endpoint "/albums/1"
-#    And o campo "subgenero" esta preenchido com "Rap Japonês"
-#    Then o sistema retorna o código "200"
-#    And o lançamento é atualizado do banco de dados
-#    And o campo "subgenero" está preenchido com "Rap Japonês"
 
 #Scenario: removendo uma música de um lançamento no servidor
 #    Given o usuario de login "rapper" está autenticado como aartista

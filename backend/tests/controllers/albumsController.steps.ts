@@ -4,6 +4,7 @@ import app from '../../src/app';
 import dbConn from '../../src/database/postgresConnection';
 import Album from '../../src/entities/albuns.entity';
 import Artist from '../../src/entities/artist.entity';
+import Songs from '../../src/entities/songs.entity'
 
 const feature = loadFeature('../features/albunsService.feature');
 const request = supertest(app);
@@ -42,7 +43,7 @@ defineFeature(feature, (test) => {
             artistRepo.save(mockedArtist)
         });
 
-        when(/^o campo "(.*)" está preenchido com "(.*)"$/, async (arg0, arg1) => {
+        when(/^o campo do body "(.*)" está preenchido com "(.*)"$/, async (arg0, arg1) => {
             if (arg0 === "genero"){
                 album_data.genero = arg1;
             }
@@ -103,6 +104,102 @@ defineFeature(feature, (test) => {
         });
     });
 
+    interface UpdateRequest {
+        songs: string[];
+        artist_login: string;
+    }
+
+    let update_request : UpdateRequest  = {
+        songs: [],
+        artist_login: ""
+    }
+
+
+    test('atualizando um lançamento', ({ given, when, and, then }) => {
+        given(/^o usuario de login "(.*)" está autenticado como artista$/, async (arg0) => {
+            //feito no teste anterior
+        });
+
+        and(/^existe um lançamento com id "(.*)" para esse usuario$/, (arg0) => {
+            //feito no teste anterior
+        });
+
+        and(/^o lançamento possui o campo "(.*)" com "(.*)"$/, (arg0, arg1) => {
+            //feito no teste anterior
+        });
+
+        when(/^o campo do body "(.*)" esta preenchido com "'(.*)'"$/, async (arg0, arg1) => {
+            if (arg0 === "songs"){
+                update_request.songs = [arg1]
+            }
+        });
+
+        and(/^o campo "(.*)" está preenchido com "(.*)"$/, async (arg0, arg1) => {
+            if (arg0 === "artist_login"){
+                update_request.artist_login = arg1
+            }
+        });
+
+        and(/^uma requisição "(.*)" é feita no endpoint "(.*)"$/, async (arg0, arg1) => {
+            if (arg0 === "PATCH"){
+                response = await request.patch(arg1).send(update_request);
+            }
+        });
+
+        then(/^o sistema retorna o código "(.*)"$/, async (arg0) => {
+            expect(response.status).toBe(parseInt(arg0));
+        });
+
+        and(/^a musica atualizada agora se chama "'(.*)'"$/, async (arg0) => {
+            let songRepo = dbConn.getRepository(Songs)
+            let song = await songRepo.find()
+            expect(song[0].name).toBe(arg0)
+        });
+        
+    });
+
+    let update_request2 : UpdateRequest  = {
+        songs: [],
+        artist_login: ""
+    }
+
+    test('falha ao atualizar música com campo nome vazio', ({ given, when, and, then }) => {
+        given(/^o usuario de login "(.*)" está autenticado como artista$/, async (arg0) => {
+            //feito no teste anterior
+        });
+
+        and(/^existe um lançamento com id "(.*)" para esse usuario$/, (arg0) => {
+            //feito no teste anterior
+        });
+
+        and(/^o lançamento possui o campo "(.*)" com "'(.*)'"$/, (arg0) => {
+            //feito no teste anterior
+        });
+
+        when(/^o campo do body "(.*)" está preenchido com "'(.*)'"$/, async (arg0, arg1) => {
+            if (arg0 === "songs"){
+                update_request2.songs = [arg1]
+            }
+        });
+
+        and(/^o campo "(.*)" está preenchido com "(.*)"$/, async (arg0, arg1) => {
+            if (arg0 === "artist_login"){
+                update_request2.artist_login = arg1
+            }
+        });
+
+        and(/^uma requisição "(.*)" é feita no endpoint "(.*)"$/, async (arg0, arg1) => {
+            if (arg0 === "PATCH"){
+                response = await request.patch(arg1).send(update_request2);
+            }
+        });
+
+        then(/^o sistema retorna o código "(.*)"$/, async (arg0) => {
+            expect(response.status).toBe(parseInt(arg0));
+        });
+        
+    });
+
     interface DeleteRequest {
         artist_login : string;
     }
@@ -120,7 +217,7 @@ defineFeature(feature, (test) => {
             //feito no teste anterior
         });
 
-        when(/^o campo "(.*)" está preenchido com "(.*)"$/, async (arg0, arg1) => {
+        when(/^o campo do body "(.*)" está preenchido com "(.*)"$/, async (arg0, arg1) => {
             if (arg0 === "artist_login"){
                 delete_request.artist_login = arg1
             }
@@ -144,8 +241,8 @@ defineFeature(feature, (test) => {
       
         
     });
-    
 
+    
     beforeAll(async () => {
         const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
         await sleep(1000); // É necessário sleep para esperar a API subir antes de realizar os testes
