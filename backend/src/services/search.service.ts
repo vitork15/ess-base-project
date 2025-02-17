@@ -19,17 +19,19 @@ class SearchService{
     }
 
     async searchArtist(description:string,filter:string): Promise<Artist[]>{
-        if(filter == 'song')
+        if(filter == 'song' || filter == 'playlist')
             return []
         return await this.artistRepository.findBy({name:Like("%"+description+"%")})
     }
     async searchSong(description:string,filter:string): Promise<Song[]>{
-        if(filter == 'artist')
+        if(filter == 'artist' || filter == 'playlist')
             return []
         return await this.songRepository.findBy({name:Like("%"+description+"%")})
     }
-    //async searchPlaylist(description:string): Promise<Playlist[]>{
-    //    return await this.playlistRepository.findBy({name:Like("%"+description+"%")})
-    //}
+    async searchPlaylist(description:string,filter:string): Promise<Playlist[]>{
+        if(filter == 'artist' || filter == 'song')
+            return []
+        return await this.playlistRepository.findBy({name:Like("%"+description+"%")})
+    }
 }
 export default SearchService
