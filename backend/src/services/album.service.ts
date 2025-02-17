@@ -4,7 +4,7 @@ import dbConn from "../database/postgresConnection";
 import Song from "../entities/songs.entity";
 import { plainToClass } from "class-transformer";
 import Artist from "../entities/artist.entity";
-import ArtistRepository from "../repositories/artist.repository";
+import ArtistService from "./artist.service";
 
 class AlbumService {
     albumRepository: Repository<Album>;
@@ -32,7 +32,7 @@ class AlbumService {
         
         return await this.albumRepository.manager.transaction(async (transactionalEntityManager: EntityManager) => {
 
-            const artistRepo = new ArtistRepository();
+            const artistRepo = new ArtistService();
             const artist = await artistRepo.getArtistByLogin(artist_login);
             if (!artist) {
                 throw new Error("Artista não encontrado");
