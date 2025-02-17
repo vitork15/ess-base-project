@@ -29,7 +29,7 @@ class UserService{
         if(emailexists){
             throw new Error("Já existe cadastro com esse e-mail")
         }
-        
+
         user.name = name
         user.login = login
         user.email = email
@@ -119,6 +119,9 @@ class UserService{
         }
         if(password.length < 6){
             throw new Error("Sua senha deve conter pelo menos 6 caracteres")
+        }
+        if(password == user.password){
+            throw new Error("A senha não pode ser igual à anterior")
         }
         user.password = password;
         user.recoverytoken = null;
