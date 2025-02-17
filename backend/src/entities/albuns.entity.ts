@@ -28,11 +28,15 @@ class Album {
     @Column({ nullable: false })
     tipo: string;
 
-    @ManyToOne(() => Artist, (artist) => artist.albuns)
+    @ManyToOne(() => Artist, (artist) => artist.albuns, {
+        onDelete: "CASCADE"
+    })
     @JoinColumn({name: "artistLogin"})
     artist: Artist
 
-    @OneToMany(() => Song, (song) => song.album)
+    @OneToMany(() => Song, (song) => song.album, {
+        onDelete: "CASCADE"
+    })
     songs: Song[];
 }
 

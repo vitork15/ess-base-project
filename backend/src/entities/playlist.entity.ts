@@ -12,7 +12,9 @@ class Playlist{
     @Column()
     name:string
     
-    @ManyToOne(() => User, (user) => user.playlists, {nullable:false})
+    @ManyToOne(() => User, (user) => user.playlists, {nullable:false,
+        onDelete: "CASCADE"
+    })
     user:User
 
     @Column()
@@ -21,11 +23,15 @@ class Playlist{
     @Column({nullable:false})
     saveCount: number
 
-    @ManyToMany(() => Category)
+    @ManyToMany(() => Category, {
+        onDelete: "CASCADE"
+    })
     @JoinTable()
     categories: Category[]
 
-    @ManyToMany(() => Song)
+    @ManyToMany(() => Song, {
+        onDelete: "CASCADE"
+    })
     @JoinTable()
     songs: Song[]
     

@@ -19,7 +19,9 @@ class Artist {
     @Column({nullable: true})
     bio?: string;
 
-    @OneToMany(() => Album, album => album.artist)
+    @OneToMany(() => Album, album => album.artist, {
+        onDelete: "CASCADE"
+    })
     albuns: Album[];
 }
 

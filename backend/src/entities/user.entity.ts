@@ -28,10 +28,14 @@ class User{
     @Column({type: "bigint", nullable:true})
     recoveryexpire: number | null
     
-    @OneToMany(() => Playlist, (playlist) => playlist.user)
+    @OneToMany(() => Playlist, (playlist) => playlist.user, {
+        onDelete: "CASCADE"
+    })
     playlists: Playlist[]
 
-    @OneToMany(() => MusicHistory, (musicHistory) => musicHistory.usuario)
+    @OneToMany(() => MusicHistory, (musicHistory) => musicHistory.usuario, {
+        onDelete: "CASCADE"
+    })
     musicHistory: MusicHistory[]
 
 }
