@@ -22,13 +22,14 @@ class PlaylistService{
         return await this.playlistRepository.find({relations:["user","songs","songs.album"]})
     }
 
-    async insertPlaylist(description: string, userId: number) : Promise<Playlist>{
+    async insertPlaylist(name:string,description: string, userId: number) : Promise<Playlist>{
         let userOfPlaylist  = await this.userRepository.findOne({where:{userID:userId}})
         if(!userOfPlaylist){
             throw new Error("user not found!")
         }
         
         let playlist = new Playlist()
+        playlist.name = name
         playlist.description = description
         playlist.user = userOfPlaylist
         playlist.saveCount = 0
@@ -54,12 +55,13 @@ class PlaylistService{
         return user.playlists
     }
 
-    async updatePlaylist(id:number, description:string, categories:number[], saveCount:number, songIds:number[]) : Promise<Playlist> {
+    async updatePlaylist(id:number, name:string, description:string, categories:number[], saveCount:number, songIds:number[]) : Promise<Playlist> {
         let playlist = await this.playlistRepository.findOne({where:{playlistID:id}, relations:["user", "songs"]})
         let categoryList = await this.categoryRepository.findBy({categoryID : In(categories)})
         if(!playlist){
             throw new Error("playlist not found")
         }
+        playlist.name = name
         playlist.description = description
         playlist.saveCount = saveCount
         let songs = []

@@ -51,12 +51,13 @@ class PlaylistController {
         if(errors.length > 0){
             return res.status(400).json("wrong body format")
         }
+        let name = createDTO.name
         let description = createDTO.description
         let userId = createDTO.userId
 
         let playlistInserted = null
         try{
-            playlistInserted = await this.playlistService.insertPlaylist(description,userId)
+            playlistInserted = await this.playlistService.insertPlaylist(name,description,userId)
         }catch(error){
             const message = error instanceof Error ? error.message : "ERRO"
             return res.status(400).json(message)
@@ -86,7 +87,7 @@ class PlaylistController {
         }
         let playlist = null
         try{
-            playlist = await this.playlistService.updatePlaylist(id,updateDTO.description,updateDTO.categories,updateDTO.saveCount, updateDTO.songIds)
+            playlist = await this.playlistService.updatePlaylist(id,updateDTO.name,updateDTO.description,updateDTO.categories,updateDTO.saveCount, updateDTO.songIds)
         }catch(error){
             const message = error instanceof Error ? error.message : "ERRO"
             return res.status(400).json(message)
