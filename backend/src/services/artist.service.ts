@@ -9,7 +9,26 @@ class ArtistService {
         this.repo = dbConn.getRepository(Artist);
     }
 
-    async createArtist(artistData: Partial<Artist>): Promise<Artist> {
+    async createArtist(login: string, name: string, email: string, password: string, bio: string): Promise<Artist> {
+
+        let login_R = await this.repo.findOne({where: {login:login}});
+        if (login_R) {
+            throw new Error("Login já em uso")
+        }
+        let name_R = await this.repo.findOne({where: {name:name}});
+        if (name_R) {
+            throw new Error("Nome artístico já em uso")
+        }
+        let email_R = await this.repo.findOne({where: {email:email}});
+        if (email_R) {
+            throw new Error("E-mail já em uso")
+        }
+        const artistData = new Artist();
+        artistData.login = login;
+        artistData.name = name;
+        artistData.email = email;
+        artistData.password = password;
+        artistData.bio = bio;
         const artist = this.repo.create(artistData);
         return this.repo.save(artist);
     }
@@ -18,15 +37,20 @@ class ArtistService {
         return this.repo.find();
     }
 
-    async getArtistByLogin(login: string): Promise<Artist | null> {
-        return await this.repo.findOne({where: {login}});
+    async getArtistByLogin(login: string): Promise<Artist> {
+        let artist = await this.repo.findOne({where: {login:login}});
+        if(!artist){
+            throw new Error("Artista não encontrado")
+        }
+
+        return artist
     }
 
-    async updateArtist(login: string, data: Partial<Artist>) : Promise<Artist | null> {
-        const artist = await this.repo.findOne({where: {login}});
+    async updateArtist(login: string, data: Partial<Artist>) : Promise<Artist> {
+        const artist = await this.repo.findOne({where: {login:login}});
 
-        if (!artist) {
-            return null;
+        if(!artist){
+            throw new Error("Artista não encontrado")
         }
 
         Object.assign(artist, data); // Atualiza os campos fornecidos
@@ -34,7 +58,7 @@ class ArtistService {
     }
 
     async deleteArtist(login: string) : Promise<boolean>{
-        const result = await this.repo.delete({login});
+        const result = await this.repo.delete({login:login});
         return result.affected != 0;
     }
 }
