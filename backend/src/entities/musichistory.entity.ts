@@ -19,9 +19,7 @@ class MusicHistory {
     @JoinColumn({name: "musicId"})
     song: Songs;
    
-    @CreateDateColumn()
-    createdAt: Date;
-
+  
 };
 
 

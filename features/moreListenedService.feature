@@ -20,7 +20,7 @@ When o usuário faz uma requisição GET para o endpoint ‘/maisescutados/2’
 Then o sistema retorna um status “200 OK”
 And a resposta contém o artista “Carlos”, a música “X”, reproduzida 1 vez, e a playlist “Rock 2000”
 
-Scenario: top 10 músicas com 11 músicas no histórico 
+Scenario: top 5 músicas de 5 artistas no histórico 
 Given o usuário “Thiago” de senha “senha123” está autenticado e tem o ID “2” 
 And o histórico de músicas do usuário contém a música “A” de “Carlos” reproduzida 100 vezes 
 And o histórico de músicas do usuário contém a música “B” de “Pedro” reproduzida 99 vezes 
