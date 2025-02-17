@@ -5,16 +5,16 @@ Feature: Cadastro, Atualização e Remoção de Usuários no Sistema
 
 #Service Scenario
 Scenario: Deleção de Usuário no Sistema
-    Given existe um usuário de ID "9"
-    When uma requisição "DELETE" é feita no endpoint "/users/9"
-    Then o usuário de ID "9" é removido no banco de dados
+    Given existe um usuário de login "jeremias"
+    When uma requisição DELETE é feita no endpoint "/users/jeremias"
+    Then o usuário de login "jeremias" é removido no banco de dados
     And o sistema retorna o código "200"
 
 #Service Scenario
 Scenario: Cadastro de Usuário no Sistema com Sucesso
     Given não existe usuário com o login "fizz"
     And não existe usuário com o e-mail "dggb@cin.ufpe.br"
-    When uma requisição "POST" é feita no endpoint "/users"
+    When uma requisição POST é feita no endpoint "/users"
     And o body da requisição possui name: "Davi Guerreiro"
     And o body da requisição possui birthday: "16/12/2024"
     And o body da requisição possui login: "fizz"
@@ -26,7 +26,7 @@ Scenario: Cadastro de Usuário no Sistema com Sucesso
 #Service Scenario
 Scenario: Falha de Cadastro de Usuário no Sistema por Dados Repetidos
     Given existe usuário com o login "fizz"
-    When uma requisição "POST" é feita no endpoint "/users"
+    When uma requisição POST é feita no endpoint "/users"
     And o body da requisição possui name: "Davi Guerreiro"
     And o body da requisição possui birthday: "16/12/2024"
     And o body da requisição possui login: "fizz"
@@ -37,7 +37,7 @@ Scenario: Falha de Cadastro de Usuário no Sistema por Dados Repetidos
 
 #Service Scenario
 Scenario: Atualização de Senha de Usuário no Sistema com Sucesso
-    Given o usuário de ID "19" deseja mudar sua senha para "senhasenha"
-    When uma requisição "PATCH" é feita no endpoint "/users/19"
+    Given o usuário de login "thiago" deseja mudar sua senha para "senhasenha"
+    When uma requisição POST é feita no endpoint "/users/thiago"
     Then o sistema retorna o código "200"
-    And a senha do usuário de ID "19" é modificada no banco de dados para "senhasenha"
+    And a senha do usuário de login "thiago" é modificada no banco de dados para "senhasenha"
