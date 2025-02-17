@@ -36,11 +36,11 @@ class UserController{
         return res.status(201).json(userInserted)
     }
 
-    async getById(req: Request, res: Response){
-        const id = parseInt(req.params.id)
+    async getByLogin(req: Request, res: Response){
+        const login = req.params.login
         let user = null
         try{
-            user = await this.userService.getUserById(id)
+            user = await this.userService.getUserByLogin(login)
         }catch(error){
             const message = error instanceof Error ? error.message : "ERRO"
             return res.status(404).json(message)
@@ -51,10 +51,10 @@ class UserController{
     }
 
     async deleteUser(req: Request, res: Response){
-        let id = parseInt(req.params.id)
+        const login = req.params.login
         let user = null
         try {
-            user = await this.userService.deleteUser(id)
+            user = await this.userService.deleteUser(login)
         } catch (error) {
             const message = error instanceof Error ? error.message : "ERRO"
             return res.status(400).json(message)
@@ -63,7 +63,7 @@ class UserController{
     }
 
     async updateUser(req: Request,res: Response){
-        let id = parseInt(req.params.id)
+        let login = req.params.login
         const updateDTO = plainToInstance(EditarUserDTO, req.body)
         const errors = await validate(updateDTO, {forbidNonWhitelisted:true, whitelist:true})
         if(errors.length > 0){
@@ -71,7 +71,7 @@ class UserController{
         }
         let user = null
         try{
-            user = await this.userService.updateUser(id,updateDTO.name,updateDTO.login,updateDTO.password,updateDTO.birthday)
+            user = await this.userService.updateUser(login,updateDTO.name,updateDTO.login,updateDTO.password,updateDTO.birthday)
         }catch(error){
             const message = error instanceof Error ? error.message : "ERRO"
             return res.status(400).json(message)

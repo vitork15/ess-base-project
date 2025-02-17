@@ -30,8 +30,8 @@ class UserService{
         return await this.userRepository.save(user)
     }
 
-    async getUserById(id: number) : Promise<User>{
-        let user = await this.userRepository.findOne({where:{userID:id}})
+    async getUserByLogin(login: string) : Promise<User>{
+        let user = await this.userRepository.findOne({where:{login:login}})
         if(!user){
             throw new Error("user not found")
         }
@@ -39,8 +39,8 @@ class UserService{
         return user
     }
 
-    async deleteUser(id: number) : Promise<User>{
-        let user = await this.userRepository.findOne({where:{userID:id}})
+    async deleteUser(login: string) : Promise<User>{
+        let user = await this.userRepository.findOne({where:{login:login}})
         if(!user){
             throw new Error("user not found!")
         }
@@ -49,18 +49,18 @@ class UserService{
         return user
     }
 
-    async updateUser(id:number, name: string, login: string, password: string, birthday: Date) : Promise<User> {
-        let user = await this.userRepository.findOne({where:{userID:id}})
+    async updateUser(login : string, newname: string, newlogin: string, newpassword: string, newbirthday: Date) : Promise<User> {
+        let user = await this.userRepository.findOne({where:{login:login}})
         if(!user){
             throw new Error("user not found")
         }
-        if(password.length < 6){
+        if(newpassword.length < 6){
             throw new Error("password size insufficient")
         }
-        user.name = name
-        user.login = login
-        user.password = password
-        user.birthday = birthday
+        user.name = newname
+        user.login = newlogin
+        user.password = newpassword
+        user.birthday = newbirthday
 
         return await this.userRepository.save(user)
     }
