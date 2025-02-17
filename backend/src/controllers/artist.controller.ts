@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import ArtistService from "../services/artist.service";
+import ArtistRepository from "../repositories/artist.repository";
 
 class ArtistController {
 
-    artistRepo: ArtistService;
+    artistRepo: ArtistRepository;
 
     constructor(){
-        this.artistRepo = new ArtistService()
+        this.artistRepo = new ArtistRepository()
     }
 
     async create(req: Request, res: Response) {
