@@ -30,13 +30,13 @@ class MusicHistoryService {
                 song: true
             },
             order: {
-                createdAt: "DESC"
+                musicHistoryId: "DESC"
             }
 
         });
     }
 
-    async getMusicHistoryByUserId(id: number): Promise<MusicHistory[]> {
+    async getMusicHistoryByUserId(id: string): Promise<MusicHistory[]> {
         return this.musicHistoryRepository.find({
             relations: {
                 usuario: true,
@@ -44,22 +44,35 @@ class MusicHistoryService {
             },
             where: {
                 usuario: {
-                    userID: id
+                    login: id
                 }
             },
             order: {
-                createdAt: "DESC"
+                musicHistoryId: "DESC"
             }
         });
     }
 
+    async getMusicHistoryByMusicId(id: number): Promise<Song[]> {
+        return this.songRepository.find({
+            relations: {
+                musicHistory: true
+            },
+            where: {
+                musicHistory: {
+                    musicHistoryId: id
+                }
+            }
 
-    async insertIntoMusicHistory (musicId: number, userId: number): Promise<MusicHistory | null> {
+        })
+    }
+
+    async insertIntoMusicHistory (musicId: number, userId: string): Promise<MusicHistory | null> {
         let song = await this.songRepository.findOne({where: {
             songID: musicId
         }})
         let user = await this.userRepository.findOne({where:
-            {userID: userId}
+            {login: userId}
         })
 
         console.log("Musica encontrada:", song);
@@ -77,15 +90,15 @@ class MusicHistoryService {
         
     }
 
-    async deleteMusicHistoryByUserId(id: number): Promise<boolean> {
+    async deleteMusicHistoryByUserId(id: string): Promise<boolean> {
         let user = await this.userRepository.findOne({where:
-            {userID: id}
+            {login: id}
         })
 
         if(user) {
             await this.musicHistoryRepository.delete({
                 usuario: {
-                    userID: id
+                    login: id
                 }
             });
             return true
@@ -94,7 +107,7 @@ class MusicHistoryService {
         return false;
     }
 
-    async topMusicAndArtists(userID: number): Promise<TopMusicAndArtists[]> {
+    async topMusicAndArtists(userID: string): Promise<TopMusicAndArtists[]> {
         
         const topMusicasQuery = this.musicHistoryRepository
         .createQueryBuilder("h")
@@ -144,9 +157,9 @@ class MusicHistoryService {
         return result
     }
 
+  
     
-
-       
+    
 }
 
 export default MusicHistoryService;

@@ -25,11 +25,7 @@ class MusicHistoryController {
     async getHistoryByUserId(req: Request, res: Response) {
         try {
             console.log("using getHistoryByUserId")
-            const id = parseInt(req.params.id);
-    
-            if(Number.isNaN(id)) {
-               return res.status(400).json({"message": "invalid input"})
-            }
+            const id = req.params.id;
 
             let data = await this.musicHistoryService.getMusicHistoryByUserId(id);
 
@@ -77,12 +73,8 @@ class MusicHistoryController {
     async deleteMusicHistoryByUserId(req: Request, res: Response) {
         try {
             console.log("using deleteMusicHistoryByUserId")
-            const id = parseInt(req.params.id);
+            const id = req.params.id;
     
-            if(Number.isNaN(id)) {
-               return res.status(400).json({"message": "invalid input"})
-            }
-
             const flag = await this.musicHistoryService.deleteMusicHistoryByUserId(id);
 
             if(flag) {
@@ -101,11 +93,9 @@ class MusicHistoryController {
     async showTop10(req: Request, res: Response) {
         try {
             console.log("using showTop10");
-            const id = parseInt(req.params.userId);
-    
-            if(Number.isNaN(id)) {
-               return res.status(400).json({"message": "invalid input(top10)"})
-            }
+            const id = req.params.userId;
+
+            
 
             const result = await this.musicHistoryService.topMusicAndArtists(id);
             console.log(result);
