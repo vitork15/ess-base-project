@@ -6,7 +6,7 @@ class Category{
     @PrimaryGeneratedColumn()
     categoryID:number
 
-    @Column({nullable:false})
+    @Column({nullable:false,unique:true})
     categoryName:string
 
 }
