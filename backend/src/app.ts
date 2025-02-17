@@ -38,7 +38,7 @@ dbConn.initialize()
 app.use(playlistRoutes)
 app.use(userRoutes)
 app.use(musicHistoryRoutes);
-app.use("/api",artistRoutes)
+app.use(artistRoutes)
 app.use(albumRoutes)
 app.use(songRoutes)
 app.use(searchRoutes)
