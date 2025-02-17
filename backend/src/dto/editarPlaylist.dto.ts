@@ -4,6 +4,10 @@ class EditarPlaylistDTO{
 
     @IsString()
     @IsDefined()
+    name:string
+
+    @IsString()
+    @IsDefined()
     description: string
 
     @IsDefined()

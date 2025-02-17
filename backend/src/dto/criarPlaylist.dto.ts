@@ -4,6 +4,10 @@ class CriarPlaylistDTO{
 
     @IsString()
     @IsDefined()
+    name:string
+
+    @IsString()
+    @IsDefined()
     description: string;
 
     @IsInt()

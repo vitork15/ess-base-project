@@ -9,6 +9,9 @@ class Playlist{
     @PrimaryGeneratedColumn()
     playlistID:number
 
+    @Column()
+    name:string
+    
     @ManyToOne(() => User, (user) => user.playlists, {nullable:false})
     user:User
 
