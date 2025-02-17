@@ -17,7 +17,7 @@ const dbConn = new DataSource({
     database: "postgres",
     entities: [User,Playlist,Category,Album,Song,Artist, MusicHistory],
     synchronize: true,
-    logging: true
+    logging: false
 })
 
 
