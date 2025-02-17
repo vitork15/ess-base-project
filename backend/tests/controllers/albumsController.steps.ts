@@ -246,11 +246,26 @@ defineFeature(feature, (test) => {
     beforeAll(async () => {
         const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
         await sleep(1000); // É necessário sleep para esperar a API subir antes de realizar os testes
+        const queryRunner = dbConn.createQueryRunner();
+        // Obtém todas as entidades do dataSource
+        const entities = dbConn.entityMetadatas
+    
+        for (const entityMetadata of entities) {
+          const tableName = entityMetadata.tableName;
+          await queryRunner.query(`DELETE FROM "${tableName}"`);
+        }
     });
 
     afterAll(async () => {
+        const queryRunner = dbConn.createQueryRunner();
+        // Obtém todas as entidades do dataSource
+        const entities = dbConn.entityMetadatas
+    
+        for (const entityMetadata of entities) {
+          const tableName = entityMetadata.tableName;
+          await queryRunner.query(`DELETE FROM "${tableName}"`);
+        }
         await dbConn.destroy(); // Fecha a conexão após todos os testes
     });
-
     
 });
