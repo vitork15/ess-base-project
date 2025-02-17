@@ -14,30 +14,29 @@ Scenario: Deleção de Usuário no Sistema
 Scenario: Cadastro de Usuário no Sistema com Sucesso
     Given não existe usuário com o login "fizz"
     And não existe usuário com o e-mail "dggb@cin.ufpe.br"
-    When uma requisição POST é feita no endpoint "/users"
-    And o body da requisição possui name: "Davi Guerreiro"
-    And o body da requisição possui birthday: "16/12/2024"
+    When o body da requisição possui name: "Davi Guerreiro"
     And o body da requisição possui login: "fizz"
     And o body da requisição possui email: "dggb@cin.ufpe.br"
-    And o body da requisição possui senha: "senha456"
+    And o body da requisição possui password: "senha456"
+    And uma requisição POST é feita no endpoint "/users"
     Then o sistema retorna o código "201"
     And o usuário é cadastrado no banco de dados com as informações do body
 
 #Service Scenario
 Scenario: Falha de Cadastro de Usuário no Sistema por Dados Repetidos
     Given existe usuário com o login "fizz"
-    When uma requisição POST é feita no endpoint "/users"
-    And o body da requisição possui name: "Davi Guerreiro"
-    And o body da requisição possui birthday: "16/12/2024"
+    When o body da requisição possui name: "Davi Guerreiro"
     And o body da requisição possui login: "fizz"
     And o body da requisição possui email: "dggb@cin.ufpe.br"
-    And o body da requisição possui senha: "senha456"
+    And o body da requisição possui password: "senha456"
+    And uma requisição POST é feita no endpoint "/users"
     Then o sistema retorna o código "400"
     And o sistema retorna a mensagem de erro "Já existe cadastro com esse login"
 
 #Service Scenario
 Scenario: Atualização de Senha de Usuário no Sistema com Sucesso
     Given o usuário de login "thiago" deseja mudar sua senha para "senhasenha"
-    When uma requisição POST é feita no endpoint "/users/thiago"
+    When o body da requisição possui password: "senhasenha"
+    And uma requisição PATCH é feita no endpoint "/users/thiago"
     Then o sistema retorna o código "200"
     And a senha do usuário de login "thiago" é modificada no banco de dados para "senhasenha"

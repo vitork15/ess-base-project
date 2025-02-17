@@ -18,9 +18,18 @@ class UserService{
         let user = new User()
 
         if(password.length < 6){
-            throw new Error("password size insufficient")
+            throw new Error("Sua senha deve conter pelo menos 6 caracteres")
         }
 
+        let loginexists = await this.userRepository.findOne({where:{login:login}})
+        if(loginexists){
+            throw new Error("Já existe cadastro com esse login")
+        }
+        let emailexists = await this.userRepository.findOne({where:{email:email}})
+        if(emailexists){
+            throw new Error("Já existe cadastro com esse e-mail")
+        }
+        
         user.name = name
         user.login = login
         user.email = email
@@ -58,7 +67,7 @@ class UserService{
         if(newlogin != null) { user.login = newlogin }
         if(newpassword != null) { 
             if(newpassword.length < 6){
-                throw new Error("password size insufficient")
+                throw new Error("Sua senha deve conter pelo menos 6 caracteres")
             }
             user.password = newpassword 
         }
@@ -103,13 +112,13 @@ class UserService{
     async changePassword(token: string, password: string, confirm: string) : Promise<User> {
         let user = await this.userRepository.findOne({where:{recoverytoken: token, recoveryexpire: MoreThan(Date.now())}})
         if(!user){
-            throw new Error("token invalid or expired")
+            throw new Error("Token de recuperação inválido ou expirado")
         }
         if(password != confirm){
-            throw new Error("passwords are not the same")
+            throw new Error("Senhas não correspondem")
         }
         if(password.length < 6){
-            throw new Error("password size insufficient")
+            throw new Error("Sua senha deve conter pelo menos 6 caracteres")
         }
         user.password = password;
         user.recoverytoken = null;

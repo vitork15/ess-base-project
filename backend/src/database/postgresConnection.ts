@@ -14,10 +14,10 @@ const dbConn = new DataSource({
     port: 5432,
     username: "postgres",
     password: "12345678",
-    database: "postgres",
+    database: process.env.DB_NAME,
     entities: [User,Playlist,Category,Album,Song,Artist, MusicHistory],
     synchronize: true,
-    logging: true
+    logging: false
 })
 
 
