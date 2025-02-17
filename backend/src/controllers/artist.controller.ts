@@ -11,7 +11,12 @@ class ArtistController {
 
     async create(req: Request, res: Response) {
         try {
-            const artist = await this.artistRepo.createArtist(req.body);
+            const { login, name, email, password, bio } = req.body;
+
+            if (!login || !name || !email || !password) {
+                return res.status(400).json({ error: "Preencha os campos obrigatórios." });
+            }
+            const artist = await this.artistRepo.createArtist(login, name, email, password, bio);
             return res.status(201).json(artist);
         } catch (error) {
             return res.status(500).json({ error: "Erro ao criar artista" });
