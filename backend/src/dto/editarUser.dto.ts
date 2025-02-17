@@ -3,15 +3,15 @@ import { IsDefined, IsInt, isInt, IsOptional, IsString, IsDate, ValidateIf } fro
 class EditarUserDTO{
 
     @IsString()
-    @IsDefined()
+    @IsOptional()
     name: string;
 
     @IsString()
-    @IsDefined()
+    @IsOptional()
     login: string;
 
     @IsString()
-    @IsDefined()
+    @IsOptional()
     password: string;
 
     @IsString()

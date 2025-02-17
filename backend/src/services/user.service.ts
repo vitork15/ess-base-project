@@ -54,13 +54,15 @@ class UserService{
         if(!user){
             throw new Error("user not found")
         }
-        if(newpassword.length < 6){
-            throw new Error("password size insufficient")
+        if(newname != null) { user.name = newname }
+        if(newlogin != null) { user.login = newlogin }
+        if(newpassword != null) { 
+            if(newpassword.length < 6){
+                throw new Error("password size insufficient")
+            }
+            user.password = newpassword 
         }
-        user.name = newname
-        user.login = newlogin
-        user.password = newpassword
-        user.birthday = newbirthday
+        if(newbirthday != null) { user.birthday = newbirthday }
 
         return await this.userRepository.save(user)
     }
