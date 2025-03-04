@@ -18,6 +18,7 @@ class SongService {
             throw new Error("Song not found!");
         }
         song.views += 1;
+        song.viewsWeek += 1;
         await this.songRepository.save(song);
         return song;
     }
@@ -57,6 +58,25 @@ class SongService {
         await this.songRepository.save(song);
 
         return song;
+    }
+
+    async getTopSongs(): Promise<Song[]> {
+        const songs = await this.songRepository.find({
+            order: {
+                viewsWeek: "DESC"
+            },
+            take: 10
+        });
+
+        return songs;
+    }
+
+    async getAlbumSongs(albumId: number): Promise<Song[]> {
+        const songs = await this.songRepository.find({
+            where: { album: { albumID: albumId } }
+        });
+
+        return songs;
     }
 }
 
