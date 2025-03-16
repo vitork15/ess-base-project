@@ -2,9 +2,9 @@ import { createContext, ReactNode, useReducer, useMemo } from "react";
 import { HomeState } from "./types";
 import HomeService from "./service";
 import homeStateReducer from "./reducer";
-import { ApiService } from "../../../../shared/services/ApiService";
-import RequestStatus from "../../../../shared/types/request-status";
-import usePrevious from "../../../../shared/hooks/usePrevious";
+import { ApiService } from "../../../shared/services/ApiService";
+import RequestStatus from "../../../shared/types/request-status";
+import usePrevious from "../../../shared/hooks/usePrevious";
 
 interface HomeContextProps {
   state: HomeState;
