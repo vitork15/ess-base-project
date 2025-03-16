@@ -28,6 +28,33 @@ class SongController {
             return res.status(500).json({ message });
         }
     }
+
+    async topSongs(req: Request, res: Response) {
+        try {
+            const songs = await this.songService.getTopSongs();
+
+            if (songs.length < 10) {
+                return res.status(210).json({ message: "Sem músicas suficentes" });
+            }
+            return res.status(200).json(songs);
+
+        } catch (error) {
+            const message = error instanceof Error ? error.message : "Erro no Servidor";
+            return res.status(500).json({ message });
+        }
+    }
+    
+    async getAlbumSongs(req: Request, res: Response) {
+            const albumId = parseInt(req.params.id);
+            try {
+                const songs = await this.songService.getAlbumSongs(albumId);
+                return res.status(200).json(songs);
+            }
+            catch (error) {
+                const message = error instanceof Error ? error.message : "Erro no Servidor";
+                return res.status(500).json({ message });
+            }
+    }
 }
 
 export default SongController;

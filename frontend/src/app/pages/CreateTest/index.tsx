@@ -5,7 +5,7 @@ import { useContext, useEffect } from "react";
 import { HomeContext } from "../../context/HomeContext";
 import { TestFormSchema, TestFormType } from "../../forms/TestForm";
 import { Link } from "react-router-dom";
-import Button from "../../../../shared/components/Button";
+import Button from "../../../shared/components/Button";
 
 const CreateTest = () => {
   const { state, prevState, service } = useContext(HomeContext);

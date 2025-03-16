@@ -1,10 +1,10 @@
 import { Dispatch } from "react";
 import { HomeStateAction } from "./types";
-import { ApiService } from "../../../../shared/services/ApiService";
-import RequestStatus from "../../../../shared/types/request-status";
+import { ApiService } from "../../../shared/services/ApiService";
+import RequestStatus from "../../../shared/types/request-status";
 import { TestFormType } from "../../forms/TestForm";
 import TestModel from "../../models/TestModel";
-import { AppUnknownError } from "../../../../shared/errors/app-error";
+import { AppUnknownError } from "../../../shared/errors/app-error";
 
 export default class HomeService {
   private apiService: ApiService;

@@ -19,6 +19,9 @@ class Song {
     @Column({ default: 0 })
     views: number;
 
+    @Column({ default: 0 })
+    viewsWeek: number;
+
     @ManyToOne(() => Album, (album) => album.songs, {onDelete: "CASCADE"})
     @JoinColumn({name: "albumId"})
     album: Album;
