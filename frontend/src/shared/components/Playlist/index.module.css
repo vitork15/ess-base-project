@@ -1,0 +1,56 @@
+.card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    background-color: #f9f9f9;
+    position: relative;
+}
+.image {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+.info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+.name {
+    font-size: 1rem;
+    margin: 4px 0;
+    color: #333;
+}
+.description {
+    font-size: 0.9rem;
+    color: #777;
+}
+.options {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #777;
+}
+.menu {
+    position: absolute;
+    right: 0;
+    top: 24px;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.menu button {
+    width: 100%;
+    padding: 8px 12px;
+    text-align: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+.menu button:hover {
+    background-color: #f0f0f0;
+}
