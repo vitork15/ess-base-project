@@ -1,0 +1,70 @@
+.main {
+    display: flex;
+    flex-direction: column; /* Alinha os itens verticalmente */
+    gap: 20px; 
+}
+.front{
+    display: flex;
+    justify-content: center;
+}
+.biblioteca {
+    background-color: black;
+    border-radius: 40px;
+    width: 80%;
+    height: 60px;
+
+}
+
+.bibliotecaName{
+    color: white;
+    font-family: cursive;
+    margin-left: 10%;
+    font-size: 45px;
+    
+}
+
+.playlistsArea{
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Alinha os filhos horizontalmente no centro */
+    align-items: center;
+}
+
+.playlistsNameAndAdd{
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+}
+
+.playlistsName{
+    font-family: cursive;
+    font-size: 45px;
+}
+.addPlaylistButton{
+    background-color: transparent; /* Fundo transparente */
+    border: none; /* Sem borda */
+    color: black; /* Cor preta para o ícone de + */
+    font-size: 50px; /* Tamanho do ícone */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Botão redondo */
+    cursor: pointer;
+    outline: none; /* Remove o contorno do botão ao focar */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+.addPlaylistButton:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Cor de fundo ao passar o mouse */
+}
+.linha {
+    border-top: 4px solid black; /* Linha horizontal */
+    width: 80%; /* A linha ocupa toda a largura do container */
+    margin: 10px 0; /* Espaçamento entre a linha e os itens */
+}
+
+.playlistsContent{
+    display: flex;
+    flex-direction: column;
+}
