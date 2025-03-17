@@ -4,6 +4,7 @@ import ListTests from "./app/pages/ListTests";
 import InitialPage from "./app/pages/initialPage";
 import Sidebar from "./app/components/sidebar";
 import styles from "./mainLayout.module.css";
+import { Biblioteca } from "./app/pages/Biblioteca";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
     path: "/tests",
     Component: ListTests,
   },
+  {
+    path: "/biblioteca",
+    Component: Biblioteca
+  }
 ]);
 
 export default function App() {
