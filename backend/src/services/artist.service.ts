@@ -13,15 +13,15 @@ class ArtistService {
 
         let login_R = await this.repo.findOne({where: {login:login}});
         if (login_R) {
-            throw new Error("Login já em uso")
+            throw new Error("Login já em uso.")
         }
         let name_R = await this.repo.findOne({where: {name:name}});
         if (name_R) {
-            throw new Error("Nome artístico já em uso")
+            throw new Error("Nome já em uso.")
         }
         let email_R = await this.repo.findOne({where: {email:email}});
         if (email_R) {
-            throw new Error("E-mail já em uso")
+            throw new Error("E-mail já em uso.")
         }
         const artistData = new Artist();
         artistData.login = login;
@@ -40,19 +40,37 @@ class ArtistService {
     async getArtistByLogin(login: string): Promise<Artist> {
         let artist = await this.repo.findOne({where: {login:login}});
         if(!artist){
-            throw new Error("Artista não encontrado")
+            throw new Error("Artista não encontrado.")
         }
 
         return artist
     }
 
-    async updateArtist(login: string, data: Partial<Artist>) : Promise<Artist> {
-        const artist = await this.repo.findOne({where: {login:login}});
+    async updateArtist(curr_login: string, data: Partial<Artist>) : Promise<Artist> {
+        const artist = await this.repo.findOne({where: {login:curr_login}});
 
         if(!artist){
-            throw new Error("Artista não encontrado")
+            throw new Error("Artista não encontrado.")
         }
-
+        const {login, name, email, password, bio} = data;
+        if (login){
+            let teste = await this.repo.findOne({where: {login: login}});
+            if (teste){
+                throw new Error("Login já em uso.")
+            }
+        }
+        if (name){
+            let teste = await this.repo.findOne({where: {name: name}});
+            if (teste){
+                throw new Error("Nome já em uso.")
+            }
+        }
+        if (email){
+            let teste = await this.repo.findOne({where: {email: email}});
+            if (teste){
+                throw new Error("E-mail já em uso.")
+            }
+        }
         Object.assign(artist, data); // Atualiza os campos fornecidos
         return await this.repo.save(artist);
     }
