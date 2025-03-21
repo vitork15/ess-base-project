@@ -29,6 +29,18 @@ export const Biblioteca = () => {
     setPlaylists(data);
   }
 
+  const createDummyPlaylist = async () => {
+
+    await axios.post("http://localhost:5001/playlists", {
+      name:`empty ${playlists.length}`,
+      description:`empty ${playlists.length}`,
+      imageURL: "https://cdn1.iconfinder.com/data/icons/business-company-1/500/image-512.png",
+      userId: 62
+    })
+    const data = await fetchPlaylists();
+    setPlaylists(data);
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchPlaylists(); // Aguarda a resposta da API
@@ -59,7 +71,7 @@ export const Biblioteca = () => {
               <h1 className={styles.playlistsName}>
                 Playlists
               </h1>
-              <button className={styles.addPlaylistButton}>
+              <button className={styles.addPlaylistButton} onClick={createDummyPlaylist}>
                 +
               </button>
             </div>
