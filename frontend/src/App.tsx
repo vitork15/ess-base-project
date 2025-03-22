@@ -5,6 +5,7 @@ import InitialPage from "./app/pages/initialPage";
 import { Biblioteca } from "./app/pages/Biblioteca";
 import ArtistPage from "./app/pages/Artist";
 import ArtistRegistrationPage from "./app/pages/ArtistRegistration";
+import SearchPage from "./app/pages/Busca";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
   {
     path: "/artistregistration",
     Component: ArtistRegistrationPage
+  },
+  {
+    path: "/search",
+    Component: SearchPage
   }
 ]);
 
