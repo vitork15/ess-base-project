@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
 import styles from "./index.module.css";
-import ArtistPhoto from "/src/shared/assets/Artist.svg";
-import AlbumPhoto from "/src/shared/assets/Album.jpg";
+import ArtistPhoto from "/src/shared/assets/artist.svg";
+import AlbumPhoto from "/src/shared/assets/album.jpg";
 
 const ArtistPage = () => {
     // Dados mockados para testar o layout

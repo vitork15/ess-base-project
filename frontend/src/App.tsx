@@ -3,6 +3,8 @@ import CreateTest from "./app/pages/CreateTest";
 import ListTests from "./app/pages/ListTests";
 import InitialPage from "./app/pages/initialPage";
 import { Biblioteca } from "./app/pages/Biblioteca";
+import ArtistPage from "./app/pages/Artist";
+import ArtistRegistrationPage from "./app/pages/ArtistRegistration";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +26,14 @@ const router = createBrowserRouter([
   {
     path: "/biblioteca",
     Component: Biblioteca
+  },
+  {
+    path: "/artists/:login",
+    Component: ArtistPage
+  },
+  {
+    path: "/artistregistration",
+    Component: ArtistRegistrationPage
   }
 ]);
 

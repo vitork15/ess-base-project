@@ -1,6 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import styles from "./index.module.css";
+import User from "/src/shared/assets/user.png";
+import Email from "/src/shared/assets/email.png";
+import Login from "/src/shared/assets/login.png";
+import Password from "/src/shared/assets/password.png";
 
 const ArtistRegistrationPage = () => {
 
@@ -56,19 +60,19 @@ const ArtistRegistrationPage = () => {
             <form className={styles.form} onSubmit={handleSubmit}>
                 <div className={styles.card}>
                     <div className={styles.inputer}>
-                        <p>👤</p>
+                        <img src={User} alt={"Photo"} className={styles.regPhoto}/>
                         <input type="text" name="name" value={artist.name} onChange={handleChange} placeholder="Nome" required/>
                     </div>
                     <div className={styles.inputer}>
-                        <p>🆔</p>
+                        <img src={Login} alt={"Photo"} className={styles.regPhoto}/>
                         <input type="text" name="login" value={artist.login} onChange={handleChange} placeholder="Login" required/>
                     </div>
                     <div className={styles.inputer}>
-                        <p>📧</p>
+                        <img src={Email} alt={"Photo"} className={styles.regPhoto}/>
                         <input type="email" name="email" value={artist.email} onChange={handleChange} placeholder="E-mail" required/>
                     </div>
                     <div className={styles.inputer}>
-                        <p>🔒</p>
+                        <img src={Password} alt={"Photo"} className={styles.regPhoto}/>
                         <input type="password" name="password" value={artist.password} onChange={handleChange} placeholder="Senha" required/>
                     </div>
                 </div>
