@@ -25,6 +25,8 @@ export default function Sidebar() {
             <div>
               Buscar
             </div>
+          <button className={style.button} onClick={() => navigateTo('/search')}>
+            Buscar
           </button>
           <button className={style.button}>     
             <img src={personIcon} alt="Perfil icone" className={style.icon} />
