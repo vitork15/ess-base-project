@@ -1,0 +1,81 @@
+.banner{
+    background-color: black;
+    color: white;
+    border-radius: 20px;
+    height: 15vh;
+    font-size: xx-large;
+    display: flex;
+    padding:  0 5vw;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.trophyIcon{
+    height: 15vh;
+    width: 12vh;
+}
+
+.content{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 40px 10px;
+    gap: 20px;
+    justify-content: center;
+    
+}
+
+.musicBox{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    height: 70vh;
+    overflow-y: scroll;
+    gap: 20px;
+}
+
+.bannerArt{
+    border-radius: 20px;
+    width: 40vh;
+    height: 70vh;
+    background-color: black;
+}
+
+.musicCard{
+    height: 15vh;
+    display: flex;
+    padding: 10px;
+    gap: 10px;
+    border-radius: 10px;
+}
+
+.musicCard:hover{
+    background-color: rgb(211, 211, 211);
+}
+
+.musicCover{
+    height: 13vh;
+    width: 13vh;
+    background-color: black;
+    border-radius: 15px;
+    color: aliceblue;
+}
+
+.musicInfo{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-content: center;
+    padding: 19px;
+}
+
+.errorMessage{
+    height: 70vh;
+    display: flex;
+    border-radius: 20px;
+    background-color: rgb(205, 199, 212);
+    align-items: center;
+    font-size: 3vw;
+    text-align: center;
+    padding: 20px;
+}
+
