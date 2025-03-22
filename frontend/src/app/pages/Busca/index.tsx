@@ -10,11 +10,6 @@ export default function SearchPage() {
   }
 
   return (
-    <div className='mainLayout'>
-      <div>
-        <Sidebar/>
-      </div>
-
       <main className="content">
 
         <header className={styles.header}>
@@ -65,6 +60,5 @@ export default function SearchPage() {
           </article>
         </section>
       </main>
-    </div>
   );
 }

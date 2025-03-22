@@ -20,13 +20,11 @@ export default function Sidebar() {
             <img src={elefanteLogo} alt="Elefante Logo" className={style.logoImg} />
             <div>Elefante</div>
           </button>
-          <button className={style.button} >
+          <button className={style.button} onClick={() => navigateTo('/search')}>
             <img src={searchIcon} alt="Buscar icone" className={style.icon} />
             <div>
               Buscar
             </div>
-          <button className={style.button} onClick={() => navigateTo('/search')}>
-            Buscar
           </button>
           <button className={style.button}>     
             <img src={personIcon} alt="Perfil icone" className={style.icon} />

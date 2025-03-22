@@ -53,35 +53,30 @@ export const Biblioteca = () => {
   const listItems = playlists.map(p => <Playlist playlistID = {p.playlistID} name={p.name} description={p.description} imageURL={p.imageURL} onDelete={deletePlaylist}/>);
 
   return (
-    <div className="mainLayout">
-      <div>
-        <Sidebar />
-      </div>
-      <div>
-        <div className={styles.main}>
-          <div className = {styles.front}>
-            <div className = {styles.biblioteca}>
-              <h1 className = {styles.bibliotecaName}>
-                Biblioteca
-              </h1>
-            </div>
-          </div>
-          <div className={styles.playlistsArea}>
-            <div className={styles.playlistsNameAndAdd}>
-              <h1 className={styles.playlistsName}>
-                Playlists
-              </h1>
-              <button className={styles.addPlaylistButton} onClick={createDummyPlaylist}>
-                +
-              </button>
-            </div>
-            <div className={styles.linha}></div>
-          </div>
-          <div className={styles.playlistsContent}>
-              {listItems}
-          </div>
+
+    <div className={styles.main}>
+      <div className = {styles.front}>
+        <div className = {styles.biblioteca}>
+          <h1 className = {styles.bibliotecaName}>
+            Biblioteca
+          </h1>
         </div>
       </div>
+      <div className={styles.playlistsArea}>
+        <div className={styles.playlistsNameAndAdd}>
+          <h1 className={styles.playlistsName}>
+            Playlists
+          </h1>
+          <button className={styles.addPlaylistButton} onClick={createDummyPlaylist}>
+            +
+          </button>
+        </div>
+        <div className={styles.linha}></div>
+      </div>
+      <div className={styles.playlistsContent}>
+          {listItems}
+      </div>
     </div>
+
   );
 }

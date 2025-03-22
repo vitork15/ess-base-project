@@ -6,6 +6,8 @@ import Layout from "./app/components/layout";
 import ArtistPage from "./app/pages/Artist";
 import ArtistRegistrationPage from "./app/pages/ArtistRegistration";
 import SearchPage from "./app/pages/Busca";
+import ListTests from "./app/pages/ListTests";
+import CreateTest from "./app/pages/CreateTest";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +18,8 @@ const router = createBrowserRouter([
       { path: "home", element: <InitialPage /> },
       { path: "biblioteca", element: <Biblioteca /> },
       { path: "emAlta", element: <EmAlta /> },
+      { path: "search", element: <SearchPage />},
+      
     ],
   },
   {
