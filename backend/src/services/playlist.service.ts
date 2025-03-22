@@ -22,7 +22,7 @@ class PlaylistService{
         return await this.playlistRepository.find({relations:["user","songs","songs.album"]})
     }
 
-    async insertPlaylist(name:string,description: string, userId: number) : Promise<Playlist>{
+    async insertPlaylist(name:string,description: string, userId: number, imageURL: string) : Promise<Playlist>{
         let userOfPlaylist  = await this.userRepository.findOne({where:{userID:userId}})
         if(!userOfPlaylist){
             throw new Error("user not found!")
@@ -33,6 +33,7 @@ class PlaylistService{
         playlist.description = description
         playlist.user = userOfPlaylist
         playlist.saveCount = 0
+        playlist.imageURL = imageURL
         
         return await this.playlistRepository.save(playlist)
         
@@ -55,7 +56,7 @@ class PlaylistService{
         return user.playlists
     }
 
-    async updatePlaylist(id:number, name:string, description:string, categories:number[], saveCount:number, songIds:number[]) : Promise<Playlist> {
+    async updatePlaylist(id:number, name:string, description:string, categories:number[], saveCount:number, songIds:number[], imageURL:string) : Promise<Playlist> {
         let playlist = await this.playlistRepository.findOne({where:{playlistID:id}, relations:["user", "songs"]})
         let categoryList = await this.categoryRepository.findBy({categoryID : In(categories)})
         if(!playlist){
@@ -74,6 +75,24 @@ class PlaylistService{
         }
         playlist.songs = songs
         playlist.categories = categoryList
+        playlist.imageURL = imageURL
+        return await this.playlistRepository.save(playlist)
+    }
+
+    async patchPlaylist(id:number, name?:string, description?:string, imageURL?:string) : Promise<Playlist>{
+        let playlist = await this.playlistRepository.findOne({where:{playlistID:id}})
+        if(!playlist){
+            throw new Error("playlist not found")
+        }
+        if(name){
+            playlist.name = name
+        }
+        if(description){
+            playlist.description = description
+        }
+        if(imageURL){
+            playlist.imageURL = imageURL
+        }
         return await this.playlistRepository.save(playlist)
     }
 

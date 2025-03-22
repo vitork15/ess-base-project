@@ -1,4 +1,107 @@
-.text{
-    background-color: blue;
-    color:black
+.body{
+    background-color: white;
+    color: white;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 50px;
+    gap: 2%;
+    align-items: center;
+}
+
+.banner{
+    background-color: black;
+    height: 25%;
+    width: 100%;
+    border-radius: 40px;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    padding-left: 5vw;
+    padding-right: 2vw;
+}
+
+.bannerArt{
+    height: 24vh;
+    width: 24vw;
+ 
+}
+
+.sugests{
+    background-color: white;
+    height: 40%;
+}
+
+.atalhos{
+    background-color: black;
+    height: 25%;
+    width: 90%;
+    border-radius: 40px;
+    padding: 3.5vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2vh;
+    
+}
+
+.atalhoButton{
+    height: 17vh;
+    width: 17vh;
+    font-size: 20px;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.atalhoButton:hover{
+    transition: background-color 0.3s;
+    background-color: rgb(208, 208, 208);
+}
+
+.atalhoIcon{
+    height: 8vh;
+    width: 8vh;
+}
+
+.loginPopup{
+    background-color: white;
+    height: 45%;
+    width: 30%;
+    position: fixed;
+    top: 24%;
+    left: 42%;
+    border-radius: 30px;
+    color: black;
+    padding: 5vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 3vw;
+    gap: 2vw;
+    text-align: center;
+}
+
+.loginButton{
+    color: white;
+    background-color: black;
+    border-radius: 30px;
+    height: 7vw;
+    width: 20vw;
+    font-size: 2vw;
+    border: none;
+}
+
+.loginButton:hover{
+    background-color: rgb(142, 142, 142);
+    transition: background-color 0.3s;
+}
+
+.blur{
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 17vw;
 }

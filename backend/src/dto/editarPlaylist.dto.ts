@@ -10,6 +10,10 @@ class EditarPlaylistDTO{
     @IsDefined()
     description: string
 
+    @IsString()
+    @IsDefined()
+    imageURL: string
+
     @IsDefined()
     @IsArray()
     @IsInt({each:true})

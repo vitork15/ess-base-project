@@ -1,15 +1,26 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import CreateTest from "./app/pages/CreateTest";
-import ListTests from "./app/pages/ListTests";
+import EmAlta from "./app/pages/emAlta";
 import InitialPage from "./app/pages/initialPage";
-import Sidebar from "./app/components/sidebar";
-import styles from "./mainLayout.module.css";
 import { Biblioteca } from "./app/pages/Biblioteca";
+import Layout from "./app/components/layout";
+import ArtistPage from "./app/pages/Artist";
+import ArtistRegistrationPage from "./app/pages/ArtistRegistration";
+import SearchPage from "./app/pages/Busca";
+import ListTests from "./app/pages/ListTests";
+import CreateTest from "./app/pages/CreateTest";
 
 const router = createBrowserRouter([
   {
-    path: "*",
-    Component: InitialPage,
+    path: "/",
+    element: <Layout />, // Define o Layout como container das páginas
+    children: [
+      { index: true, element: <InitialPage /> }, // Página inicial
+      { path: "home", element: <InitialPage /> },
+      { path: "biblioteca", element: <Biblioteca /> },
+      { path: "emAlta", element: <EmAlta /> },
+      { path: "search", element: <SearchPage />},
+      
+    ],
   },
   {
     path: "/home",
@@ -26,18 +37,25 @@ const router = createBrowserRouter([
   {
     path: "/biblioteca",
     Component: Biblioteca
+  },
+  {
+    path: "/artists/:login",
+    Component: ArtistPage
+  },
+  {
+    path: "/artistregistration",
+    Component: ArtistRegistrationPage
+  },
+  {
+    path: "/search",
+    Component: SearchPage
   }
 ]);
 
 export default function App() {
   return (
-  <div className={styles.mainLayout}>
-    <div>
-      <Sidebar />      
-    </div>
-    <div>
+  <div>
       <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />
-    </div>
   </div>
   );
 }
