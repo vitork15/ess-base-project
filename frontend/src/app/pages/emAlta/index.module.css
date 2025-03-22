@@ -48,6 +48,15 @@
     border-radius: 10px;
 }
 
+.numberIndex{
+    font-size: 1.4vw;
+    color: black;
+    font-weight: bold;
+    width: 3vw;
+    display: flex;
+    align-items: center;
+    gap:10px
+}
 .musicCard:hover{
     background-color: rgb(211, 211, 211);
 }

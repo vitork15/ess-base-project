@@ -2,10 +2,20 @@ import { Repository } from "typeorm";
 import Song from "../entities/songs.entity";
 import dbConn from "../database/postgresConnection";
 import Album from "../entities/albuns.entity";
+import Artist from "../entities/artist.entity";
+
+interface songInfo{
+    name: string;
+    artistName: string;
+    songId: number;
+    cover: string;
+    album: number;
+}
 
 class SongService {
     songRepository: Repository<Song>;
     albumRepository: Repository<Album>;
+    artistRepository: Repository<Artist>;
 
     constructor() {
         this.songRepository = dbConn.getRepository(Song);
@@ -60,15 +70,31 @@ class SongService {
         return song;
     }
 
-    async getTopSongs(): Promise<Song[]> {
+    async getTopSongs(): Promise<songInfo[]> {
         const songs = await this.songRepository.find({
+            relations: ["album"],
             order: {
                 viewsWeek: "DESC"
             },
             take: 10
         });
 
-        return songs;
+        let topSongs: songInfo[] = new Array(10);
+        for (let i = 0; i < 10; i++) {
+            let album = await this.albumRepository.findOne({
+                relations: ["artist"],
+                where:{albumID:songs[i].album.albumID}
+            });
+            topSongs[i] = {
+                name: songs[i].name,
+                songId: songs[i].songID,
+                cover: "https://s2-g1.glbimg.com/f3-LnIxVStkBoUdDeiA6X3hLpZg=/0x0:1600x1306/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2021/e/7/A0XE2WTVeKcKagPQ0xPw/whatsapp-image-2021-09-21-at-10.20.57.jpeg",
+                artistName: album?.artist.name || "Artista desconhecido",
+                album: album?.albumID || 0,  
+            };  
+        }
+
+        return topSongs;
     }
 
     async getAlbumSongs(albumId: number): Promise<Song[]> {

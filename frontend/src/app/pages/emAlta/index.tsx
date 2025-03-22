@@ -6,9 +6,11 @@ import bannerArt from '../../../shared/assets/art1.png';
 export default function EmAlta() {
 
   interface Song {
-    songID: number,
-    name: string,
-    views: number
+    name: string;
+    artistName: string;
+    songId: number;
+    cover: string;
+    album: number;
   }
 
   const [songs, setSongs] = useState<Song[]>([]);
@@ -51,14 +53,17 @@ export default function EmAlta() {
         ) : (
           songs.map((song, index) => (
             <div key={index} className={style.musicCard}>
+              <div className={style.numberIndex}>
+                <h1>{index + 1}</h1>
+              </div>
               <img
                 className={style.musicCover}
-                src={'Foto'}
+                src={song.cover}
                 alt={`Capa da música ${song.name}`}
               />
               <div className={style.musicInfo}>
                 <h1>{song.name}</h1>
-                <h2>Nome do artista</h2>
+                <h2>{song.artistName}</h2>
               </div>
             </div>
           ))
