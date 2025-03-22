@@ -38,7 +38,7 @@ class ArtistService {
     }
 
     async getArtistByLogin(login: string): Promise<Artist> {
-        let artist = await this.repo.findOne({where: {login:login}});
+        let artist = await this.repo.findOne({where: { login: login }, relations: ["albuns"], });
         if(!artist){
             throw new Error("Artista não encontrado.")
         }
