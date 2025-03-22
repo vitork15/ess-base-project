@@ -1,16 +1,22 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import CreateTest from "./app/pages/CreateTest";
-import ListTests from "./app/pages/ListTests";
+import EmAlta from "./app/pages/emAlta";
 import InitialPage from "./app/pages/initialPage";
 import { Biblioteca } from "./app/pages/Biblioteca";
+import Layout from "./app/components/layout";
 import ArtistPage from "./app/pages/Artist";
 import ArtistRegistrationPage from "./app/pages/ArtistRegistration";
 import SearchPage from "./app/pages/Busca";
 
 const router = createBrowserRouter([
   {
-    path: "*",
-    Component: InitialPage,
+    path: "/",
+    element: <Layout />, // Define o Layout como container das páginas
+    children: [
+      { index: true, element: <InitialPage /> }, // Página inicial
+      { path: "home", element: <InitialPage /> },
+      { path: "biblioteca", element: <Biblioteca /> },
+      { path: "emAlta", element: <EmAlta /> },
+    ],
   },
   {
     path: "/home",
