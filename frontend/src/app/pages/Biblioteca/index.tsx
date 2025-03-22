@@ -3,6 +3,7 @@ import styles from "./index.module.css"
 import { Playlist } from "../../../shared/components/Playlist";
 import Sidebar from "../../components/sidebar";
 import axios from "axios";
+import { PlaylistModal } from "../../../shared/components/PlaylistModal";
 
 // Definição do modelo da Playlist
 interface PlaylistModel {
@@ -16,12 +17,28 @@ interface PlaylistModel {
 
 export const Biblioteca = () => {
   const [playlists, setPlaylists] = useState<PlaylistModel[]>([]);
+  const [modalOpenID, setModalOpenID] = useState(-1)
 
   const fetchPlaylists = async (): Promise<PlaylistModel[]> => {
     const response = await axios.get<PlaylistModel[]>("http://localhost:5001/playlists?userId=62");
-    return response.data;
+    let list:PlaylistModel[] =  response.data;
+    list.sort((a,b) => a.playlistID - b.playlistID)
+    return list
   };
 
+  const getPlaylistByID = (id:number) => {
+    return playlists.filter(p => p.playlistID == id).at(0)
+  }
+
+  const onModalClose = async () => {
+    setModalOpenID(-1)
+    const data = await fetchPlaylists();
+    setPlaylists(data);
+  }
+
+  const onModalOpen = (id:number) => {
+    setModalOpenID(id)
+  } 
 
   const deletePlaylist = async (id:number) => {
     await axios.delete(`http://localhost:5001/playlists/${id}`);
@@ -50,7 +67,7 @@ export const Biblioteca = () => {
     fetchData();
   }, []);
 
-  const listItems = playlists.map(p => <Playlist playlistID = {p.playlistID} name={p.name} description={p.description} imageURL={p.imageURL} onDelete={deletePlaylist}/>);
+  const listItems = playlists.map(p => <Playlist playlistID = {p.playlistID} name={p.name} description={p.description} imageURL={p.imageURL} onDelete={deletePlaylist} onEdit={onModalOpen}/>);
 
   return (
 
@@ -76,6 +93,7 @@ export const Biblioteca = () => {
       <div className={styles.playlistsContent}>
           {listItems}
       </div>
+      {modalOpenID >= 0 && <PlaylistModal initialData={getPlaylistByID(modalOpenID)} onClose={onModalClose}/>}
     </div>
 
   );
