@@ -15,7 +15,7 @@ export default function Sidebar() {
           <button className={style.logo} onClick={() => navigateTo('/home')}>
             <div>Elefante</div>
           </button>
-          <button className={style.button} >
+          <button className={style.button} onClick={() => navigateTo('/search')}>
             Buscar
           </button>
           <button className={style.button}>
