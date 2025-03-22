@@ -10,6 +10,10 @@ class CriarPlaylistDTO{
     @IsDefined()
     description: string;
 
+    @IsString()
+    @IsDefined()
+    imageURL: string;
+
     @IsInt()
     @IsDefined()
     userId: number;

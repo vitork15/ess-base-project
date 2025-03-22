@@ -1,13 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from "./index.module.css";
 type PlaylistProps = {
+    playlistID:number
     name: string;
     description: string;
     imageURL: string;
+    onDelete: (id:number) => void
 };
 
 // Estará dentro da lista de playlists quando entrar na biblioteca
-export const Playlist = ({ name, description, imageURL }: PlaylistProps) => {
+export const Playlist = ({ playlistID, name, description, imageURL, onDelete }: PlaylistProps) => {
     const [menuVisible, setMenuVisible] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
     const toggleMenu = () => {
@@ -38,7 +40,7 @@ export const Playlist = ({ name, description, imageURL }: PlaylistProps) => {
             {menuVisible && (
                 <div className={styles.menu} ref={menuRef}>
                     <button>Editar</button>
-                    <button>Excluir</button>
+                    <button onClick={async () => onDelete(playlistID)}>Excluir</button>
                 </div>
             )}
         </div>

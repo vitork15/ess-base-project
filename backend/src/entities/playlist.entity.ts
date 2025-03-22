@@ -23,6 +23,9 @@ class Playlist{
     @Column({nullable:false})
     saveCount: number
 
+    @Column()
+    imageURL: string
+
     @ManyToMany(() => Category, {
         onDelete: "CASCADE"
     })

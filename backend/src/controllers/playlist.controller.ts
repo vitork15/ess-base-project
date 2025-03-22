@@ -54,10 +54,11 @@ class PlaylistController {
         let name = createDTO.name
         let description = createDTO.description
         let userId = createDTO.userId
+        let imageURL = createDTO.imageURL
 
         let playlistInserted = null
         try{
-            playlistInserted = await this.playlistService.insertPlaylist(name,description,userId)
+            playlistInserted = await this.playlistService.insertPlaylist(name,description,userId,imageURL)
         }catch(error){
             const message = error instanceof Error ? error.message : "ERRO"
             return res.status(400).json(message)
@@ -87,12 +88,25 @@ class PlaylistController {
         }
         let playlist = null
         try{
-            playlist = await this.playlistService.updatePlaylist(id,updateDTO.name,updateDTO.description,updateDTO.categories,updateDTO.saveCount, updateDTO.songIds)
+            playlist = await this.playlistService.updatePlaylist(id,updateDTO.name,updateDTO.description,updateDTO.categories,updateDTO.saveCount, updateDTO.songIds, updateDTO.imageURL)
         }catch(error){
             const message = error instanceof Error ? error.message : "ERRO"
             return res.status(400).json(message)
         }
         return res.status(200).json(playlist)
+    }
+
+    async patchPlaylist(req: Request, res: Response){
+        let id  = parseInt(req.params.id); // Obtém o parâmetro de ID da URL
+        let { name, description, imageURL } = req.body; 
+
+        try{
+            let updatedPlaylist = await this.playlistService.patchPlaylist(id,name,description,imageURL)
+            return res.status(200).json(updatedPlaylist)
+        }catch(error){
+            const message = error instanceof Error ? error.message : "ERRO"
+            return res.status(400).json(message)
+        }
     }
 
 }

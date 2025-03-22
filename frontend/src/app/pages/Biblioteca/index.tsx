@@ -1,66 +1,86 @@
-import { createContext, useState, ReactNode, Dispatch, SetStateAction } from "react";
+import { createContext, useState, ReactNode, Dispatch, SetStateAction, useEffect } from "react";
 import styles from "./index.module.css"
 import { Playlist } from "../../../shared/components/Playlist";
+import Sidebar from "../../components/sidebar";
+import axios from "axios";
 
-// Definindo o tipo para o contexto
-interface BibliotecaContextType {
-  modalOpen: boolean;
-  setModalOpen: Dispatch<SetStateAction<boolean>>;
-  playlistToEdit: any; // Você pode refinar o tipo dependendo do que for armazenado aqui
-  setPlaylistToEdit: Dispatch<SetStateAction<any>>; // Mesma coisa aqui
-  userID: number;
+// Definição do modelo da Playlist
+interface PlaylistModel {
+  playlistID: number;
+  name: string;
+  description: string;
+  saveCount: number;
+  imageURL: string;
 }
-
-// Criando o contexto com o tipo correto
-const BibliotecaContext = createContext<BibliotecaContextType | null>(null);
-
-interface BibliotecaProviderProps {
-  children: ReactNode;
-  userID: number;
-}
-
-export const BibliotecaProvider = ({ children, userID }: BibliotecaProviderProps) => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [playlistToEdit, setPlaylistToEdit] = useState(null);
-
-  return (
-    <BibliotecaContext.Provider value={{ modalOpen, setModalOpen, playlistToEdit, setPlaylistToEdit, userID }}>
-      {children}
-    </BibliotecaContext.Provider>
-  );
-};
-
-const playlists = [
-  {name: "nome1", description: "descrição1", imageURL: "data:image/jpeg;base64,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"},
-  {name: "nome2",description: "descrição1", imageURL: "data:image/jpeg;base64,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"}
-]
 
 
 export const Biblioteca = () => {
+  const [playlists, setPlaylists] = useState<PlaylistModel[]>([]);
 
-  const listItems = playlists.map(p => <Playlist name={p.name} description={p.description} imageURL={p.imageURL}/>);
+  const fetchPlaylists = async (): Promise<PlaylistModel[]> => {
+    const response = await axios.get<PlaylistModel[]>("http://localhost:5001/playlists?userId=62");
+    return response.data;
+  };
+
+
+  const deletePlaylist = async (id:number) => {
+    await axios.delete(`http://localhost:5001/playlists/${id}`);
+    const data = await fetchPlaylists();
+    setPlaylists(data);
+  }
+
+  const createDummyPlaylist = async () => {
+
+    await axios.post("http://localhost:5001/playlists", {
+      name:`empty ${playlists.length}`,
+      description:`empty ${playlists.length}`,
+      imageURL: "https://cdn1.iconfinder.com/data/icons/business-company-1/500/image-512.png",
+      userId: 62
+    })
+    const data = await fetchPlaylists();
+    setPlaylists(data);
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchPlaylists(); // Aguarda a resposta da API
+      setPlaylists(data); // Atualiza o estado com os dados retornados
+    };
+
+    fetchData();
+  }, []);
+
+  const listItems = playlists.map(p => <Playlist playlistID = {p.playlistID} name={p.name} description={p.description} imageURL={p.imageURL} onDelete={deletePlaylist}/>);
+
   return (
-    <div className={styles.main}>
-      <div className = {styles.front}>
-        <div className = {styles.biblioteca}>
-          <h1 className = {styles.bibliotecaName}>
-            Biblioteca
-          </h1>
-        </div>
+    <div className="mainLayout">
+      <div>
+        <Sidebar />
       </div>
-      <div className={styles.playlistsArea}>
-        <div className={styles.playlistsNameAndAdd}>
-          <h1 className={styles.playlistsName}>
-            Playlists
-          </h1>
-          <button className={styles.addPlaylistButton}>
-            +
-          </button>
+      <div>
+        <div className={styles.main}>
+          <div className = {styles.front}>
+            <div className = {styles.biblioteca}>
+              <h1 className = {styles.bibliotecaName}>
+                Biblioteca
+              </h1>
+            </div>
+          </div>
+          <div className={styles.playlistsArea}>
+            <div className={styles.playlistsNameAndAdd}>
+              <h1 className={styles.playlistsName}>
+                Playlists
+              </h1>
+              <button className={styles.addPlaylistButton} onClick={createDummyPlaylist}>
+                +
+              </button>
+            </div>
+            <div className={styles.linha}></div>
+          </div>
+          <div className={styles.playlistsContent}>
+              {listItems}
+          </div>
         </div>
-        <div className={styles.linha}></div>
-      </div>
-      <div className={styles.playlistsContent}>
-          {listItems}
       </div>
     </div>
   );

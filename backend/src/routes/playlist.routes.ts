@@ -10,6 +10,7 @@ playlistRoutes.get("/playlists/:id", (req, res) => playlistController.getById(re
 playlistRoutes.post("/playlists", (req,res) => playlistController.createPlaylist(req,res))
 playlistRoutes.delete("/playlists/:id", (req,res) => playlistController.deletePlaylist(req,res))
 playlistRoutes.put("/playlists/:id", (req,res) => playlistController.updatePlaylist(req,res))
+playlistRoutes.patch("/playlists/:id", (req,res) => playlistController.patchPlaylist(req,res))
 
 
 export default playlistRoutes
