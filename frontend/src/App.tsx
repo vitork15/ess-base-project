@@ -8,6 +8,7 @@ import ArtistRegistrationPage from "./app/pages/ArtistRegistration";
 import SearchPage from "./app/pages/Busca";
 import ListTests from "./app/pages/ListTests";
 import CreateTest from "./app/pages/CreateTest";
+import Cadastro from "./app/pages/Album";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
   {
     path: "/search",
     Component: SearchPage
+  },
+  {
+    path: "/albumregister",
+    Component: Cadastro
   }
 ]);
 

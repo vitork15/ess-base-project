@@ -1,13 +1,21 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import styles from './index.module.css'; 
+import { useParams } from "react-router-dom";
 
-export const Cadastro: React.FC = () => {
+const Cadastro: React.FC = () => {
 
   const navigate = useNavigate(); 
 
   const [step1, setStep1] = useState(true);
   const [songs, setSongs] = useState(new Array()) 
+  const [albumName, setAlbumName] = useState("");
+  const [genero, setGenero] = useState("");
+  const [subgenero, setSubgenero] = useState("");
+  const [songs_name, setSongsName] = useState([""]);
+  const [songs_paths, setPaths] = useState([""]);
+  const [login, setLogin] = useState("")
+  const [feat, setFeat] = useState("");
 
   const handleCancel = () => {
     alert("Cancelado!")
@@ -30,6 +38,39 @@ export const Cadastro: React.FC = () => {
     setStep1(!step1)
   };
 
+  const handleCadastroAlbum = async () => {
+    const album = {
+      name: albumName, 
+      genero: genero,
+      subgenero: subgenero,
+      songs: songs_name,
+      songs_paths: songs_paths,
+      artist_login: login,
+      feat: feat
+    };
+  
+    try {
+      const response = await fetch("http://localhost:5001/albums", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(album),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Erro ao cadastrar album");
+      }
+  
+      const data = await response.json();
+      alert("Album cadastrado com sucesso!");
+      console.log(data);
+    } catch (error) {
+      console.error("Erro:", error);
+      alert("Erro ao cadastrar album!");
+    }
+  };
+  
   return (
     <div className={styles['cadastro-container']}>
 
@@ -49,7 +90,10 @@ export const Cadastro: React.FC = () => {
           {/* Formulário */}
           <div className={styles['text-left']}>
             <p className={styles['font-bold']}>Nome do novo lançamento</p>
-            <input className={styles['form-input']} />
+            <input className={styles['form-input']} 
+             value={albumName} 
+             onChange={(e) => setAlbumName(e.target.value)} 
+            />
 
             <p className={styles['font-bold']}>Quantidade de Músicas</p>
             <input type="range" min="1" max="15" id = "albumsongs" className={styles['range-input']} />
@@ -57,11 +101,17 @@ export const Cadastro: React.FC = () => {
             <div className={styles['input-group']}>
               <div className={styles['text-input-group']}>
                 <p className={styles['font-bold']}>Gênero</p>
-                <input className={styles['form-input-b']} />
+                <input className={styles['form-input-b']} 
+                value={genero} 
+                onChange={(e) => setGenero(e.target.value)} 
+                />
               </div>
               <div className={styles['text-input-group']}>
                 <p className={styles['font-bold']}>Subgênero</p>
-                <input className={styles['form-input-b']} />
+                <input className={styles['form-input-b']} 
+                 value={subgenero} 
+                 onChange={(e) => setSubgenero(e.target.value)} 
+                />
               </div>
             </div>
           </div>
@@ -89,9 +139,11 @@ export const Cadastro: React.FC = () => {
         </div>
         <div className={styles['final-buttons']}>
           <button className={styles['b-button']} onClick={handleVoltar}>Voltar</button>
-          <button className={styles['b-button']}>Lançar</button>
+          <button className={styles['b-button']} onClick={handleCadastroAlbum}>Lançar</button>
         </div>
       </div>
     </div>
   );
 };
+
+export default Cadastro;
