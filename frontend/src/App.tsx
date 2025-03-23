@@ -15,6 +15,7 @@ import RecoveryPage from "./app/pages/passwordRecovery";
 import PasswordChangePage from "./app/pages/passwordChange";
 import UserPage from "./app/pages/User";
 import ArtistLoginPage from "./app/pages/ArtistLogin";
+import ArtistUpdatePage from "./app/pages/ArtistUpdate";
 
 const router = createBrowserRouter([
   {
@@ -27,7 +28,8 @@ const router = createBrowserRouter([
       { path: "emAlta", element: <EmAlta /> },
       { path: "search", element: <SearchPage />},
       { path: "/users/:login", element: <UserPage />},
-      { path: "/artists/:login", element: <ArtistPage />} 
+      { path: "/artists/:login", element: <ArtistPage />},
+      { path: "/artistupdate/:login", element: <ArtistUpdatePage />}
     ],
   },
   {

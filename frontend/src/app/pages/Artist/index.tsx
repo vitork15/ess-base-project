@@ -1,13 +1,17 @@
 import React, {useEffect, useState} from "react";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import styles from "./index.module.css";
 import ArtistPhoto from "/src/shared/assets/artist.svg";
 import AlbumPhoto from "/src/shared/assets/album.jpg";
 import MusicPhoto from "/src/shared/assets/musicsss.png";
-import Edit from "/src/shared/assets/edit.png"
+import Edit from "/src/shared/assets/editArtist.png"
 
 const ArtistPage = () => {
     // Dados mockados para testar o layout
+    const navigate = useNavigate();
+        const navigateTo = (path: string) => {
+          navigate(path);
+        }
     const {login} = useParams();
 
     interface Song {
@@ -68,7 +72,7 @@ const ArtistPage = () => {
             <div className={styles.header}>
                 <h1 className={styles.artistName}>{artist.name}</h1>
                 {isLogged && (
-                    <button className={styles.editButton}>
+                    <button className={styles.editButton} onClick={() => navigateTo('/artistupdate/' + artist.login)}>
                         <img src={Edit} alt={"Photo"} className={styles.editPhoto}/>
                         Editar
                     </button>
@@ -103,7 +107,7 @@ const ArtistPage = () => {
                             </button>
                         ))}
                         {isLogged && (
-                            <button className={styles.addAlbumButton}>
+                            <button className={styles.addAlbumButton} onClick={() => navigateTo('/albumregister')}>
                                 <h3 className={styles.plus}>+</h3>
                                 <div className={styles.albumGen}>Adicionar álbum</div>
                             </button>
