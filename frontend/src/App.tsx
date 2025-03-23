@@ -36,7 +36,8 @@ const router = createBrowserRouter([
       { path: "/artistupdate/:login", element: <ArtistUpdatePage />},
       { path: "/edit", element: <EditPage />},
       { path: "/historico/:login", element: <Historico />},
-      { path: "/top10/:login", element: <Top10 />}
+      { path: "/top10/:login", element: <Top10 />},
+      { path: "albumregister", element: <Cadastro />},
     ],
   },
   {
