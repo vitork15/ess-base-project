@@ -9,6 +9,7 @@ import ArtistRegistrationPage from "./app/pages/ArtistRegistration";
 import SearchPage from "./app/pages/Busca";
 import ListTests from "./app/pages/ListTests";
 import CreateTest from "./app/pages/CreateTest";
+import Cadastro from "./app/pages/Album";
 import LoginPage from "./app/pages/Login"
 import RegisterPage from "./app/pages/UserRegistration";
 import RecoveryPage from "./app/pages/passwordRecovery";
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
   {
     path: "/search",
     Component: SearchPage
+  },
+  {
+    path: "/albumregister",
+    Component: Cadastro
   }
 ]);
 
