@@ -5,7 +5,16 @@ import { useState } from 'react';
 
 interface ResultModel{
   name:string
+  id: number | string
   type:string
+}
+
+interface PlaylistModel {
+  playlistID: number;
+  name: string;
+  description: string;
+  saveCount: number;
+  imageURL: string;
 }
 
 export default function SearchPage() {
@@ -15,12 +24,46 @@ export default function SearchPage() {
   const [searchQuery,setSearchQuery] = useState("")
   const [filterQuery,setFilterQuery] = useState("")
   const [resultList,setResultList] = useState<ResultModel[]>([])
+  const [menuVisible, setMenuVisible] = useState<boolean[]>([...Array(200)].map(()=>false));
+  const [playlists, setPlaylists] = useState<PlaylistModel[]>([]);
+
   const navigate = useNavigate();
+  console.log(menuVisible)
 
+  const toggleMenu = async (resultId) => {
+    let temp = menuVisible
+    temp[resultId] = true
+    setMenuVisible(temp);
+    setPlaylists(await fetchPlaylists())
+
+  };
+
+  const fetchPlaylists = async (): Promise<PlaylistModel[]> => {
+    const response = await axios.get<PlaylistModel[]>("http://localhost:5001/playlists?userId=42");
+    let list:PlaylistModel[] =  response.data;
+    list.sort((a,b) => a.playlistID - b.playlistID)
+    return list
+  };
+
+  const saveSongPlaylist = async (songID,playlist:PlaylistModel) =>{
+    
+    let response = await axios.get(`http://localhost:5001/songs?playlistID=${encodeURIComponent(playlist.playlistID)}`)
+    const songsIDs:number[] = response.data.map((song) => (song.songID))
+    songsIDs.push(songID)
+
+    let response2 = await axios.patch(`http://localhost:5001/playlists/${encodeURIComponent(playlist.playlistID)}`,{
+      songs: songsIDs
+    })
+
+    let temp = menuVisible
+    
+    setMenuVisible(temp.map(() => false));
+
+  };
   const handleSubmit = async (event) => {
-
-  event.preventDefault();
-  let newURL;
+  
+    event.preventDefault();
+    let newURL;
   
     if(searchQuery == ""){
       newURL= `/search`
@@ -48,11 +91,11 @@ export default function SearchPage() {
       setTimeout(() => setShowToast(false), 3000);
       setSearchQuery("")
 
-  } catch (error) {
+    } catch (error) {
       setToastMessage((error as Error).message); // Define a mensagem do toast
       setShowToast(true);
       setTimeout(() => setShowToast(false), 3000);
-  }  
+    }  
   };
   
   
@@ -96,7 +139,14 @@ export default function SearchPage() {
                   <h3>{result.name}</h3>
                   <p>{result.type === "song"? "Música": (result.type === "playlist"? "Playlist": "Artista")}</p>
                 </div>
-                <button className={styles.more_options}>&#8942;</button>
+                <button className={styles.more_options} onClick={() => toggleMenu(result.id)}>&#8942;</button>
+                {menuVisible[result.id] && result.type === "song" && (
+                  <div className={styles.menu}>
+                      {playlists.map((playlist) => 
+                          <button onClick={() => saveSongPlaylist(result.id, playlist)}>{playlist.name}</button>
+                      )}
+                  </div>
+                )}
               </article>
             ))}
           
