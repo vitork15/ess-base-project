@@ -31,7 +31,7 @@ const router = createBrowserRouter([
       { path: "search", element: <SearchPage />},
       { path: "/users/:login", element: <UserPage />},
       { path: "/artists/:login", element: <ArtistPage />},
-      { path: "/artistupdate/:login", element: <ArtistUpdatePage />}
+      { path: "/artistupdate/:login", element: <ArtistUpdatePage />},
       { path: "/edit", element: <EditPage />},
     ],
   },
@@ -44,7 +44,7 @@ const router = createBrowserRouter([
       { path: "recovery", element: <RecoveryPage />},
       { path: "changepassword/:token", element: <PasswordChangePage />},
       { path: "/artistregistration", element: <ArtistRegistrationPage />},
-      { path: "/artistlogin", element: <ArtistLoginPage />}
+      { path: "/artistlogin", element: <ArtistLoginPage />},
     ],
   },
   {
