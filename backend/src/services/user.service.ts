@@ -42,7 +42,7 @@ class UserService{
     async getUserByLogin(login: string) : Promise<User>{
         let user = await this.userRepository.findOne({where:{login:login}})
         if(!user){
-            throw new Error("user not found")
+            throw new Error("Usuário não encontrado")
         }
 
         return user
@@ -51,7 +51,7 @@ class UserService{
     async deleteUser(login: string) : Promise<User>{
         let user = await this.userRepository.findOne({where:{login:login}})
         if(!user){
-            throw new Error("user not found!")
+            throw new Error("Usuário não encontrado!")
         }
         await this.userRepository.delete(user.userID)
 
@@ -61,7 +61,7 @@ class UserService{
     async updateUser(login : string, newname: string, newlogin: string, newpassword: string, newbirthday: Date) : Promise<User> {
         let user = await this.userRepository.findOne({where:{login:login}})
         if(!user){
-            throw new Error("user not found")
+            throw new Error("Usuário não encontrado")
         }
         if(newname != null) { user.name = newname }
         if(newlogin != null) { user.login = newlogin }
@@ -79,7 +79,7 @@ class UserService{
     async recoverUser(email: string) : Promise<SMTPTransport.SentMessageInfo> {
         let user = await this.userRepository.findOne({where:{email:email}})
         if(!user){
-            throw new Error("user not found")
+            throw new Error("Usuário não encontrado")
         }
 
         let token = randomBytes(20).toString('hex');
