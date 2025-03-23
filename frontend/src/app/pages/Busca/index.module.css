@@ -57,20 +57,6 @@
 .results_header h2 {
     font-size: 1.5rem;
 }
-  
-.filter_button {
-    background-color: #333;
-    border: none;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    margin-left: 0.5rem;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
-.filter_button:hover {
-    background-color: #444;
-}
 
 .results_list {
     display: flex;
@@ -127,5 +113,28 @@
 }
 .more-options:hover {
     color: #ccc;
+}
+
+.filter_radio {
+    appearance: none;
+  
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+  
+    border: 2px solid #999;
+    transition: 0.2s all linear;
+    margin-right: 5px;
+  
+    position: relative;
+    top: 4px;
+}
+  
+.filter_radio:checked {
+    border: 6px solid black;
+}
+
+.label {
+    margin-right: 15px;
 }
 /**/
