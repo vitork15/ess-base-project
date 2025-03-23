@@ -79,8 +79,9 @@ class SongService {
             take: 10
         });
 
-        let topSongs: songInfo[] = new Array(10);
-        for (let i = 0; i < 10; i++) {
+        let index = songs.length;
+        let topSongs: songInfo[] = new Array(index);
+        for (let i = 0; i < index; i++) {
             let album = await this.albumRepository.findOne({
                 relations: ["artist"],
                 where:{albumID:songs[i].album.albumID}
