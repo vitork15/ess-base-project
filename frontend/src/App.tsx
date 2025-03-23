@@ -14,6 +14,7 @@ import RegisterPage from "./app/pages/UserRegistration";
 import RecoveryPage from "./app/pages/passwordRecovery";
 import PasswordChangePage from "./app/pages/passwordChange";
 import UserPage from "./app/pages/User";
+import ArtistLoginPage from "./app/pages/ArtistLogin";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
       { path: "emAlta", element: <EmAlta /> },
       { path: "search", element: <SearchPage />},
       { path: "/users/:login", element: <UserPage />},
+      { path: "/artists/:login", element: <ArtistPage />} 
     ],
   },
   {
@@ -35,7 +37,9 @@ const router = createBrowserRouter([
       { path: "login", element: <LoginPage />},
       { path: "register", element: <RegisterPage />},
       { path: "recovery", element: <RecoveryPage />},
-      { path: "changepassword/:token", element: <PasswordChangePage />}
+      { path: "changepassword/:token", element: <PasswordChangePage />},
+      { path: "/artistregistration", element: <ArtistRegistrationPage />},
+      { path: "/artistlogin", element: <ArtistLoginPage />}
     ],
   },
   {
@@ -54,14 +58,14 @@ const router = createBrowserRouter([
     path: "/biblioteca",
     Component: Biblioteca
   },
-  {
-    path: "/artists/:login",
-    Component: ArtistPage
-  },
-  {
-    path: "/artistregistration",
-    Component: ArtistRegistrationPage
-  },
+  // {
+  //   path: "/artists/:login",
+  //   Component: ArtistPage
+  // },
+  // {
+  //   path: "/artistregistration",
+  //   Component: ArtistRegistrationPage
+  // },
   {
     path: "/search",
     Component: SearchPage

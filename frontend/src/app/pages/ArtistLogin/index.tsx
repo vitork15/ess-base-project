@@ -45,6 +45,7 @@ export default function ArtistLoginPage() {
             setShowToast(true);
             setTimeout(() => setShowToast(false), 3000);
             setArtist({login: "", password: ""}); // Resetar formulário
+            setTimeout(() => navigateTo('/artists/' + artist.login), 1500);
 
         } catch (error) {
             setToastMessage((error as Error).message); // Define a mensagem do toast
