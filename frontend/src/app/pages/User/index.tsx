@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import styles from "./index.module.css";
 import ArtistPhoto from "/src/shared/assets/artist.svg";
 import Birthday from "/src/shared/assets/birthday-icon.svg"
+import EditPhoto from "/src/shared/assets/edit.png"
 
 export default function UserPage() {
     // Dados mockados para testar o layout
@@ -18,7 +19,8 @@ export default function UserPage() {
         login: string,
         email: string,
         password: string,
-        birthday: string
+        birthday: string,
+        userID: string
     }
     const [user, setUser] = useState<User>({
         name: "",
@@ -26,6 +28,7 @@ export default function UserPage() {
         email: "",
         password: "",
         birthday: "",
+        userID: "",
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -47,23 +50,34 @@ export default function UserPage() {
             });
     }, [login]); // Refaz a requisição quando o login mudar
 
-    if (!user) return <p>Usuário não encontrado</p>;
+    if (user.login == "") return <p>Usuário não encontrado</p>;
 
     return (
         <div className={styles.main}>
             <div className={styles.header}>
                 <h1 className={styles.name}>{user.name}</h1>
+                <button className={styles.edit} onClick={() => navigateTo('/edit')}>
+                    <img src={EditPhoto} alt={"Edit"} className={styles.editimage} />
+                    Editar
+                </button>
             </div>
             <div className={styles.body}>
-                <div className={styles.card}>
-                    <img src={ArtistPhoto} alt={"Photo"} className={styles.photo} />
-                    <div className={styles.login}>@{user.login}</div>
-                    <div className={styles.info}>
-                        <img src={Birthday} alt={"Photo"} className={styles.infoimage}/>
-                        {user.birthday == ""
-                        ? "Não informado"
-                        : user.birthday.split('-').reverse().join('/')}
+                <div className={styles.options}>
+                    <div className={styles.card}>
+                        <img src={ArtistPhoto} alt={"Photo"} className={styles.photo} />
+                        <div className={styles.login}>@{user.login}</div>
+                        <div className={styles.info}>
+                            <img src={Birthday} alt={"Photo"} className={styles.infoimage}/>
+                            {
+                            user.birthday == null
+                            ? "Não informado"
+                            : user.birthday.split('-').reverse().join('/')
+                            }
+                        </div>
                     </div>
+                    <button className={styles.button} onClick={() => navigateTo('/recovery')}>Histórico de Playlists</button>
+                    <button className={styles.button} onClick={() => navigateTo('/recovery')}>Histórico de Músicas</button>
+                    <button className={styles.button} onClick={() => navigateTo('/recovery')}>Mais Escutadas</button>
                 </div>
             </div>
         </div>

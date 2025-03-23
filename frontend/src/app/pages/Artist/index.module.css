@@ -2,10 +2,12 @@
 
 .main {
     display: flex;
-    flex-direction: column; /* Alinha os itens verticalmente */
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
-    gap: 30px; 
+    gap: 30px;
+    height: 100%;
+    overflow-y: hidden; 
 }
 
 .header {
@@ -13,11 +15,10 @@
     border-radius: 40px;
     width: 80%;
     height: 70px;
+    margin-top: 30px;
     display: flex;
     flex-direction: row;
-    margin-top: 30px;
-    justify-content: flex-start;
-    display: flex;  
+    justify-content: space-between;
     align-items: center; 
 }
 
@@ -27,6 +28,33 @@
     margin-bottom: 8px;
     font-family: 'Mansalva', cursive;
     font-size: 50px;
+}
+
+.editButton {
+    border: 0;
+    background-color: rgb(255, 255, 255);
+    display: flex; 
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    color: rgb(0, 0, 0);
+    border-radius: 40px;
+    width: 100px;
+    height: 40px;
+    margin-right: 20px;
+    font-size: 18px;
+    gap: 8px;
+}
+
+.editButton:hover {
+    background-color: rgb(111, 111, 111);
+    cursor: pointer;
+}
+
+.editPhoto {
+    height: 17px;
+    width: 17px;
+    margin-left: 10px;
 }
 
 .body {
@@ -63,8 +91,6 @@
     font-family: cursive;
     font-size: 25px;
     font-family: 'Mansalva', cursive;
-    /* margin-top: 50px;
-    margin-left: 20px; */
 }
 
 .bio {
@@ -95,6 +121,37 @@
     gap: 20px;
 }
 
+.songCard {
+    display: flex; 
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    border-radius: 20px;
+    width: 400px;
+    height: 70px;
+    gap: 10px;
+    border: none;
+    outline: none;
+}
+
+.songCard:hover {
+    background-color: rgb(111, 111, 111);
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+}
+
+.songPhoto {
+    background-color: rgb(255, 255, 255);
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    object-fit: cover;
+    object-position: 50% 10%;
+    margin-left: 15px;
+}
+
 .albumCard {
     display: flex; 
     flex-direction: row;
@@ -106,8 +163,8 @@
     width: 400px;
     height: 100px;
     gap: 10px;
-    border: none; /* Remove a borda */
-    outline: none; /* Remove a borda ao clicar */
+    border: none;
+    outline: none;
 }
 
 .albumCard:hover {
@@ -117,6 +174,7 @@
 }
 
 .albumPhoto {
+    background-color: rgb(255, 255, 255);
     width: 80px;
     height: 80px;
     border-radius: 20px;
@@ -131,4 +189,35 @@
     justify-content: center;
     align-items: flex-start;
     font-size: 16px;
+}
+
+.albumGen {
+    font-family: 'Mansalva', cursive;
+    font-size: 20px;
+}
+
+.addAlbumButton {
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    display: flex; 
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 20px;
+    width: 400px;
+    height: 100px;
+    gap: 10px;
+    border: 0;
+}
+
+.addAlbumButton:hover {
+    background-color: rgb(111, 111, 111);
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+}
+
+.plus {
+    margin-left: 6px;
+    font-family: cursive;
+    font-size: 140px;
 }

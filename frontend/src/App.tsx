@@ -9,11 +9,15 @@ import ArtistRegistrationPage from "./app/pages/ArtistRegistration";
 import SearchPage from "./app/pages/Busca";
 import ListTests from "./app/pages/ListTests";
 import CreateTest from "./app/pages/CreateTest";
+import Cadastro from "./app/pages/Album";
 import LoginPage from "./app/pages/Login"
 import RegisterPage from "./app/pages/UserRegistration";
 import RecoveryPage from "./app/pages/passwordRecovery";
 import PasswordChangePage from "./app/pages/passwordChange";
 import UserPage from "./app/pages/User";
+import ArtistLoginPage from "./app/pages/ArtistLogin";
+import ArtistUpdatePage from "./app/pages/ArtistUpdate";
+import EditPage from "./app/pages/UserEdit";
 import Historico from "./app/pages/Historico"
 import Top10 from "./app/pages/Top10"
 
@@ -28,6 +32,9 @@ const router = createBrowserRouter([
       { path: "emAlta", element: <EmAlta /> },
       { path: "search", element: <SearchPage />},
       { path: "/users/:login", element: <UserPage />},
+      { path: "/artists/:login", element: <ArtistPage />},
+      { path: "/artistupdate/:login", element: <ArtistUpdatePage />},
+      { path: "/edit", element: <EditPage />},
       { path: "/historico/:login", element: <Historico />},
       { path: "/top10/:login", element: <Top10 />}
     ],
@@ -39,7 +46,9 @@ const router = createBrowserRouter([
       { path: "login", element: <LoginPage />},
       { path: "register", element: <RegisterPage />},
       { path: "recovery", element: <RecoveryPage />},
-      { path: "changepassword/:token", element: <PasswordChangePage />}
+      { path: "changepassword/:token", element: <PasswordChangePage />},
+      { path: "/artistregistration", element: <ArtistRegistrationPage />},
+      { path: "/artistlogin", element: <ArtistLoginPage />},
     ],
   },
   {
@@ -58,17 +67,21 @@ const router = createBrowserRouter([
     path: "/biblioteca",
     Component: Biblioteca
   },
-  {
-    path: "/artists/:login",
-    Component: ArtistPage
-  },
-  {
-    path: "/artistregistration",
-    Component: ArtistRegistrationPage
-  },
+  // {
+  //   path: "/artists/:login",
+  //   Component: ArtistPage
+  // },
+  // {
+  //   path: "/artistregistration",
+  //   Component: ArtistRegistrationPage
+  // },
   {
     path: "/search",
     Component: SearchPage
+  },
+  {
+    path: "/albumregister",
+    Component: Cadastro
   }
 ]);
 

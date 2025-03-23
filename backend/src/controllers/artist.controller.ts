@@ -14,7 +14,7 @@ class ArtistController {
             const {login, name, email, password, bio} = req.body;
 
             if (!login || !name || !email || !password) {
-                return res.status(400).json({message: "Preencha os campos obrigatórios."});
+                return res.status(400).json({error: "Preencha todos os campos."});
             }
             const artist = await this.artistRepo.createArtist(login.toLowerCase(), name, email, password, bio);
             return res.status(201).json({message: "Artista cadastrado com sucesso."});

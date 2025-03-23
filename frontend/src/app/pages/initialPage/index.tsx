@@ -14,6 +14,12 @@ export default function InitialPage() {
 
   const handleLogin = () => {
     setLogedFlag(true); // Fecha o popup após o login
+    navigateTo('/login')
+  };
+
+  const handleLoginA = () => {
+    setLogedFlag(true); // Fecha o popup após o login
+    navigateTo('/artistlogin')
   };
 
   return(
@@ -24,6 +30,9 @@ export default function InitialPage() {
             Faça login para acessar
             <button onClick={handleLogin} className={style.loginButton}>
               Entre ou cadastre-se
+            </button>
+            <button onClick={handleLoginA} className={style.loginButton}>
+              Entre ou cadastre-se como artista
             </button>
           </div>
         </div>

@@ -68,8 +68,8 @@ export default function LoginPage() {
                     </div>
                 </div>
                 <button className={styles.button} type="submit">Entrar</button>
-                <button className={styles.button} type="submit" onClick={() => navigateTo('/register')}>Cadastre-se</button>
-                <button className={styles.button} type="submit" onClick={() => navigateTo('/recovery')}>Esqueci a senha</button>
+                <button className={styles.button} onClick={() => navigateTo('/register')}>Cadastre-se</button>
+                <button className={styles.button} onClick={() => navigateTo('/recovery')}>Esqueci a senha</button>
             </form>
             {showToast && (
                 <div className={styles.toast}>
