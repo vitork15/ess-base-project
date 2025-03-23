@@ -13,6 +13,7 @@ import LoginPage from "./app/pages/Login"
 import RegisterPage from "./app/pages/UserRegistration";
 import RecoveryPage from "./app/pages/passwordRecovery";
 import PasswordChangePage from "./app/pages/passwordChange";
+import UserPage from "./app/pages/User";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
       { path: "biblioteca", element: <Biblioteca /> },
       { path: "emAlta", element: <EmAlta /> },
       { path: "search", element: <SearchPage />},
+      { path: "/users/:login", element: <UserPage />},
     ],
   },
   {
