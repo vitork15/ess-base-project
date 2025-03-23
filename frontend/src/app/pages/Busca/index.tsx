@@ -12,6 +12,7 @@ export default function SearchPage() {
   const [toastMessage, setToastMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [searchQuery,setSearchQuery] = useState("")
+  const [filterQuery,setFilterQuery] = useState("")
   const [resultList,setResultList] = useState<ResultModel[]>([])
   const navigate = useNavigate();
 
@@ -22,8 +23,10 @@ export default function SearchPage() {
     
     if(searchQuery == ""){
       newURL= `/search`
-    }else{
+    }else if(filterQuery == ""){
       newURL = `/search?ds=${encodeURIComponent(searchQuery)}`
+    }else{
+      newURL = `/search?ds=${encodeURIComponent(searchQuery)}&filter=${encodeURIComponent(filterQuery)}`
     }
    
     navigate(newURL)
@@ -55,26 +58,32 @@ export default function SearchPage() {
   return (
       <main className="content">
 
-        <form className={styles.header} onSubmit={handleSubmit}>
-          <div className={styles.search_container}>
-              <input 
-              className={styles.search_container_input} 
-              value={searchQuery}
-              onChange={(event) => setSearchQuery(event.target.value)} 
-              type="text" 
-              placeholder="Pesquisar..." />
-              <button className={styles.search_button} type="submit">&#128269;</button>
-          </div>
-        </form>
+        <form onSubmit={handleSubmit}>
+          <section className={styles.header} >
+            <div className={styles.search_container}>
+                <input 
+                className={styles.search_container_input} 
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)} 
+                type="text" 
+                placeholder="Pesquisar..." />
+                <button className={styles.search_button} type="submit">&#128269;</button>
+            </div>
+          </section>
 
-        <section className={styles.results_header}>
+          <section className={styles.results_header}>
           <h2>Resultados</h2>
-          <div className="filter">
-            <button className={styles.filter_button}>Música</button>
-            <button className={styles.filter_button}>Playlist</button>
-            <button className={styles.filter_button}>Artista</button>
-          </div>
-        </section>
+            <div className="filter">
+              <input className={styles.filter_radio} type='radio' name="filter" value="" defaultChecked onChange={(event) => setFilterQuery(event.target.value)}/><label className={styles.label}>Nenhum</label>
+              <input className={styles.filter_radio}  type='radio' name="filter" value="song" onChange={(event) => setFilterQuery(event.target.value)}/><label className={styles.label}>Música</label>
+              <input className={styles.filter_radio}  type='radio' name="filter" value="playlist" onChange={(event) => setFilterQuery(event.target.value)}/><label className={styles.label}>Playlist</label>
+              <input className={styles.filter_radio}  type='radio' name="filter" value="artist" onChange={(event) => setFilterQuery(event.target.value)}/><label className={styles.label}>Artista</label>
+            </div>
+          </section>
+        </form>
+        
+
+        
         
         <section className={styles.result_list}>
           
