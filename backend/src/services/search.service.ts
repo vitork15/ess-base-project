@@ -21,17 +21,17 @@ class SearchService{
     async searchArtist(description:string,filter:string): Promise<Artist[]>{
         if(filter == 'song' || filter == 'playlist')
             return []
-        return await this.artistRepository.find({where:{name:Like("%"+description+"%")},select:{name:true}})
+        return await this.artistRepository.find({where:{name:Like("%"+description+"%")},select:{name:true, login:true}})
     }
     async searchSong(description:string,filter:string): Promise<Song[]>{
         if(filter == 'artist' || filter == 'playlist')
             return []
-        return await this.songRepository.find({where:{name:Like("%"+description+"%")},select:{name:true}})
+        return await this.songRepository.find({where:{name:Like("%"+description+"%")},select:{name:true, songID:true}})
     }
     async searchPlaylist(description:string,filter:string): Promise<Playlist[]>{
         if(filter == 'artist' || filter == 'song')
             return []
-        return await this.playlistRepository.find({where:{name:Like("%"+description+"%")},select:{name:true}})
+        return await this.playlistRepository.find({where:{name:Like("%"+description+"%")},select:{name:true, playlistID:true}})
     }
 }
 export default SearchService

@@ -9,6 +9,7 @@ import ArtistRegistrationPage from "./app/pages/ArtistRegistration";
 import SearchPage from "./app/pages/Busca";
 import ListTests from "./app/pages/ListTests";
 import CreateTest from "./app/pages/CreateTest";
+import Cadastro from "./app/pages/Album";
 import LoginPage from "./app/pages/Login"
 import RegisterPage from "./app/pages/UserRegistration";
 import RecoveryPage from "./app/pages/passwordRecovery";
@@ -16,6 +17,7 @@ import PasswordChangePage from "./app/pages/passwordChange";
 import UserPage from "./app/pages/User";
 import ArtistLoginPage from "./app/pages/ArtistLogin";
 import ArtistUpdatePage from "./app/pages/ArtistUpdate";
+import EditPage from "./app/pages/UserEdit";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,7 @@ const router = createBrowserRouter([
       { path: "/users/:login", element: <UserPage />},
       { path: "/artists/:login", element: <ArtistPage />},
       { path: "/artistupdate/:login", element: <ArtistUpdatePage />}
+      { path: "/edit", element: <EditPage />},
     ],
   },
   {
@@ -71,6 +74,10 @@ const router = createBrowserRouter([
   {
     path: "/search",
     Component: SearchPage
+  },
+  {
+    path: "/albumregister",
+    Component: Cadastro
   }
 ]);
 
