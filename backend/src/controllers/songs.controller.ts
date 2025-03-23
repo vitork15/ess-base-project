@@ -10,6 +10,10 @@ class SongController {
 
     async getAll(req: Request, res: Response) {
         try {
+            if(req.query.playlistID){
+                const songs = await this.songService.getSongsFromPlaylist(parseInt(req.query.playlistID as string))
+                return res.status(200).json(songs)
+            }
             const songs = await this.songService.getAllSongs();
             return res.status(200).json(songs); 
         } catch (error) {

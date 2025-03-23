@@ -72,4 +72,6 @@
     gap: 7px;
     margin-left: 100px;
     margin-right: 100px;
+    max-height: 75vh;
+    overflow-y: scroll;
 }

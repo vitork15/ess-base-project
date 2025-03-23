@@ -4,6 +4,7 @@ import { Playlist } from "../../../shared/components/Playlist";
 import Sidebar from "../../components/sidebar";
 import axios from "axios";
 import { PlaylistModal } from "../../../shared/components/PlaylistModal";
+import { PlaylistSongsModal } from "../../../shared/components/PlaylistSongsModal";
 
 // Definição do modelo da Playlist
 interface PlaylistModel {
@@ -18,6 +19,7 @@ interface PlaylistModel {
 export const Biblioteca = () => {
   const [playlists, setPlaylists] = useState<PlaylistModel[]>([]);
   const [modalOpenID, setModalOpenID] = useState(-1)
+  const [songsModalOpenID, setSongsModalOpenID] = useState(-1)
 
   const fetchPlaylists = async (): Promise<PlaylistModel[]> => {
     const response = await axios.get<PlaylistModel[]>("http://localhost:5001/playlists?userId=62");
@@ -35,10 +37,17 @@ export const Biblioteca = () => {
     const data = await fetchPlaylists();
     setPlaylists(data);
   }
+  const onSongsModalClose = () => {
+    setSongsModalOpenID(-1)
+  }
 
   const onModalOpen = (id:number) => {
     setModalOpenID(id)
   } 
+
+  const onSongsModalOpen = (id:number) => {
+    setSongsModalOpenID(id)
+  }
 
   const deletePlaylist = async (id:number) => {
     await axios.delete(`http://localhost:5001/playlists/${id}`);
@@ -67,7 +76,7 @@ export const Biblioteca = () => {
     fetchData();
   }, []);
 
-  const listItems = playlists.map(p => <Playlist playlistID = {p.playlistID} name={p.name} description={p.description} imageURL={p.imageURL} onDelete={deletePlaylist} onEdit={onModalOpen}/>);
+  const listItems = playlists.map(p => <Playlist playlistID = {p.playlistID} name={p.name} description={p.description} imageURL={p.imageURL} onDelete={deletePlaylist} onEdit={onModalOpen} onOpenSongs={onSongsModalOpen}/>);
 
   return (
 
@@ -94,6 +103,7 @@ export const Biblioteca = () => {
           {listItems}
       </div>
       {modalOpenID >= 0 && <PlaylistModal initialData={getPlaylistByID(modalOpenID)} onClose={onModalClose}/>}
+      {songsModalOpenID >=0 && <PlaylistSongsModal playlistName={playlists.filter(p => p.playlistID == songsModalOpenID)[0].name} playlistID={songsModalOpenID} onClose={onSongsModalClose}/>}
     </div>
 
   );
