@@ -94,12 +94,11 @@ class MusicHistoryService {
         let user = await this.userRepository.findOne({where:
             {login: id}
         })
-
+        console.log("into deleteMusicHistoryByUserId service")
+        console.log(user);
         if(user) {
             await this.musicHistoryRepository.delete({
-                usuario: {
-                    login: id
-                }
+                usuario: user
             });
             return true
         }
