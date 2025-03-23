@@ -1,8 +1,9 @@
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import styles from "./index.module.css";
 import Login from "/src/shared/assets/login.png";
 import Password from "/src/shared/assets/password.png";
+import { GlobalContext } from "../../context/GlobalContext";
 
 export default function LoginPage() {
 
@@ -18,6 +19,7 @@ export default function LoginPage() {
 
     const [toastMessage, setToastMessage] = useState("");
     const [showToast, setShowToast] = useState(false);
+    const {setIsLogged, setUserLogin, setUserId} = useContext(GlobalContext)
 
     const handleChange = (event) => {
         const {name, value} = event.target; // Extrai nome e valor do input
@@ -40,7 +42,12 @@ export default function LoginPage() {
             if (!response.ok) throw new Error(responseData.message || "Erro desconhecido");
 
             if(responseData.password != user.password) setToastMessage("Senha incorreta"); // Define a mensagem do toast
-            else setToastMessage("Login realizado com sucesso"); // Define a mensagem do toast
+            else {
+                setToastMessage("Login realizado com sucesso"); 
+                setIsLogged(true); navigateTo("/home"); 
+                setUserLogin(responseData.login);
+                setUserId(responseData.userID);
+            } // Define a mensagem do toast
 
             setShowToast(true);
             setTimeout(() => setShowToast(false), 3000);

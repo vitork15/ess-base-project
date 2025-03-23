@@ -75,3 +75,25 @@
     max-height: 75vh;
     overflow-y: scroll;
 }
+
+.toast {
+    position: fixed;
+    top: 80%;
+    left: 45%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(0, 0, 0);
+    color: rgb(0, 0, 0);
+    height: 50px;
+    width: 260px;
+    font-size: 8vh;
+    border-radius: 40px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    font-family: 'Mansalva', cursive;
+    opacity: 0.9;
+    transition: opacity 0.3s ease-in-out;
+}

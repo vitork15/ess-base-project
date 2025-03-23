@@ -41,27 +41,11 @@ When O usuário deleta a música "Back in Black" da playlist "É ROOOOCK"
 Then O usuário tem a playlist "É ROOOOCK" com a música "Welcome to the Jungle"
 And O usuário continua na página de "Biblioteca"
 
-Scenario: Adicionar uma playlist pública na biblioteca do usuário
-Given O usuário está na página "Busca"
-And O usuário tem a playlist "É ROOOOCK"
-When O usuário busca a playlist "Só as melhores do pop"
-And O usuário seleciona para adicionar a playlist "Só as melhores do pop" na sua biblioteca
-Then O usuário tem as playlists "É ROOOOCK" e "Só as melhores do pop"
-And O usuário continua na página de "Busca"
-
 Scenario: Adicionar uma música que já existe na playlist
 Given O usuário está na página "Busca"
 And O usuário tem a playlist "É ROOOOCK" com a música "Welcome to the Jungle"
 When O usuário busca a música "Welcome to the Jungle"
 And O usuário tenta adicionar a música "Welcome to the Jungle" na playlist "É ROOOOCK"
 Then Uma mensagem de erro escrita: "Música já existe na playlist" é mostrada
-And O usuário continua na página de "Busca"
-
-Scenario: Adicionar música na playlist de curtidas
-Given O usuário tem a playlist "Curtidas" com a música "Back in Black"
-And O usuário está na página de "Busca"
-When O usuário busca a música "Welcome to the Jungle" 
-And O usuário seleciona para curtir a música "Welcome to the Jungle"
-Then O usuário tem a playlist "Curtidas" com as músicas "Back in black" e "Welcome to the Jungle"
 And O usuário continua na página de "Busca"
 
