@@ -18,6 +18,8 @@ import UserPage from "./app/pages/User";
 import ArtistLoginPage from "./app/pages/ArtistLogin";
 import ArtistUpdatePage from "./app/pages/ArtistUpdate";
 import EditPage from "./app/pages/UserEdit";
+import Historico from "./app/pages/Historico"
+import Top10 from "./app/pages/Top10"
 
 const router = createBrowserRouter([
   {
@@ -33,7 +35,9 @@ const router = createBrowserRouter([
       { path: "/artists/:login", element: <ArtistPage />},
       { path: "/artistupdate/:login", element: <ArtistUpdatePage />},
       { path: "/edit", element: <EditPage />},
-      { path: "albumregister", element: <Cadastro />}
+      { path: "/historico/:login", element: <Historico />},
+      { path: "/top10/:login", element: <Top10 />},
+      { path: "albumregister", element: <Cadastro />},
     ],
   },
   {
