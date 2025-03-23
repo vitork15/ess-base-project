@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 interface ResultModel{
   name:string
+  type:string
 }
 
 export default function SearchPage() {
@@ -18,9 +19,9 @@ export default function SearchPage() {
 
   const handleSubmit = async (event) => {
 
-    event.preventDefault();
-    let newURL;
-    
+  event.preventDefault();
+  let newURL;
+  
     if(searchQuery == ""){
       newURL= `/search`
     }else if(filterQuery == ""){
@@ -93,7 +94,7 @@ export default function SearchPage() {
                 <div className={styles.thumbnail}></div>
                 <div className={styles.info}>
                   <h3>{result.name}</h3>
-                  <p>Informações adicionais</p>
+                  <p>{result.type === "song"? "Música": (result.type === "playlist"? "Playlist": "Artista")}</p>
                 </div>
                 <button className={styles.more_options}>&#8942;</button>
               </article>
