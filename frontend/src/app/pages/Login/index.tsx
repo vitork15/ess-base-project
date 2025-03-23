@@ -30,10 +30,8 @@ export default function LoginPage() {
     const handleSubmit = async (event) => {
         event.preventDefault(); // Evita que a página recarregue
         try {
-            const response = await fetch("http://localhost:5001/users", {
+            const response = await fetch("http://localhost:5001/users/" + user.login, {
                 method: "GET",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(user)
             });
 
             const responseText = await response.text(); // Pega a resposta do servidor
@@ -41,7 +39,9 @@ export default function LoginPage() {
     
             if (!response.ok) throw new Error(responseData.message || "Erro desconhecido");
 
-            setToastMessage(responseData.message); // Define a mensagem do toast
+            if(responseData.password != user.password) setToastMessage("Senha incorreta"); // Define a mensagem do toast
+            else setToastMessage("Login realizado com sucesso"); // Define a mensagem do toast
+
             setShowToast(true);
             setTimeout(() => setShowToast(false), 3000);
             setUser({login: "", password: ""}); // Resetar formulário

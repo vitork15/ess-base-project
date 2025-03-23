@@ -42,7 +42,7 @@ export default function PasswordChangePage() {
     
             if (!response.ok) throw new Error(responseData.message || "Erro desconhecido");
 
-            setToastMessage(responseData.message); // Define a mensagem do toast
+            setToastMessage("Senha modificada com sucesso"); // Define a mensagem do toast
             setShowToast(true);
             setTimeout(() => setShowToast(false), 3000);
             setUser({

@@ -47,7 +47,7 @@ export default function RegisterPage() {
     
             if (!response.ok) throw new Error(responseData.message || "Erro desconhecido");
 
-            setToastMessage(responseData.message); // Define a mensagem do toast
+            setToastMessage("Cadastro feito com sucesso!"); // Define a mensagem do toast
             setShowToast(true);
             setTimeout(() => setShowToast(false), 3000);
             setUser({

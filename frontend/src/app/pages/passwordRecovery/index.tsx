@@ -39,7 +39,7 @@ export default function RecoveryPage() {
     
             if (!response.ok) throw new Error(responseData.message || "Erro desconhecido");
 
-            setToastMessage(responseData.message); // Define a mensagem do toast
+            setToastMessage("E-mail enviado para" + user.email); // Define a mensagem do toast
             setShowToast(true);
             setTimeout(() => setShowToast(false), 3000);
             setUser({
