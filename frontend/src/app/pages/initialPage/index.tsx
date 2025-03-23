@@ -14,6 +14,7 @@ export default function InitialPage() {
 
   const handleLogin = () => {
     setLogedFlag(true); // Fecha o popup após o login
+    navigateTo('/login')
   };
 
   const handleLoginA = () => {

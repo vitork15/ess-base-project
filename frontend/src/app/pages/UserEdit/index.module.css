@@ -53,6 +53,26 @@
     color: black;
 }
 
+.buttonwhite{
+    background-color: rgb(255, 255, 255);
+    cursor: pointer;
+    color: black;
+    border: 0;
+    height: 40px;
+    width: 180px;
+    font-family: 'Mansalva', cursive;
+    border-radius: 50px;
+    transition: background-color 0.2s;
+    font-size: 16px;
+    padding: 8px;
+    display: flex;
+}
+
+.buttonwhite:hover {
+    background: rgb(111, 111, 111); /* Nova cor de fundo */
+    color: black;
+}
+
 .photo {
     width: 20px;
     height: 20px;
@@ -104,6 +124,7 @@
 
 .regPhoto {
     margin-left: 10px;
+    margin-right: 8px;
     height: 20px;
     width: 20px;
 }

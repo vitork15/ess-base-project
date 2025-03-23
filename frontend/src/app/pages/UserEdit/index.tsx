@@ -1,8 +1,7 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import styles from "./index.module.css";
 import User from "/src/shared/assets/user.png";
-import Email from "/src/shared/assets/email.png";
 import Login from "/src/shared/assets/login.png";
 import Password from "/src/shared/assets/password.png";
 import Birthday from "/src/shared/assets/birthday-icon.svg"
@@ -14,21 +13,19 @@ export default function EditPage() {
       navigate(path);
     }
 
+    const login = "jeremes"
+
     interface User {
         name: string,
         login: string,
-        email: string,
         password: string,
         birthday: string,
-        userID: string
     }
     const [user, setUser] = useState<User>({
         name: "",
         login: "",
-        email: "",
         password: "",
         birthday: "",
-        userID: "",
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -58,17 +55,9 @@ export default function EditPage() {
     
             if (!response.ok) throw new Error(responseData.message || "Erro desconhecido");
 
-            setToastMessage("Cadastro feito com sucesso!"); // Define a mensagem do toast
+            setToastMessage("Mudança feita com sucesso!"); // Define a mensagem do toast
             setShowToast(true);
             setTimeout(() => setShowToast(false), 3000);
-            setUser({
-                name: "",
-                login: "",
-                email: "",
-                password: "",
-                birthday: "",
-                userID: ""
-            }); // Resetar formulário
 
         } catch (error) {
             setToastMessage((error as Error).message); // Define a mensagem do toast
@@ -77,9 +66,33 @@ export default function EditPage() {
         }  
       };
 
+    useEffect(() => {
+        fetch(`http://localhost:5001/users/${login}`, {method: 'GET'}) // Ajuste a URL do backend
+            .then((response) => {
+                if (!response.ok) throw new Error("Usuário não encontrado");
+                return response.json();
+            })
+            .then((data) => {
+                setUser(
+                {
+                    name: data.name,
+                    login: data.login,
+                    password: data.password,
+                    birthday: data.birthday == null ? "" : data.birthday.split('-').reverse().join('/'),
+                }
+                );
+                console.log(data);
+                setLoading(false);
+            })
+            .catch((err) => {
+                setError(err.message);
+                setLoading(false);
+            });
+    }, []); // Refaz a requisição quando o login mudar
+
     return (
         <div className={styles.main}>
-            <h1 className={styles.header}>Cadastro</h1>
+            <h1 className={styles.header}>Editar Conta</h1>
             <form className={styles.form} onSubmit={handleSubmit}>
                 <div className={styles.card}>
                 <div className={styles.inputer}>
@@ -91,17 +104,13 @@ export default function EditPage() {
                         <input type="text" name="login" value={user.login} onChange={handleChange} placeholder="Login" required/>
                     </div>
                     <div className={styles.inputer}>
-                        <img src={Email} alt={"Photo"} className={styles.regPhoto}/>
-                        <input type="email" name="email" value={user.email} onChange={handleChange} placeholder="E-mail" required/>
-                    </div>
-                    <div className={styles.inputer}>
-                        <img src={Password} alt={"Photo"} className={styles.regPhoto}/>
-                        <input type="password" name="password" value={user.password} onChange={handleChange} placeholder="Senha" required minLength={6}/>
-                    </div>
-                    <div className={styles.inputer}>
                         <img src={Birthday} alt={"Photo"} className={styles.regPhoto}/>
                         <input type="string" name="birthday" value={user.birthday} onChange={handleChange} placeholder="Aniversário"/>
                     </div>
+                    <button className={styles.buttonwhite} onClick={() => navigateTo('/editpassword')}>
+                        <img src={Password} alt={"Photo"} className={styles.regPhoto}/>
+                        Alterar Senha
+                    </button>
                 </div>
                 <button className={styles.button} type="submit">Cadastrar</button>
             </form>
