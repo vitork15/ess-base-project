@@ -93,7 +93,7 @@ class UserService{
             from: process.env.EMAIL_USER,
             to: user.email,
             subject: "Recuperação de conta",
-            html: "<p>Clique <a href=" + "http://" + hostname() + ":" + process.env.PORT + "/users/recovery/" + token + ">aqui</a> para realizar a mudança de senha</p>"
+            html: "<p>Clique <a href=" + "http://localhost:3000" + "/changepassword/" + token + ">aqui</a> para realizar a mudança de senha</p>"
         }
 
         const transporter = createTransport({
