@@ -1,6 +1,7 @@
 import dbConn  from "../database/postgresConnection";
 import { Repository } from "typeorm";
 import Artist from "../entities/artist.entity";
+import Song from "../entities/songs.entity";
 
 class ArtistService {
     private repo: Repository<Artist>;
@@ -10,7 +11,6 @@ class ArtistService {
     }
 
     async createArtist(login: string, name: string, email: string, password: string, bio: string): Promise<Artist> {
-
         let login_R = await this.repo.findOne({where: {login:login}});
         if (login_R) {
             throw new Error("Login já em uso.")
@@ -22,6 +22,9 @@ class ArtistService {
         let email_R = await this.repo.findOne({where: {email:email}});
         if (email_R) {
             throw new Error("E-mail já em uso.")
+        }
+        if (password.length < 6) {
+            throw new Error("Sua senha deve conter pelo menos 6 caracteres.")
         }
         const artistData = new Artist();
         artistData.login = login;
@@ -38,11 +41,17 @@ class ArtistService {
     }
 
     async getArtistByLogin(login: string): Promise<Artist> {
-        let artist = await this.repo.findOne({where: { login: login }, relations: ["albuns"], });
+        let artist = await this.repo.findOne({where: {login: login}, relations: ["albuns"], order: {albuns: {albumID: "DESC"}}});
         if(!artist){
             throw new Error("Artista não encontrado.")
         }
-
+        const songRepo = dbConn.getRepository(Song);
+        const topSongs = await songRepo.find({
+            where: {album: {artist: {login: artist.login}}},  
+            order: { views: "DESC" }, // Ordena por views
+            take: 5 // Pega apenas as 5 primeiras
+        });
+        artist.topSongs = topSongs;
         return artist
     }
 
