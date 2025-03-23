@@ -45,7 +45,7 @@ export default function RegisterPage() {
             const responseText = await response.text(); // Pega a resposta do servidor
             const responseData = JSON.parse(responseText);
     
-            if (!response.ok) throw new Error(responseData.error || "Erro desconhecido");
+            if (!response.ok) throw new Error(responseData.message || "Erro desconhecido");
 
             setToastMessage(responseData.message); // Define a mensagem do toast
             setShowToast(true);

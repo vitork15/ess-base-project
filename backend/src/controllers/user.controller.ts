@@ -17,7 +17,7 @@ class UserController{
         const createDTO = plainToInstance(CriarUserDTO,req.body)
         const errors = await validate(createDTO, {forbidNonWhitelisted:true, whitelist:true})
         if(errors.length > 0){
-            return res.status(400).json("wrong body format")
+            return res.status(400).json({message: "wrong body format"})
         }
         let name = createDTO.name
         let login = createDTO.login
@@ -30,7 +30,7 @@ class UserController{
             userInserted = await this.userService.insertUser(name, login, email, password, birthday)
         }catch(error){
             const message = error instanceof Error ? error.message : "ERRO"
-            return res.status(400).json(message)
+            return res.status(403).json({message: message})
         }
 
         return res.status(201).json(userInserted)
@@ -43,7 +43,7 @@ class UserController{
             user = await this.userService.getUserByLogin(login)
         }catch(error){
             const message = error instanceof Error ? error.message : "ERRO"
-            return res.status(404).json(message)
+            return res.status(404).json({message: message})
         }
 
         return res.status(200).json(user)
@@ -57,7 +57,7 @@ class UserController{
             user = await this.userService.deleteUser(login)
         } catch (error) {
             const message = error instanceof Error ? error.message : "ERRO"
-            return res.status(400).json(message)
+            return res.status(400).json({message: message})
         }
         return res.status(200).json(user)
     }
@@ -67,14 +67,14 @@ class UserController{
         const updateDTO = plainToInstance(EditarUserDTO, req.body)
         const errors = await validate(updateDTO, {forbidNonWhitelisted:true, whitelist:true})
         if(errors.length > 0){
-            return res.status(400).json("wrong body format")
+            return res.status(400).json({message: "wrong body format"})
         }
         let user = null
         try{
             user = await this.userService.updateUser(login,updateDTO.name,updateDTO.login,updateDTO.password,updateDTO.birthday)
         }catch(error){
             const message = error instanceof Error ? error.message : "ERRO"
-            return res.status(400).json(message)
+            return res.status(400).json({message: message})
         }
         return res.status(200).json(user)
     }
@@ -87,7 +87,7 @@ class UserController{
             recovery = await this.userService.recoverUser(email)
         }catch(error){
             const message = error instanceof Error ? error.message : "ERRO"
-            return res.status(400).json(message)
+            return res.status(400).json({message: message})
         }
         return res.status(200).json(recovery)
     }
@@ -102,7 +102,7 @@ class UserController{
             change = await this.userService.changePassword(token, password, confirm)
         }catch(error){
             const message = error instanceof Error ? error.message : "ERRO"
-            return res.status(400).json(message)
+            return res.status(400).json({message: message})
         }
         return res.status(200).json(change)
     }
