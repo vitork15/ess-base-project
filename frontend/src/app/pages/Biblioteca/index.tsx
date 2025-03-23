@@ -1,10 +1,11 @@
-import { createContext, useState, ReactNode, Dispatch, SetStateAction, useEffect } from "react";
+import { createContext, useState, ReactNode, Dispatch, SetStateAction, useEffect, useContext } from "react";
 import styles from "./index.module.css"
 import { Playlist } from "../../../shared/components/Playlist";
 import Sidebar from "../../components/sidebar";
 import axios from "axios";
 import { PlaylistModal } from "../../../shared/components/PlaylistModal";
 import { PlaylistSongsModal } from "../../../shared/components/PlaylistSongsModal";
+import { GlobalContext } from "../../context/GlobalContext";
 
 // Definição do modelo da Playlist
 interface PlaylistModel {
@@ -20,9 +21,12 @@ export const Biblioteca = () => {
   const [playlists, setPlaylists] = useState<PlaylistModel[]>([]);
   const [modalOpenID, setModalOpenID] = useState(-1)
   const [songsModalOpenID, setSongsModalOpenID] = useState(-1)
+  const [toastMessage, setToastMessage] = useState("");
+  const [showToast, setShowToast] = useState(false);
+  const {userId} = useContext(GlobalContext)
 
   const fetchPlaylists = async (): Promise<PlaylistModel[]> => {
-    const response = await axios.get<PlaylistModel[]>("http://localhost:5001/playlists?userId=62");
+    const response = await axios.get<PlaylistModel[]>(`http://localhost:5001/playlists?userId=${userId}`);
     let list:PlaylistModel[] =  response.data;
     list.sort((a,b) => a.playlistID - b.playlistID)
     return list
@@ -53,6 +57,11 @@ export const Biblioteca = () => {
     await axios.delete(`http://localhost:5001/playlists/${id}`);
     const data = await fetchPlaylists();
     setPlaylists(data);
+    setToastMessage("playlist deletada com sucesso")
+    setShowToast(true)
+    setTimeout(() => {
+      setShowToast(false)
+    }, 3000);
   }
 
   const createDummyPlaylist = async () => {
@@ -61,7 +70,7 @@ export const Biblioteca = () => {
       name:`empty ${playlists.length}`,
       description:`empty ${playlists.length}`,
       imageURL: "https://cdn1.iconfinder.com/data/icons/business-company-1/500/image-512.png",
-      userId: 62
+      userId: userId
     })
     const data = await fetchPlaylists();
     setPlaylists(data);
@@ -104,6 +113,11 @@ export const Biblioteca = () => {
       </div>
       {modalOpenID >= 0 && <PlaylistModal initialData={getPlaylistByID(modalOpenID)} onClose={onModalClose}/>}
       {songsModalOpenID >=0 && <PlaylistSongsModal playlistName={playlists.filter(p => p.playlistID == songsModalOpenID)[0].name} playlistID={songsModalOpenID} onClose={onSongsModalClose}/>}
+      {showToast && (
+                <div className={styles.toast}>
+                    {toastMessage}
+                </div>
+            )}
     </div>
 
   );

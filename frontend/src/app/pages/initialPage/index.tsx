@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import style from './index.module.css';
 import emAltaIcon from '../../../shared/assets/fire.png';
+import { GlobalContext } from '../../context/GlobalContext';
 
 export default function InitialPage() {
 
@@ -22,7 +23,16 @@ export default function InitialPage() {
     navigateTo('/artistlogin')
   };
 
+  const {isLogged} = useContext(GlobalContext)
+  
+  useEffect(() => {
+    if(!isLogged){
+      navigateTo("/login")
+    }
+  }, []);
+
   return(
+
     <div className={style.body}>
     {!logedFlag && (
         <div className={style.blur}>
