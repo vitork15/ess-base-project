@@ -3,6 +3,7 @@ import Song from "../entities/songs.entity";
 import dbConn from "../database/postgresConnection";
 import Album from "../entities/albuns.entity";
 import Artist from "../entities/artist.entity";
+import Playlist from "../entities/playlist.entity";
 
 interface songInfo{
     name: string;
@@ -16,10 +17,12 @@ class SongService {
     songRepository: Repository<Song>;
     albumRepository: Repository<Album>;
     artistRepository: Repository<Artist>;
+    playlistRepository: Repository<Playlist>
 
     constructor() {
         this.songRepository = dbConn.getRepository(Song);
         this.albumRepository = dbConn.getRepository(Album);
+        this.playlistRepository =  dbConn.getRepository(Playlist)
     }
 
     async getSongById(id: number): Promise<Song> {
@@ -105,6 +108,15 @@ class SongService {
 
         return songs;
     }
+
+    async getSongsFromPlaylist(playlistID:number): Promise<Song[]> {
+        const playlist = await this.playlistRepository.findOne({where:{playlistID:playlistID}, relations:["songs", "songs.album.artist"]})
+        if(!playlist){
+            throw new Error("Playlist not found")
+        }
+
+        return playlist.songs
+    } 
 }
 
 export default SongService;
