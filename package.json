@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "class-transformer": "^0.5.1",
+    "jsx-runtime": "^1.2.0",
+    "react": "^19.0.0",
     "ts-node": "^10.9.2"
   }
 }

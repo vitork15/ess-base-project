@@ -25,7 +25,21 @@ class SearchController{
             const message = error instanceof Error ? error.message : "ERRO"
             return res.status(400).json(message)
         }
-        return res.status(200).json([...responseArtist,...responseSong,...responsePlaylist])
+
+        let responseArtistList = []
+        let responseSongList = []
+        let responsePlaylistList = []
+        for(var val of responseArtist){
+            responseArtistList.push({name:val.name,id:val.login,type:"artist"})
+        }
+        for(var val2 of responseSong){
+            responseSongList.push({name:val2.name,id:val2.songID,type:"song"})
+        }
+        for(var val3 of responsePlaylist){
+            responsePlaylistList.push({name:val3.name,id:val3.playlistID,type:"playlist"})
+        }
+
+        return res.status(200).json([...responseArtistList,...responseSongList,...responsePlaylistList])
     }
 }
 export default SearchController
