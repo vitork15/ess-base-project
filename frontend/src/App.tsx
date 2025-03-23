@@ -14,6 +14,7 @@ import RegisterPage from "./app/pages/UserRegistration";
 import RecoveryPage from "./app/pages/passwordRecovery";
 import PasswordChangePage from "./app/pages/passwordChange";
 import UserPage from "./app/pages/User";
+import EditPage from "./app/pages/UserEdit";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
       { path: "emAlta", element: <EmAlta /> },
       { path: "search", element: <SearchPage />},
       { path: "/users/:login", element: <UserPage />},
+      { path: "/edit", element: <EditPage />},
     ],
   },
   {

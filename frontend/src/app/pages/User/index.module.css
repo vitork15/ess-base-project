@@ -16,7 +16,7 @@
     display: flex;
     flex-direction: row;
     margin-top: 30px;
-    justify-content: flex-start;
+    justify-content: space-between;
     display: flex;  
     align-items: center; 
 }
@@ -24,9 +24,32 @@
 .name {
     color: rgb(255, 255, 255);
     margin-left: 30px;
-    margin-bottom: 8px;
-    font-family: 'Mansalva', cursive;
     font-size: 50px;
+}
+
+.edit {
+    color: rgb(0, 0, 0);
+    margin-right: 30px;
+    font-size: 25px;
+    background-color: rgb(255, 255, 255);
+    cursor: pointer;
+    border: 0;
+    height: 45px;
+    width: 140px;
+    border-radius: 70px;
+    transition: background-color 0.2s;
+    padding: 10px;
+}
+
+.editimage {
+    margin-right: 12px;
+    height: 25px;
+    width: 25px;
+}
+
+.edit:hover {
+    background: rgb(111, 111, 111); /* Nova cor de fundo */
+    color: black;
 }
 
 .body {
@@ -62,21 +85,18 @@
     color: rgb(255, 255, 255);
     font-family: cursive;
     font-size: 25px;
-    font-family: 'Mansalva', cursive;
     /* margin-top: 50px;
     margin-left: 20px; */
 }
 
 .bio {
     color: rgb(255, 255, 255);
-    font-family: 'Mansalva', cursive;
     font-size: 20px;
     margin-top: 20px;
 }
 
 .info {
     color: rgb(255, 255, 255);
-    font-family: 'Mansalva', cursive;
     font-size: 20px;
     margin-top: 20px;
     display: flex;
@@ -89,4 +109,30 @@
     filter: invert(100%);
     height: 30px;
     width: 30px;
+}
+
+.button{
+    background-color: rgb(0, 0, 0);
+    cursor: pointer;
+    color: white;
+    border: 0;
+    height: 40px;
+    width: 250px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 50px;
+    transition: background-color 0.2s;
+}
+
+.button:hover {
+    background: rgb(111, 111, 111); /* Nova cor de fundo */
+    color: black;
+}
+
+.options{
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
 }
