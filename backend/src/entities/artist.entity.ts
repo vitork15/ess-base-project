@@ -1,5 +1,6 @@
 import {Entity, Column, PrimaryColumn, OneToMany} from "typeorm"
 import Album from "./albuns.entity";
+import Song from "./songs.entity";
 
 @Entity()
 class Artist {
@@ -13,7 +14,7 @@ class Artist {
     @Column({select: false, nullable: false, unique: true})
     email: string;
     
-    @Column({select: false, nullable: false})
+    @Column({nullable: false})
     password: string;
     
     @Column({nullable: true})
@@ -23,6 +24,8 @@ class Artist {
         onDelete: "CASCADE"
     })
     albuns: Album[];
+
+    topSongs: Song[];
 }
 
 export default Artist
