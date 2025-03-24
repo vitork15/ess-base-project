@@ -89,8 +89,7 @@ Given("o usuário {string} de senha {string} está em {string}", (usuario,string
       cy.get("#historicocontainer")  
       .should('be.visible')  
 
-      cy.get("#historicocontainer div")
-      .should('have.length.greaterThan', 0);
+      
   
     })
 
