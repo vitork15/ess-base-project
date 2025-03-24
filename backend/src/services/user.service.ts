@@ -60,11 +60,18 @@ class UserService{
 
     async updateUser(login : string, newname: string, newlogin: string, newpassword: string, newbirthday: Date) : Promise<User> {
         let user = await this.userRepository.findOne({where:{login:login}})
+        let loginverify = await this.userRepository.findOne({where:{login:newlogin}})
+        
         if(!user){
             throw new Error("Usuário não encontrado")
         }
         if(newname != null) { user.name = newname }
-        if(newlogin != null) { user.login = newlogin }
+        if(newlogin != null) { 
+            if(loginverify != null && login != newlogin) {
+                throw new Error("Já existe um usuário com esse login")
+            }
+            user.login = newlogin 
+        }
         if(newpassword != null) { 
             if(newpassword.length < 6){
                 throw new Error("Sua senha deve conter pelo menos 6 caracteres")

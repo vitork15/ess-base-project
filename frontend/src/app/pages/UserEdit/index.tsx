@@ -14,7 +14,7 @@ export default function EditPage() {
       navigate(path);
     }
 
-    const {userLogin, setIsLogged} = useContext(GlobalContext)
+    const {userLogin, setIsLogged, setUserLogin} = useContext(GlobalContext)
 
     const replace = (key, value) => 
         {
@@ -64,6 +64,7 @@ export default function EditPage() {
     
             if (!response.ok) throw new Error(responseData.message || "Erro desconhecido");
 
+            setUserLogin(user.login)
             setToastMessage("Mudança feita com sucesso!"); // Define a mensagem do toast
             setShowToast(true);
             setTimeout(() => setShowToast(false), 3000);

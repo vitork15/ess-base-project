@@ -93,7 +93,7 @@ export default function RegisterPage() {
                     </div>
                     <div className={styles.inputer}>
                         <img src={Password} alt={"Photo"} className={styles.regPhoto}/>
-                        <input type="password" name="password" value={user.password} onChange={handleChange} placeholder="Senha" required minLength={6}/>
+                        <input type="password" name="password" value={user.password} onChange={handleChange} placeholder="Senha" required/>
                     </div>
                     <div className={styles.inputer}>
                         <img src={Birthday} alt={"Photo"} className={styles.regPhoto}/>
