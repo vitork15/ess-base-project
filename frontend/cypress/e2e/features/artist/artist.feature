@@ -38,3 +38,12 @@ Scenario: Atualização no cadastro de artista com sucesso
     And eu seleciono "Confirmar"
     Then sou encaminhado para a página "artists/dan32"
     And eu posso ver o nome "Daniel Oliveira"
+
+Scenario: Falha na atualização do cadastro de artista
+    Given estou autenticado como o artista de login "dan32" e senha "password1"
+    And eu seleciono "Perfil"
+    And eu seleciono "Editar"
+    When Eu preencho o campo "Nova senha" com "pass"
+    And eu seleciono "Confirmar"
+    Then aparece a mensagem "Sua senha deve conter pelo menos 6 caracteres."
+    And eu continuo na página "artistupdate/dan32"
