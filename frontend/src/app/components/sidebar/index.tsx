@@ -15,7 +15,7 @@ export default function Sidebar() {
   navigate(path);
   }
 
-  const {musicPlaying} = useContext(GlobalContext)
+  const {musicPlaying, isArtist, userLogin, artistLogin} = useContext(GlobalContext)
   const [musicName, setMusicName] = useState('');
 
   useEffect(() => {
@@ -32,8 +32,6 @@ export default function Sidebar() {
     };
   })
 
-  const {userLogin} = useContext(GlobalContext)
-  
   return (
     <div>
       <div className={style.sidebar}>
@@ -48,12 +46,22 @@ export default function Sidebar() {
               Buscar
             </div>
           </button>
-          <button className={style.button} onClick={() => navigateTo('/users/'+userLogin)}>     
-            <img src={personIcon} alt="Perfil icone" className={style.icon} />
-            <div>
-              Perfil
-            </div>
-          </button>
+          {(!isArtist) && 
+            <button className={style.button} onClick={() => navigateTo('/users/'+userLogin)}>     
+              <img src={personIcon} alt="Perfil icone" className={style.icon} />
+              <div>
+                Perfil
+              </div>
+            </button>
+          }
+          {isArtist && 
+            <button className={style.button} onClick={() => navigateTo('/artists/'+artistLogin)}>     
+              <img src={personIcon} alt="Perfil icone" className={style.icon} />
+              <div>
+                Perfil
+              </div>
+            </button>
+          }
           <button className={style.button} onClick={() => navigateTo('/biblioteca')}>
             <img src={libraryIcon} alt="Biblioteca icone" className={style.icon} />
             <div>
