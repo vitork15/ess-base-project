@@ -19,17 +19,9 @@ const ArtistUpdatePage = () => {
         password: "",
         bio: ""
     });
-    const [backup, setBackup] = useState({
-        name: "",
-        login: "",
-        email: "",
-        password: "",
-        bio: ""
-    });
 
     const [toastMessage, setToastMessage] = useState("");
     const [showToast, setShowToast] = useState(false);
-    const [isLogged, setIsLogged] = useState(true);
 
     const handleChange = (event) => {
         const {name, value} = event.target; // Extrai nome e valor do input
@@ -47,7 +39,6 @@ const ArtistUpdatePage = () => {
             })
             .then((data) => {
                 setArtist(data);
-                setBackup(data);
             })
             .catch((err) => {
             });
