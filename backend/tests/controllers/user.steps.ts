@@ -148,7 +148,7 @@ defineFeature(feature, (test) => {
       });
 
       and(/^o sistema retorna a mensagem de erro "(.*)"$/, (arg0) => {
-        expect(response.body).toStrictEqual(arg0)
+        expect(response.body.message).toStrictEqual(arg0)
       });
   });
 

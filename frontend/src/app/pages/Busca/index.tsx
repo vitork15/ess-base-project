@@ -69,7 +69,7 @@ export default function SearchPage() {
   
     if(searchQuery == ""){
       newURL= `/search`
-    }else if(filterQuery == ""){
+    }else if(filterQuery == "none"){
       newURL = `/search?ds=${encodeURIComponent(searchQuery)}`
     }else{
       newURL = `/search?ds=${encodeURIComponent(searchQuery)}&filter=${encodeURIComponent(filterQuery)}`
@@ -120,7 +120,7 @@ export default function SearchPage() {
           <section className={styles.results_header}>
           <h2>Resultados</h2>
             <div className="filter">
-              <input className={styles.filter_radio} type='radio' name="filter" value="" defaultChecked onChange={(event) => setFilterQuery(event.target.value)}/><label className={styles.label}>Nenhum</label>
+              <input className={styles.filter_radio} type='radio' name="filter" value="none" defaultChecked onChange={(event) => setFilterQuery(event.target.value)}/><label className={styles.label}>Nenhum</label>
               <input className={styles.filter_radio}  type='radio' name="filter" value="song" onChange={(event) => setFilterQuery(event.target.value)}/><label className={styles.label}>Música</label>
               <input className={styles.filter_radio}  type='radio' name="filter" value="playlist" onChange={(event) => setFilterQuery(event.target.value)}/><label className={styles.label}>Playlist</label>
               <input className={styles.filter_radio}  type='radio' name="filter" value="artist" onChange={(event) => setFilterQuery(event.target.value)}/><label className={styles.label}>Artista</label>
@@ -135,7 +135,7 @@ export default function SearchPage() {
           
           
             {resultList.map((result) => (
-              <article className={styles.result_item}>
+              <article className={styles.result_item} data-cy={result.name}>
                 <div className={styles.thumbnail}></div>
                 <div className={styles.info}>
                   <h3>{result.name}</h3>

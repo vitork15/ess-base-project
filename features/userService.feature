@@ -30,7 +30,7 @@ Scenario: Falha de Cadastro de Usuário no Sistema por Dados Repetidos
     And o body da requisição possui email: "dggb@cin.ufpe.br"
     And o body da requisição possui password: "senha456"
     And uma requisição POST é feita no endpoint "/users"
-    Then o sistema retorna o código "400"
+    Then o sistema retorna o código "403"
     And o sistema retorna a mensagem de erro "Já existe cadastro com esse login"
 
 #Service Scenario
