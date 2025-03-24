@@ -102,7 +102,7 @@ export const Biblioteca = () => {
           <h1 className={styles.playlistsName}>
             Playlists
           </h1>
-          <button className={styles.addPlaylistButton} onClick={createDummyPlaylist}>
+          <button data-cy="addPL" className={styles.addPlaylistButton} onClick={createDummyPlaylist}>
             +
           </button>
         </div>

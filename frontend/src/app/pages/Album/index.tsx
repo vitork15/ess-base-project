@@ -1,34 +1,38 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from './index.module.css'; 
+import { GlobalContext } from "../../context/GlobalContext";
 
 const Cadastro: React.FC = () => {
   const navigate = useNavigate(); 
 
   const [step1, setStep1] = useState(true);
-  const [songs, setSongs] = useState<number[]>([]);
+  const [songs, setSongs] = useState<number[]>([1]);
   const [albumName, setAlbumName] = useState("");
   const [genero, setGenero] = useState("");
   const [subgenero, setSubgenero] = useState("");
   const [songsName, setSongsName] = useState<string[]>([]);
   const [songsPaths, setPaths] = useState<string[]>([]);
-  const [login, setLogin] = useState("raul");
   const [feat, setFeat] = useState("");
+  const {artistLogin} = useContext(GlobalContext)
 
   const handleCancel = () => {
-    alert("Cancelado!");
+    navigate(`/artists/${artistLogin}`)
   };
 
   const handleContinue = () => {
-    const input = document.getElementById("albumsongs") as HTMLInputElement;
-    const numSongs = parseInt(input.value);
-    const mysongs = Array.from({ length: numSongs }, (_, i) => i + 1);
-    setSongs(mysongs);
-    setSongsName(new Array(numSongs).fill(""));
-    setPaths(new Array(numSongs).fill(""));
+    if (songs.length === 0) {
+      alert("Escolha pelo menos 1 música antes de continuar.");
+      return;
+    }
+  
+    // Garante que os arrays tenham o mesmo número de músicas
+    setSongsName(new Array(songs.length).fill(""));
+    setPaths(new Array(songs.length).fill(""));
+  
     setStep1(false);
   };
-
+  
   const handleVoltar = () => {
     setStep1(true);
   };
@@ -46,7 +50,7 @@ const Cadastro: React.FC = () => {
       subgenero: subgenero,
       songs: songsName,
       songs_paths: songsPaths,
-      artist_login: login,
+      artist_login: artistLogin,
       feat: feat
     };
   
@@ -65,7 +69,7 @@ const Cadastro: React.FC = () => {
   
       const data = await response.json();
       alert("Album cadastrado com sucesso!");
-      navigate(`/artists/${login}`)
+      navigate(`/artists/${artistLogin}`)
       console.log(data);
     } catch (error) {
       console.error("Erro:", error);
@@ -91,7 +95,22 @@ const Cadastro: React.FC = () => {
               onChange={(e) => setAlbumName(e.target.value)} 
             />
             <p className={styles['font-bold']}>Quantidade de Músicas</p>
-            <input type="range" min="1" max="15" id="albumsongs" className={styles['range-input']} />
+              <div className={styles['counter-buttons']}>
+                <button 
+                  className={styles['a-button']} 
+                  onClick={() => setSongs((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev))}
+                >
+                  -
+                </button>
+                <span className={styles['font-bold']}>{songs.length}</span>
+                <button 
+                  className={styles['a-button']} 
+                  onClick={() => setSongs((prev) => (prev.length < 15 ? [...prev, prev.length + 1] : prev))}
+                >
+                  +
+                </button>
+              </div>
+
             <div className={styles['input-group']}>
               <div className={styles['text-input-group']}>
                 <p className={styles['font-bold']}>Gênero</p>

@@ -11,7 +11,7 @@ class Artist {
     @Column({nullable: false, unique: true})
     name: string;
     
-    @Column({select: false, nullable: false, unique: true})
+    @Column({nullable: false, unique: true})
     email: string;
     
     @Column({nullable: false})

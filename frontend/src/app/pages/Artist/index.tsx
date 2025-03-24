@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import styles from "./index.module.css";
 import ArtistPhoto from "/src/shared/assets/artist.svg";
 import AlbumPhoto from "/src/shared/assets/album.jpg";
 import MusicPhoto from "/src/shared/assets/musicsss.png";
 import Edit from "/src/shared/assets/editArtist.png"
+import { GlobalContext } from "../../context/GlobalContext";
 
 const ArtistPage = () => {
     // Dados mockados para testar o layout
@@ -43,9 +44,7 @@ const ArtistPage = () => {
         albuns: [],
         topSongs: []
     });
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [isLogged, setIsLogged] = useState(true);
+    const {isLogged} = useContext(GlobalContext);
     
     useEffect(() => {
         fetch(`http://localhost:5001/artists/${login}`) // Ajuste a URL do backend
@@ -55,11 +54,9 @@ const ArtistPage = () => {
             })
             .then((data) => {
                 setArtist(data);
-                setLoading(false);
             })
             .catch((err) => {
-                setError(err.message);
-                setLoading(false);
+
             });
     }, [login]); // Refaz a requisição quando o login mudar
 
@@ -97,7 +94,7 @@ const ArtistPage = () => {
                     <h2 className={styles.discografiaTitle}>Discografia</h2>
                     <div className={styles.discografiaContent}>
                         {artist.albuns.map((album) => (
-                            <button key={album.albumID} className={styles.albumCard}>
+                            <button key={album.albumID} className={styles.albumCard} onClick={() => navigateTo('/album/' + album.albumID)}>
                                 <img src={AlbumPhoto} alt={"Photo"} className={styles.albumPhoto}/>
                                 <div className={styles.albumInfos}>
                                     <h3 className={styles.albumGen}>{album.name}</h3>

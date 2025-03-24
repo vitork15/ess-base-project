@@ -1,8 +1,9 @@
-import {useState} from "react";
+import {useState, useContext} from "react";
 import {useNavigate} from "react-router-dom";
 import styles from "./index.module.css";
 import Login from "/src/shared/assets/login.png";
 import Password from "/src/shared/assets/password.png";
+import { GlobalContext } from "../../context/GlobalContext";
 
 export default function ArtistLoginPage() {
 
@@ -18,6 +19,7 @@ export default function ArtistLoginPage() {
 
     const [toastMessage, setToastMessage] = useState("");
     const [showToast, setShowToast] = useState(false);
+    const {setIsLogged, setArtistLogin, setIsArtist} = useContext(GlobalContext);
 
     const handleChange = (event) => {
         const {name, value} = event.target; // Extrai nome e valor do input
@@ -40,12 +42,16 @@ export default function ArtistLoginPage() {
             if (!response.ok) throw new Error(responseData.error || "Erro desconhecido");
 
             if(responseData.password != artist.password) throw new Error("Senha incorreta"); // Define a mensagem do toast
-            else setToastMessage("Login realizado com sucesso"); // Define a mensagem do toast
-
-            setShowToast(true);
-            setTimeout(() => setShowToast(false), 3000);
-            setArtist({login: "", password: ""}); // Resetar formulário
-            setTimeout(() => navigateTo('/artists/' + artist.login), 1500);
+            else {
+                setToastMessage("Login realizado com sucesso"); // Define a mensagem do toast
+                setShowToast(true);
+                setTimeout(() => setShowToast(false), 3000);
+                setArtist({login: "", password: ""}); // Resetar formulário
+                setTimeout(() => navigateTo('/home'), 1000);
+                setIsArtist(true);
+                setIsLogged(true);
+                setArtistLogin(artist.login);
+            }
 
         } catch (error) {
             setToastMessage((error as Error).message); // Define a mensagem do toast

@@ -75,6 +75,7 @@ class UserService{
             user.password = newpassword 
         }
         if(newbirthday != null) { user.birthday = newbirthday }
+        else user.birthday = null
 
         return await this.userRepository.save(user)
     }

@@ -4,7 +4,6 @@ const createBundler = require("@bahmutov/cypress-esbuild-preprocessor");
 const { createEsbuildPlugin } = require("@badeball/cypress-cucumber-preprocessor/esbuild");
 
 module.exports = defineConfig({
-  projectId: 'buo55r',
   video: false,
   viewportWidth: 1280,
   viewportHeight: 720,
@@ -17,7 +16,7 @@ module.exports = defineConfig({
   chromeWebSecurity: false,
   env: {
     codeCoverage: {
-      exclude: ["cypress/**/*.ts", "coverage/**/*.ts"],
+      exclude: ["cypress//.", "coverage//."],
     },
   },
   e2e: {
@@ -34,7 +33,7 @@ module.exports = defineConfig({
       return config;
     },
     baseUrl: "http://localhost:3000/",
-    specPattern: "cypress/e2e/**/*.feature", // Corrigido para buscar recursivamente os arquivos .feature
-    supportFile: "cypress/support/e2e.ts", // Garante que os comandos customizados sejam carregados
+    specPattern: "cypress/e2e/**/*.feature",
   },
 });
+
