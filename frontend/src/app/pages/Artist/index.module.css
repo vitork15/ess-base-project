@@ -68,12 +68,11 @@
     background-color: black;
     border-radius: 40px;
     width: 280px;
-    height: 340px;
+    height: 380px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-
 }
 
 .photo {
@@ -98,7 +97,9 @@
     font-family: 'Mansalva', cursive;
     font-size: 20px;
     margin-top: 20px;
+    text-align: center; /* Centraliza o texto */
 }
+
 
 .discografiaArea {
     display: flex;

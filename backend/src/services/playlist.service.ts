@@ -79,7 +79,7 @@ class PlaylistService{
         return await this.playlistRepository.save(playlist)
     }
 
-    async patchPlaylist(id:number, name?:string, description?:string, imageURL?:string, songs?:number[]) : Promise<Playlist>{
+    async patchPlaylist(id:number, name?:string, description?:string, imageURL?:string, songs?:number[],categories?:number[]) : Promise<Playlist>{
         let playlist = await this.playlistRepository.findOne({where:{playlistID:id}})
         if(!playlist){
             throw new Error("playlist not found")
@@ -103,6 +103,10 @@ class PlaylistService{
                 songList.push(song)
             }
             playlist.songs = songList
+        }
+        if(categories){
+            let categoriesList = await this.categoryRepository.findBy({categoryID : In(categories)})
+            playlist.categories = categoriesList
         }
         return await this.playlistRepository.save(playlist)
     }
