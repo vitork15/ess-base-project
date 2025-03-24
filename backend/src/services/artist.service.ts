@@ -41,7 +41,9 @@ class ArtistService {
     }
 
     async getArtistByLogin(login: string): Promise<Artist> {
-        let artist = await this.repo.findOne({where: {login: login}, relations: ["albuns"], order: {albuns: {albumID: "DESC"}}});
+        let artist = await this.repo.findOne({where: {login: login}, 
+            relations: ["albuns"], 
+            order: {albuns: {albumID: "DESC"}}});
         if(!artist){
             throw new Error("Artista não encontrado.")
         }
@@ -57,7 +59,6 @@ class ArtistService {
 
     async updateArtist(curr_login: string, data: Partial<Artist>) : Promise<Artist> {
         const artist = await this.repo.findOne({where: {login:curr_login}});
-
         if(!artist){
             throw new Error("Artista não encontrado.")
         }
@@ -65,23 +66,47 @@ class ArtistService {
         if (login){
             let teste = await this.repo.findOne({where: {login: login}});
             if (teste){
-                throw new Error("Login já em uso.")
+                if (teste.login != artist.login){
+                    throw new Error("Login já em uso.");
+                }
             }
         }
         if (name){
             let teste = await this.repo.findOne({where: {name: name}});
             if (teste){
-                throw new Error("Nome já em uso.")
+                if (teste.login != artist.login){
+                    throw new Error("Nome já em uso.");
+                }
             }
         }
         if (email){
             let teste = await this.repo.findOne({where: {email: email}});
             if (teste){
-                throw new Error("E-mail já em uso.")
+                if (teste.login != artist.login){
+                    throw new Error("E-mail já em uso.");
+                }
             }
         }
-        Object.assign(artist, data); // Atualiza os campos fornecidos
-        return await this.repo.save(artist);
+        if (password){
+            if (password.length < 6) {
+                throw new Error("Sua senha deve conter pelo menos 6 caracteres.")
+            }
+        }
+        
+        delete data.login; // Remove login do objeto antes de salvar
+        Object.assign(artist, data);
+        await this.repo.save(artist);
+
+        // Se o login foi alterado, faz a atualização manual
+        if (login && login !== curr_login) {
+            await this.repo.createQueryBuilder()
+                .update(Artist)
+                .set({ login })
+                .where("login = :curr_login", { curr_login })
+                .execute();
+        }
+
+        return this.repo.findOne({ where: { login } }) as Promise<Artist>;
     }
 
     async deleteArtist(login: string) : Promise<boolean>{
