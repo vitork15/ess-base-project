@@ -91,7 +91,6 @@ Scenario: Atualização de Senha de Usuário com Sucesso
     Then aparece a mensagem "Senha modificada com sucesso"
     And eu continuo na página "edit/password"
 
-#GUI Scenario
 Scenario: Falha na Atualização de Senha de Usuário por Senha Insuficiente
     Given estou autenticado como o usuário de login "javamelhorquec" e senha "12345678910"
     And eu seleciono "Perfil"
@@ -101,3 +100,11 @@ Scenario: Falha na Atualização de Senha de Usuário por Senha Insuficiente
     When eu seleciono "Editar"
     Then aparece a mensagem "Sua senha deve conter pelo menos 6 caracteres"
     And eu continuo na página "edit/password"
+
+Scenario: Deleção de Conta de Usuário
+    Given estou autenticado como o usuário de login "fizz" e senha "senha456"
+    And eu seleciono "Perfil"
+    And eu seleciono "Editar"
+    When eu seleciono "Deletar Conta"
+    And eu seleciono "Sim"
+    Then sou encaminhado para a página "login"
