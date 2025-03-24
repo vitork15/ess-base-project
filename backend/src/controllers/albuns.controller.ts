@@ -80,19 +80,23 @@ class AlbumController {
     }
 
     async updateAlbum(req: Request, res: Response) {
-        const {name, genero, subgenero, songs, songs_path, artist_login} = req.body;
+        const { name, genero, subgenero, songs, songs_path, artist_login } = req.body;
         const id = parseInt(req.params.id);
         let album = null;
-
+    
         try {
-            album = await this.albumService.updateAlbum(id, name, genero, subgenero, songs, songs_path, artist_login);
+            // Extrair apenas os nomes das músicas
+            const songNames = songs.map((song: { name: string }) => song.name);
+    
+            album = await this.albumService.updateAlbum(id, name, genero, subgenero, songNames, songs_path, artist_login);
         } catch (error) {
             const message = error instanceof Error ? error.message : "ERRO";
             return res.status(400).json(message);
         }
-
+    
         return res.status(200).json(album);
     }
+    
 
     async deleteSongFromAlbum(req: Request, res: Response) {
         const {albumId, songId} = req.params; 
