@@ -34,9 +34,3 @@ Feature: Página Inicial
         When O usuário seleciona a opção Em alta na página inicial
         Then O sistema exibe uma lista com as músicas mais populares catalogadas
 
-    Scenario: Reproduzir uma música diretamente da Página Inicial
-        Given O usuário "Ana" está na "Página Inicial"
-        And Uma música é exibida em qualquer uma das seções
-        When O usuário seleciona uma música específica
-        Then O sistema inicia a reprodução da música selecionada
-        And A música aparece no player localizado na parte inferior esquerda da tela

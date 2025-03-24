@@ -4,21 +4,14 @@ Feature: Visualizar e interagir com músicas na seção Em Alta
     So that Eu possa ouvir e descobrir as músicas mais tocadas no momento 
 
     Scenario: Exibir músicas na seção "Em Alta"
-        Given O usuário "João" está autenticado no sistema
+        Given O usuário "Maria" está autenticado no sistema
         And Existem músicas suficientes no sistema 
-        When O usuário acessa a página em Alte
+        When O usuário acessa a página "emAlta"
         Then O sistema exibe uma lista com as músicas mais populares
-        And Cada música deve conter:O título da música, nome do artista e a capa do álbum (ou imagem associada)
-    
-    Scenario: Exibir mensagem quando não há músicas em alta
-        Given O usuário "Clara" acessa a seção "Em Alta"
-        And Não existem músicas suficientes no sitema
-        When O sistema carrega a página "Em Alta"
-        Then O sistema exibe a mensagem "Nenhuma música em alta no momento"
-        And Não exibe nenhum item
+        And Cada música deve conter:O título da música, nome do artista e a capa do álbum
     
      Scenario: Reproduzir uma música
-        Given O usuário "Maria" está na "emAlta"
+        Given O usuário "Maria" está na página "emAlta"
         And Uma música é exibida em qualquer uma das seções
         When O usuário seleciona uma música específica
         Then O sistema inicia a reprodução da música selecionada

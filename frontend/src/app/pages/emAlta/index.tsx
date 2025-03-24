@@ -4,7 +4,6 @@ import trophyIcon from '../../../shared/assets/trofeu.png';
 import bannerArt from '../../../shared/assets/art1.png';
 import { GlobalContext } from '../../context/GlobalContext';
 import { useContext } from 'react';
-import { Console } from 'console';
 
 export default function EmAlta() {
 
@@ -46,9 +45,9 @@ export default function EmAlta() {
     return (
       <>
         {songs.map((song, index) => (
-          <div key={index} className={style.musicCard} onClick={() => {setMusicPlaying(song.songId); console.log(song.songId)}} >
+          <div key={index} className={style.musicCard} onClick={() => {setMusicPlaying(song.songId); console.log(song.songId)}} data-cy={'musicCard'}>
             <div className={style.numberIndex}>
-              <h1>{index + 1}</h1>
+              <div>{index + 1}</div>
             </div>
             <img
               className={style.musicCover}
@@ -56,7 +55,7 @@ export default function EmAlta() {
               alt={`Capa da música ${song.name}`}
             />
             <div className={style.musicInfo}>
-              <h1>{song.name}</h1>
+              <h1 data-cy={'musicName'}>{song.name}</h1>
               <h2>{song.artistName}</h2>
             </div>
           </div>
