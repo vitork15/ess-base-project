@@ -6,26 +6,6 @@ export default function InitialPage() {
 
   const navigate = useNavigate();
 
-  const navigateTo = (path: string) => {
-    navigate(path);
-  }
-
-  const {isLogged} = useContext(GlobalContext); // Estado para controlar o popup
-
-  const handleLogin = () => {
-    navigateTo('/login')
-  };
-
-  const handleLoginA = () => {
-    navigateTo('/artistlogin')
-  };
-  
-  useEffect(() => {
-    if(!isLogged){
-      navigateTo("/login")
-    }
-  }, []);
-
   return(
     <div className={style.body}>
       <div className={style.banner}>
