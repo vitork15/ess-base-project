@@ -62,12 +62,6 @@ export default function Sidebar() {
               </div>
             </button>
           }
-          <button className={style.button} id="profile" onClick={() => navigateTo('/users/'+userLogin)}>     
-            <img src={personIcon} alt="Perfil icone" className={style.icon} />
-            <div>
-              Perfil
-            </div>
-          </button>
           <button className={style.button} onClick={() => navigateTo('/biblioteca')}>
             <img src={libraryIcon} alt="Biblioteca icone" className={style.icon} />
             <div>
