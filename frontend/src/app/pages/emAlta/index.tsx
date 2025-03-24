@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import style from './index.module.css';
 import trophyIcon from '../../../shared/assets/trofeu.png';
 import bannerArt from '../../../shared/assets/art1.png';
+import { GlobalContext } from '../../context/GlobalContext';
+import { useContext } from 'react';
+import { Console } from 'console';
 
 export default function EmAlta() {
 
@@ -15,6 +18,7 @@ export default function EmAlta() {
 
   const [songs, setSongs] = useState<Song[]>([]);
   const [error, setError] = useState<string | null>(null); // Estado para armazenar a mensagem de erro
+  const {setMusicPlaying} = useContext(GlobalContext);
 
   useEffect(() => {
     // Fazendo a requisição para o backend
@@ -42,7 +46,7 @@ export default function EmAlta() {
     return (
       <>
         {songs.map((song, index) => (
-          <div key={index} className={style.musicCard}>
+          <div key={index} className={style.musicCard} onClick={() => {setMusicPlaying(song.songId); console.log(song.songId)}} >
             <div className={style.numberIndex}>
               <h1>{index + 1}</h1>
             </div>
