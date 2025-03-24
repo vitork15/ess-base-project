@@ -1,7 +1,8 @@
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate,useSearchParams } from 'react-router-dom';
 import styles from './index.module.css';
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useContext} from 'react';
+import { GlobalContext } from "../../context/GlobalContext";
 
 interface ResultModel{
   name:string
@@ -26,6 +27,7 @@ export default function SearchPage() {
   const [resultList,setResultList] = useState<ResultModel[]>([])
   const [menuVisible, setMenuVisible] = useState<boolean[]>([...Array(200)].map(()=>false));
   const [playlists, setPlaylists] = useState<PlaylistModel[]>([]);
+  const {userId} = useContext(GlobalContext)
 
   const navigate = useNavigate();
   console.log(menuVisible)
@@ -39,7 +41,7 @@ export default function SearchPage() {
   };
 
   const fetchPlaylists = async (): Promise<PlaylistModel[]> => {
-    const response = await axios.get<PlaylistModel[]>("http://localhost:5001/playlists?userId=42");
+    const response = await axios.get<PlaylistModel[]>(`http://localhost:5001/playlists?userId=${userId}`);
     let list:PlaylistModel[] =  response.data;
     list.sort((a,b) => a.playlistID - b.playlistID)
     return list

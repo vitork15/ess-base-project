@@ -59,6 +59,7 @@ defineFeature(feature, (test) => {
       playlist.categories = []
       playlist.songs = []
       playlist.user = mockedUser
+      playlist.imageURL = ""
       await userRepo.save(mockedUser)
       await playlistRepo.save(playlist) 
     });
@@ -75,7 +76,8 @@ defineFeature(feature, (test) => {
         "description":playlist?.description,
         "categories":[category12?.categoryID,category22?.categoryID],
         "saveCount":0,
-        "songIds":[]
+        "songIds":[],
+        "imageURL":playlist?.imageURL
       }
       
       if(arg0 == "PUT"){
@@ -120,6 +122,7 @@ defineFeature(feature, (test) => {
         playlist.saveCount = 0
         playlist.categories = [category12]
         playlist.songs = []
+        playlist.imageURL = ""
       }
       
       playlist.user = mockedUser
@@ -138,7 +141,8 @@ defineFeature(feature, (test) => {
         "description":playlist?.description,
         "categories":[],
         "saveCount":0,
-        "songIds":[]
+        "songIds":[],
+        "imageURL":playlist?.imageURL
       }
       
       if(arg0 == "PUT"){

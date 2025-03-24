@@ -105,6 +105,7 @@ defineFeature(feature, (test) => {
           playlist1.saveCount = 0
           playlist1.songs = []
           playlist1.user = mockedUser
+          playlist1.imageURL = ""
 
 
           await userRepo.save(mockedUser)
