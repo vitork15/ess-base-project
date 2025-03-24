@@ -6,7 +6,7 @@ import { GlobalContext } from "../../context/GlobalContext";
 const EditAlbum: React.FC = () => {
   const { id: albumId } = useParams();
   const navigate = useNavigate();
-  const {artistLogin} = useContext(GlobalContext)
+  const { artistLogin } = useContext(GlobalContext);
 
   const [album, setAlbum] = useState<{ name: string; songs: { songID: number, name: string }[] }>({
     name: "",
@@ -60,6 +60,47 @@ const EditAlbum: React.FC = () => {
     }
   };
 
+  const handleDeleteAlbum = async () => {
+    try {
+      const response = await fetch(`http://localhost:5001/albums/${albumId}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) throw new Error("Erro ao deletar o álbum");
+
+      alert("Álbum deletado com sucesso!");
+      navigate(`/artists/${artistLogin}`); // Navegar para a página de artistas após a exclusão
+    } catch (error) {
+      alert("Erro ao deletar o álbum");
+      console.error(error);
+    }
+  };
+  
+  const handleSaveChanges = async () => {
+    try {
+      const response = await fetch(`http://localhost:5001/albums/${albumId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: album.name, 
+          songs: album.songs.map(song => ({
+            songID: song.songID,
+            name: song.name, 
+          })),
+        }),
+      });
+  
+      if (!response.ok) throw new Error("Erro ao salvar alterações no álbum");
+  
+      alert("Alterações salvas com sucesso!");
+    } catch (error) {
+      alert("Erro ao salvar as alterações");
+      console.error(error);
+    }
+  };
+  
+
   if (loading) return <p>Carregando...</p>;
 
   return (
@@ -81,17 +122,20 @@ const EditAlbum: React.FC = () => {
                 className={styles["delete-button"]}
                 onClick={() => handleDeleteSong(index)}
               >
-                Deletar
+                Deletar Música
               </button>
             </div>
           ))
         )}
       </div>
-      <button className={styles["save-button"]}>
+      <button className={styles["save-button"]} onClick={handleSaveChanges}>
         Salvar Alterações
       </button>
       <button className={styles["back-button"]} onClick={() => navigate(`/artists/${artistLogin}`)}>
         Voltar
+      </button>
+      <button className={styles["delete-button"]} onClick={handleDeleteAlbum}>
+        Deletar Álbum
       </button>
     </div>
   );

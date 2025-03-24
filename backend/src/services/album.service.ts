@@ -70,10 +70,6 @@ class AlbumService {
             throw new Error("Album not found");
         }
     
-        if (album.artist.login !== artist_login) {
-            throw new Error("You do not have permission to update this album");
-        }
-    
         if (name !== undefined) album.name = name;
         if (genero !== undefined) album.genero = genero;
         if (subgenero !== undefined) album.subgenero = subgenero;
@@ -86,7 +82,7 @@ class AlbumService {
             const maxLength = Math.max(songs?.length || 0, songs_path?.length || 0);
         
             for (let i = 0; i < maxLength; i++) {
-                if (songs !== undefined && (!songs[i] || songs[i].trim() === "")) {
+                if (songs !== undefined && (!songs[i])) {
                     throw new Error(`Song name at index ${i} cannot be empty`);
                 }
         
@@ -137,10 +133,6 @@ class AlbumService {
     
         if (!album) {
             throw new Error("Album not found");
-        }
-    
-        if (album.artist.login !== artist_login) {
-            throw new Error("You do not have permission to delete this album");
         }
     
         await this.albumRepository.delete(album.albumID);
