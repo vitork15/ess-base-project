@@ -1,144 +1,79 @@
-import { DataSource, Repository, EntityManager } from "typeorm";
+import { Repository, EntityManager } from "typeorm";
 import Album from "../entities/albuns.entity";
 import dbConn from "../database/postgresConnection";
 import Song from "../entities/songs.entity";
-import { plainToClass } from "class-transformer";
-import Artist from "../entities/artist.entity";
 import ArtistService from "./artist.service";
 
 class AlbumService {
-    albumRepository: Repository<Album>;
-    songRepository: Repository<Song>;
-    
-
-    constructor() {
-        this.albumRepository = dbConn.getRepository(Album);
-        this.songRepository = dbConn.getRepository(Song);
-    }
+    private albumRepository: Repository<Album> = dbConn.getRepository(Album);
+    private songRepository: Repository<Song> = dbConn.getRepository(Song);
 
     async getAllAlbums(): Promise<Album[]> {
-        return await this.albumRepository.find();
+        return this.albumRepository.find();
     }
 
     async getAlbumById(id: number): Promise<Album> {
-        const album = await this.albumRepository.findOne({ where: { albumID: id }, relations: ["songs"]});
-        if (!album) {
-            throw new Error("Album not found");
-        }
+        const album = await this.albumRepository.findOne({ where: { albumID: id }, relations: ["songs"] });
+        if (!album) throw new Error("Album not found");
         return album;
     }
 
-    async insertAlbum(name: string, genero:string, subgenero:string, songs: string[], tipo: string, songs_path: string[], artist_login: string): Promise<Album> {
-        
-        return await this.albumRepository.manager.transaction(async (transactionalEntityManager: EntityManager) => {
+    async insertAlbum(name: string, genero: string, subgenero: string, songs: string[], tipo: string, songs_path: string[], artist_login: string): Promise<Album> {
+        return this.albumRepository.manager.transaction(async (transactionalEntityManager: EntityManager) => {
+            const artist = await new ArtistService().getArtistByLogin(artist_login);
+            if (!artist) throw new Error("Artista não encontrado");
 
-            const artistRepo = new ArtistService();
-            const artist = await artistRepo.getArtistByLogin(artist_login);
-            if (!artist) {
-                throw new Error("Artista não encontrado");
-            }
-
-            let album = new Album();
-            album.name = name;
-            album.artist = artist;
-            album.qtd_songs = songs.length;
-            album.genero = genero;
-            album.subgenero = subgenero;
-            album.tipo = tipo
+            let album = this.albumRepository.create({ name, artist, qtd_songs: songs.length, genero, subgenero, tipo });
             album = await this.albumRepository.save(album);
 
-            for (let i = 0; i < songs.length; i++) {
-                let musica = new Song();
-                musica.name = songs[i];
-                musica.album = album; 
-                musica.path = songs_path[i];
-                await transactionalEntityManager.save(Song, musica);
-            }
+            const songEntities = songs.map((songName, index) => {
+                return this.songRepository.create({ name: songName, album, path: songs_path[index] });
+            });
+            await transactionalEntityManager.save(Song, songEntities);
 
-            return album
+            return album;
         });
-
     }
 
-    async updateAlbum(id: number, name: string, genero: string, subgenero: string, songs: string[], songs_path: string[], artist_login: string): Promise<Album> {
-        const album = await this.albumRepository.findOne({ 
-            where: { albumID: id }, 
-            relations: ["songs", "artist"] 
-        });
-    
-        if (!album) {
-            throw new Error("Album not found");
+    async updateAlbum(id: number, name?: string, genero?: string, subgenero?: string, songs?: string[], songs_path?: string[]): Promise<Album> {
+        const album = await this.albumRepository.findOne({ where: { albumID: id }, relations: ["songs"] });
+        if (!album) throw new Error("Album not found");
+
+        Object.assign(album, { name, genero, subgenero });
+        if (songs && songs_path && songs.length !== songs_path.length) throw new Error("Songs and songs_path arrays must have the same length");
+
+        if (songs || songs_path) {
+            album.songs.forEach((song, index) => {
+                if (songs && songs[index]) song.name = songs[index];
+                if (songs_path && songs_path[index]) song.path = songs_path[index];
+            });
+            await this.songRepository.save(album.songs);
         }
-    
-        if (name !== undefined) album.name = name;
-        if (genero !== undefined) album.genero = genero;
-        if (subgenero !== undefined) album.subgenero = subgenero;
-    
-        if (songs !== undefined || songs_path !== undefined) {
-            if (songs !== undefined && songs_path !== undefined && songs.length !== songs_path.length) {
-                throw new Error("Songs and songs_path arrays must have the same length");
-            }
-        
-            const maxLength = Math.max(songs?.length || 0, songs_path?.length || 0);
-        
-            for (let i = 0; i < maxLength; i++) {
-                if (songs !== undefined && (!songs[i])) {
-                    throw new Error(`Song name at index ${i} cannot be empty`);
-                }
-        
-                if (album.songs[i]) {
-                    if (songs !== undefined && songs[i] !== undefined) {
-                        album.songs[i].name = songs[i];
-                    }
-                    if (songs_path !== undefined && songs_path[i] !== undefined) {
-                        album.songs[i].path = songs_path[i];
-                    }
-                    await this.songRepository.save(album.songs[i]);
-                }
-            }
-        }
-        
-    
-        return await this.albumRepository.save(album);
+
+        return this.albumRepository.save(album);
     }
 
-    async deleteSongFromAlbum(albumId: number, songId: number, artist_login: string): Promise<Album> {
-        const album = await this.albumRepository.findOne({ 
-            where: { albumID: albumId }, 
-            relations: ["songs", "artist"] 
-        });
-    
-        if (!album) {
-            throw new Error("Album not found");
-        }
-    
+    async deleteSongFromAlbum(albumId: number, songId: number, login: string): Promise<Album> {
+        const album = await this.albumRepository.findOne({ where: { albumID: albumId }, relations: ["songs"] });
+        if (!album) throw new Error("Album not found");
+
         const songIndex = album.songs.findIndex(song => song.songID === songId);
-    
-        if (songIndex === -1) {
-            throw new Error("Song not found in the album");
-        }
-    
-        const [deletedSong] = album.songs.splice(songIndex, 1);
-        await this.songRepository.remove(deletedSong);
+        if (songIndex === -1) throw new Error("Song not found in the album");
+
+        await this.songRepository.remove(album.songs[songIndex]);
+        album.songs.splice(songIndex, 1);
         album.qtd_songs = album.songs.length;
-        
-        return await this.albumRepository.save(album);
+
+        return this.albumRepository.save(album);
     }
 
-    async deleteAlbum(id: number, artist_login: string): Promise<Album> {
-        const album = await this.albumRepository.findOne({ 
-            where: { albumID: id }, 
-            relations: ["artist"] 
-        });
-    
-        if (!album) {
-            throw new Error("Album not found");
-        }
-    
+    async deleteAlbum(id: number): Promise<Album> {
+        const album = await this.albumRepository.findOne({ where: { albumID: id } });
+        if (!album) throw new Error("Album not found");
+
         await this.albumRepository.delete(album.albumID);
         return album;
     }
-    
 }
 
 export default AlbumService;
