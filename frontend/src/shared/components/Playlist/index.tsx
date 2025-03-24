@@ -34,17 +34,17 @@ export const Playlist = ({ playlistID, name, description, imageURL, onDelete, on
     }, []);
 
     return (
-        <div className={styles.card} onClick={() => onOpenSongs(playlistID)}>
+        <div data-cy = "playlist" className={styles.card} onClick={() => onOpenSongs(playlistID)}>
             <img src={imageURL} alt={name} className={styles.image} />
             <div className={styles.info}>
-                <h3 className={styles.name}>{name}</h3>
+                <h3 data-cy = "namePL" className={styles.name}>{name}</h3>
                 <p className={styles.description}>{description}</p>
             </div>
-            <div className={styles.options} onClick={toggleMenu}>&#x22EE;</div>
+            <div data-cy = "optionPL" className={styles.options} onClick={toggleMenu}>&#x22EE;</div>
             {menuVisible && (
                 <div className={styles.menu} ref={menuRef}>
-                    <button onClick={(event) => {onEdit(playlistID); event.stopPropagation()}}>Editar</button>
-                    <button onClick={async (event) => {onDelete(playlistID); event.stopPropagation()}}>Excluir</button>
+                    <button data-cy = "editPL" onClick={(event) => {onEdit(playlistID); event.stopPropagation()}}>Editar</button>
+                    <button data-cy = "deletePL" onClick={async (event) => {onDelete(playlistID); event.stopPropagation()}}>Excluir</button>
                 </div>
             )}
         </div>

@@ -28,6 +28,7 @@ export const PlaylistModal = ({initialData, onClose}) => {
         <div className={styles.modal}>
           <h2 className={styles.title}>Editar Informações</h2>
           <input
+            data-cy = "modalNamePL"
             name="name"
             placeholder="Nome"
             value={formData.name}
@@ -50,7 +51,7 @@ export const PlaylistModal = ({initialData, onClose}) => {
           />
           <div className={styles.buttonContainer}>
             <button onClick={onClose} className={styles.buttonSecondary}>Cancelar</button>
-            <button onClick={handleSubmit} className={styles.buttonPrimary}>Salvar</button>
+            <button data-cy = "saveModalPL" onClick={handleSubmit} className={styles.buttonPrimary}>Salvar</button>
           </div>
         </div>
       </div>
