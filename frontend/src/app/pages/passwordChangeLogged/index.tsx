@@ -1,9 +1,10 @@
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import styles from "./index.module.css";
 import Password from "/src/shared/assets/password.png";
+import { GlobalContext } from "../../context/GlobalContext";
 
-export default function PasswordChangePage() {
+export default function PasswordChangeLoggedPage() {
 
     const navigate = useNavigate();
     const navigateTo = (path: string) => {
@@ -12,11 +13,9 @@ export default function PasswordChangePage() {
 
     const [user, setUser] = useState({
         password: "",
-        confirm: "",
     });
 
-
-    const { token } = useParams() as {token : string};
+    const {userLogin} = useContext(GlobalContext)
 
     const [toastMessage, setToastMessage] = useState("");
     const [showToast, setShowToast] = useState(false);
@@ -32,7 +31,7 @@ export default function PasswordChangePage() {
     const handleSubmit = async (event) => {
         event.preventDefault(); // Evita que a página recarregue
         try {
-            const response = await fetch("http://localhost:5001/users/recovery/" + token, {
+            const response = await fetch("http://localhost:5001/users/" + userLogin, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(user)
@@ -48,7 +47,6 @@ export default function PasswordChangePage() {
             setTimeout(() => setShowToast(false), 3000);
             setUser({
                 password: "",
-                confirm: "",
             }); // Resetar formulário
 
         } catch (error) {
@@ -60,20 +58,15 @@ export default function PasswordChangePage() {
 
     return (
         <div className={styles.main}>
-            <h1 className={styles.header}>Recuperação de Senha</h1>
+            <h1 className={styles.header}>Editar Senha</h1>
             <form className={styles.form} onSubmit={handleSubmit}>
                 <div className={styles.card}>
                     <div className={styles.inputer}>
                         <img src={Password} alt={"Photo"} className={styles.regPhoto}/>
                         <input type="password" name="password" value={user.password} onChange={handleChange} placeholder="Senha" required minLength={6}/>
                     </div>
-                    <div className={styles.inputer}>
-                        <img src={Password} alt={"Photo"} className={styles.regPhoto}/>
-                        <input type="password" name="confirm" value={user.confirm} onChange={handleChange} placeholder="Confirmar Senha" required minLength={6}/>
-                    </div>
-
                 </div>
-                <button className={styles.button} type="submit">Recuperar senha</button>
+                <button className={styles.button} type="submit">Editar</button>
             </form>
             {showToast && (
                 <div className={styles.toast}>

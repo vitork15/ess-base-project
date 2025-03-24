@@ -4,6 +4,8 @@ import elefanteLogo from '../../../shared/assets/elefanteLogo.png';
 import personIcon from '../../../shared/assets/person.png';
 import libraryIcon from '../../../shared/assets/biblioteca.png';
 import searchIcon from '../../../shared/assets/lupa.png';
+import { useContext } from 'react';
+import { GlobalContext } from '../../context/GlobalContext';
 
 export default function Sidebar() {
 
@@ -11,6 +13,8 @@ export default function Sidebar() {
   const navigateTo = (path: string) => {
   navigate(path);
   }
+
+  const {userLogin} = useContext(GlobalContext)
   
   return (
     <div>
@@ -26,7 +30,7 @@ export default function Sidebar() {
               Buscar
             </div>
           </button>
-          <button className={style.button}>     
+          <button className={style.button} onClick={() => navigateTo('/users/'+userLogin)}>     
             <img src={personIcon} alt="Perfil icone" className={style.icon} />
             <div>
               Perfil

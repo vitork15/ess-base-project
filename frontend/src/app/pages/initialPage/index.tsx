@@ -11,19 +11,15 @@ export default function InitialPage() {
     navigate(path);
   }
 
-  const [logedFlag, setLogedFlag] = useState(false); // Estado para controlar o popup
+  const {isLogged} = useContext(GlobalContext); // Estado para controlar o popup
 
   const handleLogin = () => {
-    setLogedFlag(true); // Fecha o popup após o login
     navigateTo('/login')
   };
 
   const handleLoginA = () => {
-    setLogedFlag(true); // Fecha o popup após o login
     navigateTo('/artistlogin')
   };
-
-  const {isLogged} = useContext(GlobalContext)
   
   useEffect(() => {
     if(!isLogged){
@@ -34,7 +30,7 @@ export default function InitialPage() {
   return(
 
     <div className={style.body}>
-    {!logedFlag && (
+    {!isLogged && (
         <div className={style.blur}>
           <div className={style.loginPopup}>
             Faça login para acessar

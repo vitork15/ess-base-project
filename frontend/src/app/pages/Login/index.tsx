@@ -44,9 +44,10 @@ export default function LoginPage() {
             if(responseData.password != user.password) setToastMessage("Senha incorreta"); // Define a mensagem do toast
             else {
                 setToastMessage("Login realizado com sucesso"); 
-                setIsLogged(true); navigateTo("/home"); 
+                setIsLogged(true);
                 setUserLogin(responseData.login);
                 setUserId(responseData.userID);
+                navigateTo("/home"); 
             } // Define a mensagem do toast
 
             setShowToast(true);

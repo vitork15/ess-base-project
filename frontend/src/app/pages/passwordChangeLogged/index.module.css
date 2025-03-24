@@ -26,7 +26,7 @@
     background-color: black;
     border-radius: 40px;
     width: 360px;;
-    height: 360px;
+    height: 100px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -41,7 +41,7 @@
     border: 0;
     height: 40px;
     width: 150px;
-    font-size: 20px;
+    font-size: 16px;
     font-family: 'Mansalva', cursive;
     font-weight: bold;
     border-radius: 50px;
@@ -49,45 +49,6 @@
 }
 
 .button:hover {
-    background: rgb(111, 111, 111); /* Nova cor de fundo */
-    color: black;
-}
-
-.buttondelete{
-    background-color: rgb(255, 0, 0);
-    cursor: pointer;
-    color: white;
-    border: 0;
-    height: 40px;
-    width: 150px;
-    font-size: 20px;
-    font-family: 'Mansalva', cursive;
-    font-weight: bold;
-    border-radius: 50px;
-    transition: background-color 0.2s;
-}
-
-.buttondelete:hover {
-    background: rgb(255, 139, 139); /* Nova cor de fundo */
-    color: rgb(0, 0, 0);
-}
-
-.buttonwhite{
-    background-color: rgb(255, 255, 255);
-    cursor: pointer;
-    color: black;
-    border: 0;
-    height: 40px;
-    width: 180px;
-    font-family: 'Mansalva', cursive;
-    border-radius: 50px;
-    transition: background-color 0.2s;
-    font-size: 16px;
-    padding: 8px;
-    display: flex;
-}
-
-.buttonwhite:hover {
     background: rgb(111, 111, 111); /* Nova cor de fundo */
     color: black;
 }
@@ -143,50 +104,6 @@
 
 .regPhoto {
     margin-left: 10px;
-    margin-right: 8px;
     height: 20px;
     width: 20px;
-}
-
-.Popup{
-    background-color: white;
-    height: 45%;
-    width: 30%;
-    position: fixed;
-    top: 24%;
-    left: 42%;
-    border-radius: 30px;
-    color: black;
-    padding: 2vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 3vw;
-    gap: 2vw;
-    text-align: center;
-}
-
-.popupButton{
-    color: white;
-    background-color: black;
-    border-radius: 30px;
-    height: 7vw;
-    width: 20vw;
-    font-size: 2vw;
-    border: none;
-}
-
-.popupButton:hover{
-    background-color: rgb(142, 142, 142);
-    transition: background-color 0.3s;
-    cursor: pointer;
-}
-
-.blur{
-    background-color: rgba(0, 0, 0, 0.5);
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 17vw;
 }
