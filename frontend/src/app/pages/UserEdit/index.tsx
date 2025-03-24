@@ -16,6 +16,15 @@ export default function EditPage() {
 
     const {userLogin, setIsLogged} = useContext(GlobalContext)
 
+    const replace = (key, value) => 
+        {
+            // Filtering out properties
+            if (value === "") {
+              return undefined;
+            }
+            return value;
+        }
+
     interface User {
         name: string,
         login: string,
@@ -47,7 +56,7 @@ export default function EditPage() {
             const response = await fetch("http://localhost:5001/users/" + userLogin, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(user)
+                body: JSON.stringify(user, replace)
             });
 
             const responseText = await response.text(); // Pega a resposta do servidor

@@ -22,6 +22,15 @@ export default function RegisterPage() {
         birthday: ""
     });
 
+    const replace = (key, value) => 
+        {
+            // Filtering out properties
+            if (value === "") {
+              return undefined;
+            }
+            return value;
+        }
+
     const [toastMessage, setToastMessage] = useState("");
     const [showToast, setShowToast] = useState(false);
 
@@ -39,7 +48,7 @@ export default function RegisterPage() {
             const response = await fetch("http://localhost:5001/users", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(user)
+                body: JSON.stringify(user, replace)
             });
 
             const responseText = await response.text(); // Pega a resposta do servidor

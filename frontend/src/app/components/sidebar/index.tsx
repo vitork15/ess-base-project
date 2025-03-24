@@ -4,8 +4,9 @@ import elefanteLogo from '../../../shared/assets/elefanteLogo.png';
 import personIcon from '../../../shared/assets/person.png';
 import libraryIcon from '../../../shared/assets/biblioteca.png';
 import searchIcon from '../../../shared/assets/lupa.png';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { GlobalContext } from '../../context/GlobalContext';
+import { useState } from 'react';
 
 export default function Sidebar() {
 
@@ -13,6 +14,23 @@ export default function Sidebar() {
   const navigateTo = (path: string) => {
   navigate(path);
   }
+
+  const {musicPlaying} = useContext(GlobalContext)
+  const [musicName, setMusicName] = useState('');
+
+  useEffect(() => {
+    if(musicPlaying !== -1){
+      fetch('http://localhost:5001/songs/'+ musicPlaying)
+        .then(response => response.json())
+        .then(data => {
+          console.log('Music data:', data);
+          setMusicName(data.name);
+        })
+        .catch(error => {
+          console.error('Error fetching music:', error);
+        });
+    };
+  })
 
   const {userLogin} = useContext(GlobalContext)
   
@@ -50,7 +68,7 @@ export default function Sidebar() {
 
             </div>
             <div className={style.songName}>
-              song name
+              {musicName}
             </div>
           </div>
           <div className={style.actions}>
