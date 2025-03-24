@@ -93,22 +93,19 @@ const Cadastro: React.FC = () => {
             <input className={styles['form-input']} 
               value={albumName} 
               onChange={(e) => setAlbumName(e.target.value)} 
+              placeholder="album"
             />
             <p className={styles['font-bold']}>Quantidade de Músicas</p>
               <div className={styles['counter-buttons']}>
                 <button 
                   className={styles['a-button']} 
                   onClick={() => setSongs((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev))}
-                >
-                  -
-                </button>
+                >"-"</button>
                 <span className={styles['font-bold']}>{songs.length}</span>
                 <button 
                   className={styles['a-button']} 
                   onClick={() => setSongs((prev) => (prev.length < 15 ? [...prev, prev.length + 1] : prev))}
-                >
-                  +
-                </button>
+                >"+"</button>
               </div>
 
             <div className={styles['input-group']}>
@@ -117,6 +114,7 @@ const Cadastro: React.FC = () => {
                 <input className={styles['form-input-b']} 
                   value={genero} 
                   onChange={(e) => setGenero(e.target.value)} 
+                  placeholder="genero"
                 />
               </div>
               <div className={styles['text-input-group']}>
@@ -124,6 +122,7 @@ const Cadastro: React.FC = () => {
                 <input className={styles['form-input-b']} 
                   value={subgenero} 
                   onChange={(e) => setSubgenero(e.target.value)} 
+                  placeholder="subgenero"
                 />
               </div>
             </div>
