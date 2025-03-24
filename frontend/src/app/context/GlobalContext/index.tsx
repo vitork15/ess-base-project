@@ -12,6 +12,8 @@ type GlobalContextProps = {
   setUserLogin: (value: string) => void
   artistLogin: string;
   setArtistLogin: (value: string) => void;
+  musicPlaying: number
+  setMusicPlaying: (value: number) => void
 };
 
 // Criando o contexto com um valor inicial vazio
@@ -24,9 +26,10 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const [userId, setUserId] = useState(-1);
   const [artistLogin, setArtistLogin] = useState("");
   const [userLogin, setUserLogin] = useState("")
+  const [musicPlaying, setMusicPlaying] = useState(-1)
 
   return (
-    <GlobalContext.Provider value={{ isLogged, setIsLogged, isArtist, setIsArtist, userId, setUserId, artistLogin, setArtistLogin, userLogin, setUserLogin }}>
+    <GlobalContext.Provider value={{ isLogged, setIsLogged, isArtist, setIsArtist, userId, setUserId, artistLogin, setArtistLogin, userLogin, setUserLogin, musicPlaying, setMusicPlaying }}>
       {children}
     </GlobalContext.Provider>
   );
