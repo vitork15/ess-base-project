@@ -138,7 +138,7 @@ defineFeature(feature, (test) => {
             expect(response.status).toBe(parseInt(arg0))
         });
         and(/^o sistema retorna a mensagem "(.*)"$/, (arg0) => {
-            expect(response.body['message']).toBe(arg0)
+            expect(response.body['error']).toBe(arg0)
         });
     });
 
