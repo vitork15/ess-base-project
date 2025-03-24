@@ -20,6 +20,7 @@ import ArtistUpdatePage from "./app/pages/ArtistUpdate";
 import EditPage from "./app/pages/UserEdit";
 import Historico from "./app/pages/Historico"
 import Top10 from "./app/pages/Top10"
+import PasswordChangeLoggedPage from "./app/pages/passwordChangeLogged";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
       { path: "/historico/:login", element: <Historico />},
       { path: "/top10/:login", element: <Top10 />},
       { path: "albumregister", element: <Cadastro />},
+      { path: "/edit/password", element: <PasswordChangeLoggedPage />},
     ],
   },
   {
