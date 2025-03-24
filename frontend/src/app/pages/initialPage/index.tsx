@@ -27,6 +27,14 @@ export default function InitialPage() {
     }
   }, []);
 
+  const {isLogged} = useContext(GlobalContext)
+  
+  useEffect(() => {
+    if(!isLogged){
+      navigateTo("/login")
+    }
+  }, []);
+
   return(
 
     <div className={style.body}>
