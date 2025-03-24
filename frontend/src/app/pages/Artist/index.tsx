@@ -97,7 +97,7 @@ const ArtistPage = () => {
                             <button key={album.albumID} className={styles.albumCard} onClick={() => navigateTo('/album/' + album.albumID)}>
                                 <img src={AlbumPhoto} alt={"Photo"} className={styles.albumPhoto}/>
                                 <div className={styles.albumInfos}>
-                                    <h3 className={styles.albumGen}>{album.name}</h3>
+                                    <h3 className={styles.albumGen}>Nome: {album.name}</h3>
                                     <div className={styles.albumGen}>Gênero: {album.genero}</div>
                                     <div className={styles.albumGen}>Subgênero: {album.subgenero}</div>
                                 </div>

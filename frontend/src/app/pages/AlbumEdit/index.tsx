@@ -54,6 +54,7 @@ const EditAlbum: React.FC = () => {
       const updatedSongs = album.songs.filter((_, i) => i !== index);
       setAlbum({ ...album, songs: updatedSongs });
       alert("Música deletada com sucesso!");
+      navigate(`/artists/${artistLogin}`)
     } catch (error) {
       alert("Erro ao deletar a música");
       console.error(error);
@@ -119,10 +120,12 @@ const EditAlbum: React.FC = () => {
                 className={styles["music-input"]}
               />
               <button
+                data-info = {song.name}
                 className={styles["delete-button"]}
+                value={index}
                 onClick={() => handleDeleteSong(index)}
               >
-                Deletar Música
+                Deletar Música 
               </button>
             </div>
           ))
