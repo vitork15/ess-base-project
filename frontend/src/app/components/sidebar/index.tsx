@@ -4,6 +4,9 @@ import elefanteLogo from '../../../shared/assets/elefanteLogo.png';
 import personIcon from '../../../shared/assets/person.png';
 import libraryIcon from '../../../shared/assets/biblioteca.png';
 import searchIcon from '../../../shared/assets/lupa.png';
+import { useContext, useEffect } from 'react';
+import { GlobalContext } from '../../context/GlobalContext';
+import { useState } from 'react';
 
 export default function Sidebar() {
 
@@ -11,7 +14,24 @@ export default function Sidebar() {
   const navigateTo = (path: string) => {
   navigate(path);
   }
-  
+
+  const {musicPlaying, isArtist, userLogin, artistLogin, isLogged} = useContext(GlobalContext)
+  const [musicName, setMusicName] = useState('');
+
+  useEffect(() => {
+    if(musicPlaying !== -1){
+      fetch('http://localhost:5001/songs/'+ musicPlaying)
+        .then(response => response.json())
+        .then(data => {
+          console.log('Music data:', data);
+          setMusicName(data.name);
+        })
+        .catch(error => {
+          console.error('Error fetching music:', error);
+        });
+    };
+  })
+
   return (
     <div>
       <div className={style.sidebar}>
@@ -26,12 +46,22 @@ export default function Sidebar() {
               Buscar
             </div>
           </button>
-          <button className={style.button}>     
-            <img src={personIcon} alt="Perfil icone" className={style.icon} />
-            <div>
-              Perfil
-            </div>
-          </button>
+          {isLogged && (!isArtist) && 
+            <button className={style.button} onClick={() => navigateTo('/users/'+userLogin)}>     
+              <img src={personIcon} alt="Perfil icone" className={style.icon} />
+              <div>
+                Perfil
+              </div>
+            </button>
+          }
+          {isLogged && isArtist && 
+            <button className={style.button} onClick={() => navigateTo('/artists/'+artistLogin)}>     
+              <img src={personIcon} alt="Perfil icone" className={style.icon} />
+              <div>
+                Perfil
+              </div>
+            </button>
+          }
           <button className={style.button} onClick={() => navigateTo('/biblioteca')}>
             <img src={libraryIcon} alt="Biblioteca icone" className={style.icon} />
             <div>
@@ -40,13 +70,13 @@ export default function Sidebar() {
           </button>
         </div>
       
-        <div className={style.player}>
+        <div className={style.player} data-cy="player">
           <div>
             <div className={style.cover}>
 
             </div>
             <div className={style.songName}>
-              song name
+              {musicName}
             </div>
           </div>
           <div className={style.actions}>

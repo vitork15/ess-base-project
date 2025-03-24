@@ -94,12 +94,11 @@ class MusicHistoryService {
         let user = await this.userRepository.findOne({where:
             {login: id}
         })
-
+        console.log("into deleteMusicHistoryByUserId service")
+        console.log(user);
         if(user) {
             await this.musicHistoryRepository.delete({
-                usuario: {
-                    login: id
-                }
+                usuario: user
             });
             return true
         }
@@ -108,6 +107,15 @@ class MusicHistoryService {
     }
 
     async topMusicAndArtists(userID: string): Promise<TopMusicAndArtists[]> {
+        const user = await this.userRepository.findOneBy({
+            login: userID
+        })
+
+        if (!user) {
+            throw new Error("Usuário não encontrado");
+        }
+
+        const userId = user.userID;
         
         const topMusicasQuery = this.musicHistoryRepository
         .createQueryBuilder("h")
@@ -118,8 +126,9 @@ class MusicHistoryService {
             "ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS posicao"
         ])
         .innerJoin("song", "s", "h.musicId = s.songID")
-        .where("h.userId = :userID", { userID })
-        .groupBy("h.musicId, s.name");
+        .where("h.userId = :userID", { userID: userId })
+        .groupBy("h.musicId, s.name")
+        .limit(10);
 
         const topMusicas = await topMusicasQuery.getRawMany()
         console.log("top musicas: ", topMusicas)
@@ -135,8 +144,9 @@ class MusicHistoryService {
         .innerJoin("song", "m1", "h1.musicId = m1.songID")
         .innerJoin("album", "a", "m1.albumId = a.albumID")
         .innerJoin("artist", "ar", "a.artistLogin = ar.login")
-        .where("h1.userId = :userID", {userID})
-        .groupBy("ar.login");
+        .where("h1.userId = :userID", {userID: userId})
+        .groupBy("ar.login")
+        .limit(10);
         
         const topArtistas = await topArtistasQuery.getRawMany();
         console.log("Top Artistas: ", topArtistas)

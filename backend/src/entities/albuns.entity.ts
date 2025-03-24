@@ -29,7 +29,8 @@ class Album {
     tipo: string;
 
     @ManyToOne(() => Artist, (artist) => artist.albuns, {
-        onDelete: "CASCADE"
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE"
     })
     @JoinColumn({name: "artistLogin"})
     artist: Artist

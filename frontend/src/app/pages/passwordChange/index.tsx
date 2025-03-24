@@ -15,6 +15,7 @@ export default function PasswordChangePage() {
         confirm: "",
     });
 
+
     const { token } = useParams() as {token : string};
 
     const [toastMessage, setToastMessage] = useState("");

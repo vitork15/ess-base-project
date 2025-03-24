@@ -16,3 +16,10 @@ Feature: Visualizar e interagir com músicas na seção Em Alta
         When O sistema carrega a página "Em Alta"
         Then O sistema exibe a mensagem "Nenhuma música em alta no momento"
         And Não exibe nenhum item
+    
+     Scenario: Reproduzir uma música
+        Given O usuário "Maria" está na "emAlta"
+        And Uma música é exibida em qualquer uma das seções
+        When O usuário seleciona uma música específica
+        Then O sistema inicia a reprodução da música selecionada
+        And A música aparece no player localizado na parte inferior esquerda da tela

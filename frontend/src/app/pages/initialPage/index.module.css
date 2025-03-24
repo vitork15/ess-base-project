@@ -12,7 +12,7 @@
 
 .banner{
     background-color: black;
-    height: 25%;
+    height: 25vh;
     width: 100%;
     border-radius: 40px;
     justify-content: space-between;
@@ -25,12 +25,12 @@
 .bannerArt{
     height: 24vh;
     width: 24vw;
- 
 }
 
 .sugests{
+    display: flex;
     background-color: white;
-    height: 40%;
+    height: 40vh;
 }
 
 .atalhos{
@@ -62,46 +62,4 @@
 .atalhoIcon{
     height: 8vh;
     width: 8vh;
-}
-
-.loginPopup{
-    background-color: white;
-    height: 45%;
-    width: 30%;
-    position: fixed;
-    top: 24%;
-    left: 42%;
-    border-radius: 30px;
-    color: black;
-    padding: 5vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 3vw;
-    gap: 2vw;
-    text-align: center;
-}
-
-.loginButton{
-    color: white;
-    background-color: black;
-    border-radius: 30px;
-    height: 7vw;
-    width: 20vw;
-    font-size: 2vw;
-    border: none;
-}
-
-.loginButton:hover{
-    background-color: rgb(142, 142, 142);
-    transition: background-color 0.3s;
-}
-
-.blur{
-    background-color: rgba(0, 0, 0, 0.5);
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 17vw;
 }

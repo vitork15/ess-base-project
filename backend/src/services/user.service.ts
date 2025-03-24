@@ -69,9 +69,13 @@ class UserService{
             if(newpassword.length < 6){
                 throw new Error("Sua senha deve conter pelo menos 6 caracteres")
             }
+            if(newpassword == user.password){
+                throw new Error("Sua senha não pode ser igual a anterior!")
+            }
             user.password = newpassword 
         }
         if(newbirthday != null) { user.birthday = newbirthday }
+        else user.birthday = null
 
         return await this.userRepository.save(user)
     }
