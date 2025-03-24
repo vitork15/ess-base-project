@@ -76,8 +76,8 @@ export default function UserPage() {
                         </div>
                     </div>
                     <button className={styles.button} onClick={() => navigateTo('/recovery')}>Histórico de Playlists</button>
-                    <button className={styles.button} onClick={() => navigateTo('/recovery')}>Histórico de Músicas</button>
-                    <button className={styles.button} onClick={() => navigateTo('/recovery')}>Mais Escutadas</button>
+                    <button className={styles.button} onClick={() => navigateTo(`/historico/${login}`)}>Histórico de Músicas</button>
+                    <button className={styles.button} onClick={() => navigateTo(`/top10/${login}`)}>Mais Escutadas</button>
                 </div>
             </div>
         </div>
