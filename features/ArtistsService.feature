@@ -32,7 +32,7 @@ Scenario: Falha no cadastro de artista por campo obrigatório vazio
     And eu preencho o campo bio com "cantor do bem"
     When uma requisição POST é mandada para "/artists" 
     Then a resposta da requisição tem o código "400"
-    And o sistema retorna a mensagem "Preencha os campos obrigatórios."
+    And o sistema retorna a mensagem "Preencha todos os campos."
 
 Scenario: Atualização do cadastro de artista com sucesso
     Given não existe Artista com o nome artístico preenchido com "Luis Piastri"
