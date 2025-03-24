@@ -70,7 +70,7 @@ export default function Sidebar() {
           </button>
         </div>
       
-        <div className={style.player}>
+        <div className={style.player} data-cy="player">
           <div>
             <div className={style.cover}>
 
