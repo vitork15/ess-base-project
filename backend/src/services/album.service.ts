@@ -116,10 +116,6 @@ class AlbumService {
             throw new Error("Album not found");
         }
     
-        if (album.artist.login !== artist_login) {
-            throw new Error("You do not have permission to delete songs from this album");
-        }
-    
         const songIndex = album.songs.findIndex(song => song.songID === songId);
     
         if (songIndex === -1) {

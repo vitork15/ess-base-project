@@ -94,7 +94,7 @@ const ArtistPage = () => {
                     <h2 className={styles.discografiaTitle}>Discografia</h2>
                     <div className={styles.discografiaContent}>
                         {artist.albuns.map((album) => (
-                            <button key={album.albumID} className={styles.albumCard}>
+                            <button key={album.albumID} className={styles.albumCard} onClick={() => navigateTo('/album/' + album.albumID)}>
                                 <img src={AlbumPhoto} alt={"Photo"} className={styles.albumPhoto}/>
                                 <div className={styles.albumInfos}>
                                     <h3 className={styles.albumGen}>{album.name}</h3>
