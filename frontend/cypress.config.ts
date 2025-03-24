@@ -1,9 +1,10 @@
-import { defineConfig } from "cypress";
-import cucumberPreprocessor from "@badeball/cypress-cucumber-preprocessor";
-import createBundler from "@bahmutov/cypress-esbuild-preprocessor";
-import { createEsbuildPlugin } from "@badeball/cypress-cucumber-preprocessor/esbuild";
+const { defineConfig } = require("cypress");
+const cucumberPreprocessor = require("@badeball/cypress-cucumber-preprocessor");
+const createBundler = require("@bahmutov/cypress-esbuild-preprocessor");
+const { createEsbuildPlugin } = require("@badeball/cypress-cucumber-preprocessor/esbuild");
 
-export default defineConfig({
+module.exports = defineConfig({
+  projectId: 'buo55r',
   video: false,
   viewportWidth: 1280,
   viewportHeight: 720,
@@ -16,14 +17,11 @@ export default defineConfig({
   chromeWebSecurity: false,
   env: {
     codeCoverage: {
-      exclude: ["cypress/**/*.*", "coverage/**/*.*"],
+      exclude: ["cypress/**/*.ts", "coverage/**/*.ts"],
     },
   },
   e2e: {
-    async setupNodeEvents(
-      on: Cypress.PluginEvents,
-      config: Cypress.PluginConfigOptions
-    ): Promise<Cypress.PluginConfigOptions> {
+    async setupNodeEvents(on, config) {
       await cucumberPreprocessor.addCucumberPreprocessorPlugin(on, config);
 
       on(
@@ -33,12 +31,10 @@ export default defineConfig({
         })
       );
 
-      // TODO: Fix coverage
-      // coverageTask(on, config);
-
       return config;
     },
-    baseUrl: "http://localhost:3000",
-    specPattern: "cypress/e2e/**/*.feature",
+    baseUrl: "http://localhost:3000/",
+    specPattern: "cypress/e2e/**/*.feature", // Corrigido para buscar recursivamente os arquivos .feature
+    supportFile: "cypress/support/e2e.ts", // Garante que os comandos customizados sejam carregados
   },
 });

@@ -48,7 +48,7 @@ export default function Sidebar() {
               Buscar
             </div>
           </button>
-          <button className={style.button} onClick={() => navigateTo('/users/'+userLogin)}>     
+          <button className={style.button} id="profile" onClick={() => navigateTo('/users/'+userLogin)}>     
             <img src={personIcon} alt="Perfil icone" className={style.icon} />
             <div>
               Perfil

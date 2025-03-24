@@ -74,13 +74,13 @@ function Historico() {
                     <p>Histórico</p>
                 </div>
             </div>
-            <div className={styles.historycontainer}>
+            <div className={styles.historycontainer} id="historicocontainer">
             {musicHistory.map((item, index) => (
                 <HistoryItem key={index} name={item.songName} artist={item.authorName} />
             ))}
             </div>
             <div className={styles.footer}>
-                  <button onClick={handleDelete} className={styles.apagarHistorico}>Deletar</button>
+                  <button onClick={handleDelete} id="delete" className={styles.apagarHistorico}>Deletar</button>
                   <button onClick={handleTop10Redirect} className={styles.maisEscutados}>Mais Escutados</button>
             </div>
         </div>

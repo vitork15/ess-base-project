@@ -49,4 +49,12 @@ Cypress.Commands.add("getDataCy", (dataCySelector) => {
   return cy.get(`[data-cy="${dataCySelector}"]`);
 });
 
+interface User {
+  username: string;
+  password: string;
+  email: string;
+}
+
+
+
 export {};
