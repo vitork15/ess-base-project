@@ -50,11 +50,6 @@ class SongService {
             throw new Error("Album not found");
         }
     
-        if (album.artist.login !== artist_login) {
-            console.log(album.artist.login)
-            throw new Error("You do not have permission to delete songs from this album");
-        }
-    
         await this.songRepository.delete({ album: { albumID: albumId } }); 
     }
 

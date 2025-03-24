@@ -139,10 +139,6 @@ class AlbumService {
             throw new Error("Album not found");
         }
     
-        if (album.artist.login !== artist_login) {
-            throw new Error("You do not have permission to delete this album");
-        }
-    
         await this.albumRepository.delete(album.albumID);
         return album;
     }
