@@ -98,10 +98,10 @@ class PlaylistController {
 
     async patchPlaylist(req: Request, res: Response){
         let id  = parseInt(req.params.id); // Obtém o parâmetro de ID da URL
-        let { name, description, imageURL, songs } = req.body; 
+        let { name, description, imageURL, songs, categories} = req.body; 
 
         try{
-            let updatedPlaylist = await this.playlistService.patchPlaylist(id,name,description,imageURL, songs)
+            let updatedPlaylist = await this.playlistService.patchPlaylist(id,name,description,imageURL, songs,categories)
             return res.status(200).json(updatedPlaylist)
         }catch(error){
             const message = error instanceof Error ? error.message : "ERRO"

@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import styles from "./index.module.css"
 import axios from "axios";
 
 export const PlaylistModal = ({initialData, onClose}) => {
     const [formData, setFormData] = useState(initialData);
-    console.log(formData)
+    const [selecionadas, setSelecionadas] = useState<number[]>([]);
+
+
     const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -14,15 +16,31 @@ export const PlaylistModal = ({initialData, onClose}) => {
       await axios.patch(`http://localhost:5001/playlists/${initialData.playlistID}`, {
         name: `${formData.name}`,
         description:`${formData.description}`,
+        categories:selecionadas,
         imageURL:`${formData.url}`
       })
     }
-  
+
+
     const handleSubmit = async () => {
       await saveData()
-      await onClose();
+      await onClose()
     };
+
   
+    // Função chamada ao marcar/desmarcar uma checkbox
+    const handleCheckboxChange = (event) => {
+      let stringResponse = event.target.value 
+      let numberResponse = Number(stringResponse)
+
+      
+      if(!selecionadas.includes(numberResponse)){
+        selecionadas.push(numberResponse)       
+      }else{
+        setSelecionadas(selecionadas.filter((item) => item !==numberResponse))
+      }
+    }
+
     return (
       <div className={styles.overlay}>
         <div className={styles.modal}>
@@ -49,6 +67,13 @@ export const PlaylistModal = ({initialData, onClose}) => {
             onChange={handleChange}
             className={styles.input}
           />
+          <fieldset>
+            <input type="checkbox" name="categories" value="0" onChange={handleCheckboxChange} />Rock
+            <input type="checkbox" name="categories" value="1" onChange={handleCheckboxChange}/>Brega
+            <input type="checkbox" name="categories" value="2" onChange={handleCheckboxChange}/>Funk
+            <input type="checkbox" name="categories" value="3" onChange={handleCheckboxChange}/>Eletronica
+            <input type="checkbox" name="categories" value="4" onChange={handleCheckboxChange}/>Musica de verão
+          </fieldset>
           <div className={styles.buttonContainer}>
             <button onClick={onClose} className={styles.buttonSecondary}>Cancelar</button>
             <button data-cy = "saveModalPL" onClick={handleSubmit} className={styles.buttonPrimary}>Salvar</button>
