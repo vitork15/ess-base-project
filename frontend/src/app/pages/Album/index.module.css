@@ -45,11 +45,12 @@
 }
 
 .album-cover-container {
+  margin-top: 2rem;
   text-align: center;
 }
 
 .album-cover {
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   width: 10rem;
   height: 10rem;
   background-color: #e0e0e0;
@@ -114,6 +115,26 @@
   display: flex;
   gap: 2rem;
   justify-content: center;
+}
+
+.counter-buttons{
+  margin-top: 0.2rem;
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.counter-buttons button {
+  padding: 0.6rem 1.5rem;
+  border: 1px solid black;
+  border-radius: 2rem;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 20pt;
+}
+
+.counter-buttons .a-button {
+  background-color: black;
+  color: white; 
 }
 
 .final-buttons button {
