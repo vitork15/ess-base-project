@@ -73,7 +73,7 @@ export default function PasswordChangePage() {
                     </div>
 
                 </div>
-                <button className={styles.button} type="submit">Recuperar senha</button>
+                <button className={styles.button} type="submit">Alterar senha</button>
             </form>
             {showToast && (
                 <div className={styles.toast}>

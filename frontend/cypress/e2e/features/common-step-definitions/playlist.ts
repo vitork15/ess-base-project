@@ -7,12 +7,12 @@ Given("O usuário {string} foi cadastrado no sistema", (user: string) => {
     cy.visit('home');
     cy.get('button').contains('Entre').click();
     cy.get('input[placeholder="Login"]').type(user);
-    cy.get('input[placeholder="Senha"]').type('123456');
+    cy.get('input[placeholder="Senha"]').type('12345678');
     cy.get('button').contains('Entrar').click();
 });
 
 Given("O usuário está na página de {string}", (page: string) => {
-    cy.get('button').contains('Biblioteca').click()
+    cy.get('button').contains(page).click()
 })
 
 When("O usuário seleciona para adicionar uma nova playlist", () => {
