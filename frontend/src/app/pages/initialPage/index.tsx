@@ -26,7 +26,7 @@ export default function InitialPage() {
       navigateTo("/login")
     }
   }, []);
-
+  
   return(
 
     <div className={style.body}>

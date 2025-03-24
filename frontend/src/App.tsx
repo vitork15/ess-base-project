@@ -39,6 +39,8 @@ const router = createBrowserRouter([
       { path: "/historico/:login", element: <Historico />},
       { path: "/top10/:login", element: <Top10 />},
       { path: "albumregister", element: <Cadastro />},
+      { path: "/top10/:login", element: <Top10 />},
+      { path: "albumregister", element: <Cadastro />},
       { path: "/edit/password", element: <PasswordChangeLoggedPage />},
     ],
   },
