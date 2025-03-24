@@ -16,7 +16,6 @@ export default function EmAlta() {
   const [songs, setSongs] = useState<Song[]>([]);
   const [error, setError] = useState<string | null>(null); // Estado para armazenar a mensagem de erro
 
-
   useEffect(() => {
     // Fazendo a requisição para o backend
     fetch('http://localhost:5001/topsongs') 
@@ -24,14 +23,43 @@ export default function EmAlta() {
         if (response.status === 210) {
           setError('O número de músicas no sistema ainda é insuficiente para exibir a página. Aguarde só mais um pouco!');
         }
-        return response.json();
+        else{
+          response.json().then((data) => {
+            if (Array.isArray(data)) {
+              setSongs(data);
+            } else {
+              setError('Não foi possível se conectar com o servidor. Tente novamente mais tarde.');
+            }});
+        }
       })
-      .then((data) => setSongs(data))
       .catch((error) => {
         console.error('Erro ao buscar as músicas:', error);
         setError('Não foi possível se conectar com o servidor. Tente novamente mais tarde.');  
       });
   }, []);
+
+  const renderSongs = () => {
+    return (
+      <>
+        {songs.map((song, index) => (
+          <div key={index} className={style.musicCard}>
+            <div className={style.numberIndex}>
+              <h1>{index + 1}</h1>
+            </div>
+            <img
+              className={style.musicCover}
+              src={song.cover}
+              alt={`Capa da música ${song.name}`}
+            />
+            <div className={style.musicInfo}>
+              <h1>{song.name}</h1>
+              <h2>{song.artistName}</h2>
+            </div>
+          </div>
+        ))}
+      </>
+    );
+  }
 
   return (
     <div>
@@ -47,28 +75,11 @@ export default function EmAlta() {
       </div>
       <div className={style.content}>
         <div className={style.musicBox}>
-
-        {error !== null ? (
-          <div className={style.errorMessage}>{error}</div>
-        ) : (
-          songs.map((song, index) => (
-            <div key={index} className={style.musicCard}>
-              <div className={style.numberIndex}>
-                <h1>{index + 1}</h1>
-              </div>
-              <img
-                className={style.musicCover}
-                src={song.cover}
-                alt={`Capa da música ${song.name}`}
-              />
-              <div className={style.musicInfo}>
-                <h1>{song.name}</h1>
-                <h2>{song.artistName}</h2>
-              </div>
-            </div>
-          ))
-        )}
-
+          {error !== null ? (
+            <div className={style.errorMessage}>{error}</div>
+          ) : (
+            renderSongs()
+          )}
         </div>
         <div>
         <img src={bannerArt} alt='trofeu' className={style.bannerArt}/>

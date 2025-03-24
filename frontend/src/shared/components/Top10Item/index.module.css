@@ -1,0 +1,21 @@
+.container{
+    display:flex;
+    width: 98%;
+    height: 60px;
+    border: 2px solid black;
+    margin-left: 5px;
+    margin-top: 5px;
+    background-color: rgb(88, 87, 87);
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.container p{
+    color: white;
+    font-family: cursive;
+    margin-left: 10px;
+    font-size: 45px;
+    margin-right: 10px;
+}
+
