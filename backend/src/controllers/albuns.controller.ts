@@ -3,111 +3,94 @@ import AlbumService from "../services/album.service";
 import SongService from "../services/songs.service";
 
 class AlbumController {
-    albumService: AlbumService;
-    songService: SongService;
-
-    constructor() {
-        this.albumService = new AlbumService();
-        this.songService = new SongService();
-    }
+    private albumService = new AlbumService();
+    private songService = new SongService();
 
     async getAll(req: Request, res: Response) {
-        let albums = await this.albumService.getAllAlbums();
-        return res.status(200).json(albums);
+        try {
+            const albums = await this.albumService.getAllAlbums();
+            return res.status(200).json(albums);
+        } catch (error) {
+            return this.handleError(res, error);
+        }
     }
 
     async getById(req: Request, res: Response) {
-        const id = parseInt(req.params.id);
-        let album = null;
-
         try {
-            album = await this.albumService.getAlbumById(id);
+            const id = parseInt(req.params.id);
+            const album = await this.albumService.getAlbumById(id);
+            return res.status(200).json(album);
         } catch (error) {
-            const message = error instanceof Error ? error.message : "ERRO";
-            return res.status(404).json(message);
+            return this.handleError(res, error, 404);
         }
-
-        return res.status(200).json(album);
     }
 
     async createAlbum(req: Request, res: Response) {
-        const { name, genero, subgenero, songs, songs_paths, artist_login, feat} = req.body;
-
-        if (!name || !songs || !genero || !artist_login || !songs_paths) {
-            return res.status(400).json("Missing required fields!");
-        }
-
-        const fullName = feat ? `${name} (feat. ${feat})` : name;
-
-        let albumInserted = null;
-        let tipo = "";
-
-        if (songs.length === 1) {
-            tipo = "Single";
-        } else if (songs.length === 2) {
-            tipo = "Double Single";
-        } else if (songs.length <= 5){
-            tipo = "EP"
-        } else {
-            tipo = "Álbum"
-        }
-
         try {
-            albumInserted = await this.albumService.insertAlbum(fullName, genero, subgenero, songs, tipo, songs_paths, artist_login);
-        } catch (error) {
-            const message = error instanceof Error ? error.message : "ERRO";
-            return res.status(400).json(message);
-        }
+            const { name, genero, subgenero, songs, songs_paths, artist_login, feat } = req.body;
+            if (!name || !songs || !genero || !artist_login || !songs_paths) {
+                return res.status(400).json({ message: "Missing required fields!" });
+            }
 
-        return res.status(201).json(albumInserted);
+            const fullName = feat ? `${name} (feat. ${feat})` : name;
+            const tipo = this.getAlbumType(songs.length);
+            
+            const albumInserted = await this.albumService.insertAlbum(fullName, genero, subgenero, songs, tipo, songs_paths, artist_login);
+            return res.status(201).json(albumInserted);
+        } catch (error) {
+            return this.handleError(res, error);
+        }
     }
 
     async deleteAlbum(req: Request, res: Response) {
-        const {artist_login} = req.body;
-        const id = parseInt(req.params.id);
-
-        let album = null;
-
         try {
-            await this.songService.deleteSongsByAlbumId(id, artist_login)
-            album = await this.albumService.deleteAlbum(id, artist_login);
-        } catch (error) {
-            const message = error instanceof Error ? error.message : "ERRO";
-            return res.status(400).json(message);
-        }
+            const id = parseInt(req.params.id);
+            const { artist_login } = req.body;
 
-        return res.status(200).json(album);
+            await this.songService.deleteSongsByAlbumId(id, artist_login);
+            const album = await this.albumService.deleteAlbum(id);
+            return res.status(200).json(album);
+        } catch (error) {
+            return this.handleError(res, error);
+        }
     }
 
     async updateAlbum(req: Request, res: Response) {
-        const { name, genero, subgenero, songs, songs_path, artist_login } = req.body;
-        const id = parseInt(req.params.id);
-        let album = null;
-    
         try {
-            // Extrair apenas os nomes das músicas
+            const { name, genero, subgenero, songs, songs_path, artist_login } = req.body;
+            const id = parseInt(req.params.id);
             const songNames = songs.map((song: { name: string }) => song.name);
-    
-            album = await this.albumService.updateAlbum(id, name, genero, subgenero, songNames, songs_path, artist_login);
+            
+            const album = await this.albumService.updateAlbum(id, name, genero, subgenero, songNames, songs_path);
+            return res.status(200).json(album);
         } catch (error) {
-            const message = error instanceof Error ? error.message : "ERRO";
-            return res.status(400).json(message);
+            return this.handleError(res, error);
         }
-    
-        return res.status(200).json(album);
     }
-    
 
     async deleteSongFromAlbum(req: Request, res: Response) {
-        const {albumId, songId} = req.params; 
-        const {artist_login} = req.body;
         try {
-            await this.albumService.deleteSongFromAlbum(parseInt(albumId), parseInt(songId), artist_login);
+            const albumId = parseInt(req.params.albumId);
+            const songId = parseInt(req.params.songId);
+            const { artist_login } = req.body;
+            
+            await this.albumService.deleteSongFromAlbum(albumId, songId, artist_login);
             return res.status(200).json({ message: "Song deleted successfully." });
         } catch (error) {
-            const message = error instanceof Error ? error.message : "Error deleting song.";
-            return res.status(400).json({ message });
+            return this.handleError(res, error);
         }
+    }
+
+    private getAlbumType(songCount: number): string {
+        if (songCount === 1) return "Single";
+        if (songCount === 2) return "Double Single";
+        if (songCount <= 5) return "EP";
+        return "Álbum";
+    }
+
+    private handleError(res: Response, error: unknown, statusCode = 400) {
+        const message = error instanceof Error ? error.message : "An unexpected error occurred.";
+        return res.status(statusCode).json({ message });
     }
 }
 
