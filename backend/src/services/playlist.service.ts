@@ -65,15 +65,15 @@ class PlaylistService{
         playlist.name = name
         playlist.description = description
         playlist.saveCount = saveCount
-        let songs = []
-        for (let i = 0; i < songIds.length; i++) {
-            let song = await this.songRepository.findOne({where:{songID:songIds[i]}})
-            if(!song){
-                throw new Error(`song of id ${songIds[i]} was not found`)
-            }
-            songs.push(song)
-        }
-        playlist.songs = songs
+        // let songs = []
+        // for (let i = 0; i < songIds.length; i++) {
+        //     let song = await this.songRepository.findOne({where:{songID:songIds[i]}})
+        //     if(!song){
+        //         throw new Error(`song of id ${songIds[i]} was not found`)
+        //     }
+        //     songs.push(song)
+        // }
+        playlist.songs = await this.getSongsByIdList(songIds)
         playlist.categories = categoryList
         playlist.imageURL = imageURL
         return await this.playlistRepository.save(playlist)
@@ -94,15 +94,15 @@ class PlaylistService{
             playlist.imageURL = imageURL
         }
         if(songs){
-            let songList = []
-            for(let i=0;i<songs.length;i++){
-                let song = await this.songRepository.findOne({where:{songID:songs[i]}})
-                if(!song){
-                    throw new Error(`song of id ${songs[i]} was not found`)
-                }
-                songList.push(song)
-            }
-            playlist.songs = songList
+            // let songList = []
+            // for(let i=0;i<songs.length;i++){
+            //     let song = await this.songRepository.findOne({where:{songID:songs[i]}})
+            //     if(!song){
+            //         throw new Error(`song of id ${songs[i]} was not found`)
+            //     }
+            //     songList.push(song)
+            // }
+            playlist.songs = await this.getSongsByIdList(songs)
         }
         if(categories){
             let categoriesList = await this.categoryRepository.findBy({categoryID : In(categories)})
@@ -120,6 +120,20 @@ class PlaylistService{
         return playlist
         
     }
+
+    async getSongsByIdList(songIds:number[]): Promise<Song[]> {
+        let songs = []
+        for (let i = 0; i < songIds.length; i++) {
+            let song = await this.songRepository.findOne({where:{songID:songIds[i]}})
+            if(!song){
+                throw new Error(`song of id ${songIds[i]} was not found`)
+            }
+            songs.push(song)
+        }
+
+        return songs
+    }
+
 
 }
 
