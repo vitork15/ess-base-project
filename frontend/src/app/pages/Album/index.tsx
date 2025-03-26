@@ -13,11 +13,10 @@ const Cadastro: React.FC = () => {
   const [subgenero, setSubgenero] = useState("");
   const [songsName, setSongsName] = useState<string[]>([]);
   const [songsPaths, setPaths] = useState<string[]>([]);
-  const [feat, setFeat] = useState("");
-  const {artistLogin} = useContext(GlobalContext)
+  const {artistLogin} = useContext(GlobalContext);
 
   const handleCancel = () => {
-    navigate(`/artists/${artistLogin}`)
+    navigate(`/artists/${artistLogin}`);
   };
 
   const handleContinue = () => {
@@ -26,7 +25,6 @@ const Cadastro: React.FC = () => {
       return;
     }
   
-    // Garante que os arrays tenham o mesmo número de músicas
     setSongsName(new Array(songs.length).fill(""));
     setPaths(new Array(songs.length).fill(""));
   
@@ -51,7 +49,7 @@ const Cadastro: React.FC = () => {
       songs: songsName,
       songs_paths: songsPaths,
       artist_login: artistLogin,
-      feat: feat
+      feat: ""
     };
   
     try {
@@ -67,14 +65,20 @@ const Cadastro: React.FC = () => {
         throw new Error("Erro ao cadastrar album");
       }
   
-      const data = await response.json();
       alert("Album cadastrado com sucesso!");
-      navigate(`/artists/${artistLogin}`)
-      console.log(data);
+      navigate(`/artists/${artistLogin}`);
     } catch (error) {
       console.error("Erro:", error);
       alert("Erro ao cadastrar album!");
     }
+  };
+
+  const handleIncreaseSongs = () => {
+    setSongs((prev) => (prev.length < 15 ? [...prev, prev.length + 1] : prev));
+  };
+
+  const handleDecreaseSongs = () => {
+    setSongs((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev));
   };
   
   return (
@@ -93,22 +97,19 @@ const Cadastro: React.FC = () => {
             <input className={styles['form-input']} 
               value={albumName} 
               onChange={(e) => setAlbumName(e.target.value)} 
+              placeholder="album"
             />
             <p className={styles['font-bold']}>Quantidade de Músicas</p>
               <div className={styles['counter-buttons']}>
                 <button 
                   className={styles['a-button']} 
-                  onClick={() => setSongs((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev))}
-                >
-                  -
-                </button>
+                  onClick={handleDecreaseSongs}
+                >"-"</button>
                 <span className={styles['font-bold']}>{songs.length}</span>
                 <button 
                   className={styles['a-button']} 
-                  onClick={() => setSongs((prev) => (prev.length < 15 ? [...prev, prev.length + 1] : prev))}
-                >
-                  +
-                </button>
+                  onClick={handleIncreaseSongs}
+                >"+"</button>
               </div>
 
             <div className={styles['input-group']}>
@@ -117,6 +118,7 @@ const Cadastro: React.FC = () => {
                 <input className={styles['form-input-b']} 
                   value={genero} 
                   onChange={(e) => setGenero(e.target.value)} 
+                  placeholder="genero"
                 />
               </div>
               <div className={styles['text-input-group']}>
@@ -124,6 +126,7 @@ const Cadastro: React.FC = () => {
                 <input className={styles['form-input-b']} 
                   value={subgenero} 
                   onChange={(e) => setSubgenero(e.target.value)} 
+                  placeholder="subgenero"
                 />
               </div>
             </div>
